@@ -22,8 +22,8 @@ public class GroupEntity {
     private Long id;
 
     @OneToOne(fetch = LAZY)
-    @JoinColumn(name="temp_member_id")
-    private TempMemberEntity tempMemberId;
+    @JoinColumn(name="admin_id", referencedColumnName = "temp_member_id")
+    private TempMemberEntity tempMember;
 
     @Column
     private String invitationLink;
@@ -34,7 +34,7 @@ public class GroupEntity {
     public static GroupEntity createGroupEntity(TempMemberEntity tempMemberEntity){
         GroupEntity groupEntity = new GroupEntity();
         Link link = new Link();
-        groupEntity.setTempMemberId(tempMemberEntity);
+        groupEntity.setTempMember(tempMemberEntity);
         groupEntity.setInvitationLink(link.createLink());
         return groupEntity;
     }
