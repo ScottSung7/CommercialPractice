@@ -2,6 +2,7 @@ package com.example.invite.dto;
 
 import com.example.invite.domain.MemberStatus;
 import com.example.invite.domain.TempMemberEntity;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 
 @Getter
@@ -13,6 +14,7 @@ public class TempMemberDTO {
     private Long id;
     private String name;
     private String phoneNumber;
+    @Email
     private String email;
     private String invitationLink;
     private MemberStatus activationStatus;

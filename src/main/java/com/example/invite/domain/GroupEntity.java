@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,7 @@ public class GroupEntity {
     @JoinColumn(name="admin_id", referencedColumnName = "temp_member_id")
     private TempMemberEntity adminId;
 
-    @NotNull
+
     @Column
     private String invitationLink;
 
