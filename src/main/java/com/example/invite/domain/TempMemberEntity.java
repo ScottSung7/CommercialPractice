@@ -30,7 +30,7 @@ public class TempMemberEntity {
     private String name;
 
     @Column
-    private String phoneNumber;
+    private Integer phoneNumber;
 
     @Column String email;
 

@@ -20,6 +20,10 @@ public class TempMemberService {
     private final TempMemberRepository tempMemberRepository;
 
     private final GroupRepository groupRepository;
+
+    public void check(TempMemberDTO dto){
+        System.out.println(dto);
+    }
     public TempMemberDTO saveAdmin(TempMemberDTO tempMemberDTO) {
         TempMemberEntity tempMemberEntity = TempMemberEntity.initialAdminEntity(tempMemberDTO);
 
