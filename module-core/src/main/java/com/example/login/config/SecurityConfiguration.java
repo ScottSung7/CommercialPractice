@@ -21,9 +21,10 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authz) -> authz
-                     .requestMatchers("/","/user/**", "/error/**").permitAll()
-                     .requestMatchers("/admin").hasRole("ADMIN"))
-                .csrf((csrf)->csrf.ignoringRequestMatchers("/user/**", "/error/**"))
+                        .requestMatchers("/","/user/**", "/chat/test/**", "/chat/record/**").permitAll()
+                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .anyRequest().authenticated())
+                .csrf((csrf)->csrf.ignoringRequestMatchers("/user/**", "/chat/test/**", "/chat/record/**"))
                 .formLogin((formLogin)->{})
                 .httpBasic(withDefaults());
         return http.build();

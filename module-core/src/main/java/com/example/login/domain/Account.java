@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +23,15 @@ public class Account {
     private String phoneNumber;
 
     private String role;
+
+    @Builder
+    public Account(String username, String password, String email, String phoneNumber, String role) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.role = role;
+    }
 
     public Long getId() {
         return id;

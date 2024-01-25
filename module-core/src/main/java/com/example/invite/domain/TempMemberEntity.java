@@ -1,17 +1,19 @@
 package com.example.invite.domain;
 
 import com.example.invite.dto.TempMemberDTO;
+import com.example.invite.web.form.TempMemberAdminForm;
+import com.example.invite.web.form.TempMemberInviteeForm;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.net.http.HttpRequest;
 
 @Data
 @Getter
 @Setter(AccessLevel.PRIVATE)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="temp_members")
 public class TempMemberEntity {
@@ -37,32 +39,36 @@ public class TempMemberEntity {
     @Enumerated(EnumType.STRING)
     private MemberStatus memberStatus;
 
-    public static TempMemberEntity initialAdminEntity(TempMemberDTO adminDTO){
-        TempMemberEntity adminEntity = new TempMemberEntity();
-
-        adminEntity.setName(adminDTO.getName());
-        adminEntity.setPhoneNumber(adminDTO.getPhoneNumber());
-        adminEntity.setEmail(adminDTO.getEmail());
-        adminEntity.setMemberStatus(MemberStatus.TRUE);
-        return adminEntity;
+    public static TempMemberEntity buildAdminEntity(TempMemberAdminForm adminForm){
+        return TempMemberEntity.builder()
+                    .name(adminForm.getName())
+                    .phoneNumber(adminForm.getPhoneNumber())
+                    .email(adminForm.getEmail())
+                    .memberStatus(MemberStatus.TRUE)
+                    .build();
+    }
+    public static TempMemberEntity buildInviteeEntity(TempMemberInviteeForm inviteeForm){
+        return TempMemberEntity.builder()
+                    .name(inviteeForm.getName())
+                    .phoneNumber(inviteeForm.getPhoneNumber())
+                    .email(inviteeForm.getEmail())
+                    .groupId(inviteeForm.getGroupId())
+                    .memberStatus(MemberStatus.FALSE)
+                    .build();
     }
     public static TempMemberEntity addGroupId(TempMemberEntity adminEntity, GroupEntity groupEntity){
         adminEntity.setGroupId(groupEntity);
         return adminEntity;
     }
-    public static TempMemberEntity toInviteeEntity(TempMemberDTO inviteeDTO, TempMemberEntity adminEntity){
-        TempMemberEntity inviteeEntity = new TempMemberEntity();
 
-        inviteeEntity.setName(inviteeDTO.getName());
-        inviteeEntity.setPhoneNumber(inviteeDTO.getPhoneNumber());
-        inviteeEntity.setEmail(inviteeDTO.getEmail());
-        inviteeEntity.setGroupId(adminEntity.getGroupId());
-        inviteeEntity.setMemberStatus(MemberStatus.FALSE);
-        return inviteeEntity;
-    }
     public static TempMemberEntity activateMember(TempMemberEntity inviteeEntity){
-        inviteeEntity.setMemberStatus(MemberStatus.TRUE);
-        return inviteeEntity;
+        if(inviteeEntity.getMemberStatus() == MemberStatus.FALSE){
+            inviteeEntity.setMemberStatus(MemberStatus.TRUE);
+            return inviteeEntity;
+        }else{
+            throw new RuntimeException("이미 사용된 코드 입니다");
+        }
+
     }
 
 

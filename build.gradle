@@ -43,8 +43,14 @@ allprojects {
 
 
 subprojects {
+	dependencyManagement {
 
+		imports {
+			mavenBom "org.springframework.cloud:spring-cloud-dependencies:2020.0.3"
+		}
+	}
 	dependencies {
+
 		implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 		implementation 'org.springframework.boot:spring-boot-starter-web'
 		implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -54,6 +60,10 @@ subprojects {
 		compileOnly 'org.projectlombok:lombok'
 		runtimeOnly 'com.h2database:h2'
 		annotationProcessor 'org.projectlombok:lombok'
+
+		implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	}
 

@@ -6,6 +6,7 @@ import com.example.invite.domain.TempMemberEntity;
 import com.example.invite.dto.TempMemberDTO;
 import com.example.invite.repository.GroupRepository;
 import com.example.invite.repository.TempMemberRepository;
+import com.example.invite.web.form.TempMemberAdminForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +25,7 @@ public class TempMemberService {
     public void check(TempMemberDTO dto){
         System.out.println(dto);
     }
-    public TempMemberDTO saveAdmin(TempMemberDTO tempMemberDTO) {
-        TempMemberEntity tempMemberEntity = TempMemberEntity.initialAdminEntity(tempMemberDTO);
+    public TempMemberDTO saveAdmin(TempMemberEntity tempMemberEntity) {
 
         tempMemberEntity = tempMemberRepository.save(tempMemberEntity);
 
@@ -38,40 +38,32 @@ public class TempMemberService {
         return TempMemberDTO.toMemberDTO(tempMemberEntity);
     }
 
-    public TempMemberDTO adminCheck(String adminId) {
+    public GroupEntity adminCheckAndGetGroupId(String adminId) {
         Optional<TempMemberEntity> optionalAdminEntity = tempMemberRepository.findById(Long.parseLong(adminId));
-        if(optionalAdminEntity.isPresent()){
-            TempMemberEntity adminEntity = optionalAdminEntity.get();
-            System.out.println(adminEntity);
-            return TempMemberDTO.toMemberDTO(adminEntity);
-        }else{
-            return null;
-        }
+        TempMemberEntity temp = (TempMemberEntity)checkOptionalPresent(optionalAdminEntity);
+        return temp.getGroupId();
     }
 
-   public TempMemberDTO invite(TempMemberDTO inviteeDTO, TempMemberDTO adminDTO) {
-       Optional<TempMemberEntity> optionalAdminEntity = tempMemberRepository.findById(adminDTO.getId());
-
-       TempMemberEntity inviteeEntity = TempMemberEntity.toInviteeEntity(inviteeDTO, optionalAdminEntity.get());
-       inviteeEntity = tempMemberRepository.save(inviteeEntity);
-       return   TempMemberDTO.toMemberDTO(inviteeEntity);
+   public TempMemberDTO invite(TempMemberEntity inviteeEntity) {
+       return   TempMemberDTO.toMemberDTO(
+                    tempMemberRepository.save(inviteeEntity)
+                );
    }
 
     public TempMemberDTO activeCheck(Long inviteeId) {
         Optional<TempMemberEntity> optionalInviteEntity = tempMemberRepository.findById(inviteeId);
-        if(optionalInviteEntity.isPresent()){
-            TempMemberEntity inviteeEntity = optionalInviteEntity.get();
-            if(inviteeEntity.getMemberStatus() == MemberStatus.FALSE){
-                inviteeEntity = TempMemberEntity.activateMember(inviteeEntity);
-                tempMemberRepository.save(inviteeEntity);
-                return TempMemberDTO.toMemberDTO(inviteeEntity);
-            }else {
-                System.err.println("이미 사용된 코드 입니다.");
-                return null;
-            }
+        TempMemberEntity inviteeEntity = (TempMemberEntity) checkOptionalPresent(optionalInviteEntity);
+
+        inviteeEntity = TempMemberEntity.activateMember(inviteeEntity);
+        tempMemberRepository.save(inviteeEntity);
+        return TempMemberDTO.toMemberDTO(inviteeEntity);
+    }
+
+    public Object checkOptionalPresent(Optional<?> optionalObject){
+        if(optionalObject.isPresent()){
+            return optionalObject.get();
         }else{
-            System.err.println("존재하지 않는 코드입니다.");
-            return null;
+            throw new NullPointerException();
         }
     }
 
@@ -89,6 +81,5 @@ public class TempMemberService {
 
     public void Test(){
         List<?> hi = new ArrayList<>();
-
     }
 }

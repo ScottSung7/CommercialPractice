@@ -5,4 +5,5 @@ tasks.getByName("bootJar"){
 
 dependencies {
     implementation(project(":module-chat"))
+
 }

@@ -1,9 +1,12 @@
-package com.example.invite.controller;
+package com.example.core.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.security.Principal;
+import java.util.HashMap;
 
 @Controller
 public class HomeController {
@@ -16,5 +19,16 @@ public class HomeController {
             System.out.println("Hello " + principal.getName());
         }
         return "index";
+    }
+
+    @GetMapping("/test")
+    public String testing(){
+        return "test";
+    }
+
+    @PostMapping("/hi")
+    public void hi(@RequestBody HashMap<String, String> map){
+        System.out.println("hi testing");
+        System.out.println(map);
     }
 }
