@@ -1,1 +1,27 @@
+
+pluginManagement {
+    def properties = new Properties()
+    InputStream inputStream = new FileInputStream(file('version.properties'))
+    properties.load(inputStream)
+    def springBootVersion = properties.getProperty("springBoot.version")
+    def springDependencyManagement = properties.getProperty("springDependencyManagement.version")
+
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == 'org.springframework.boot') {
+                useVersion(springBootVersion)
+            }
+            if (requested.id.id == 'io.spring.dependency-management') {
+                useVersion(springDependencyManagement)
+            }
+
+        }
+    }
+}
+
 rootProject.name = 'invite'
+
+
+include(
+        "module-core", "module-chat"
+)
