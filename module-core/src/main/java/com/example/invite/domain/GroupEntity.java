@@ -1,9 +1,7 @@
 package com.example.invite.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +11,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Entity
 @Setter(AccessLevel.PRIVATE)
 @Getter
+@NoArgsConstructor
 @Table(name="group_table")
 public class GroupEntity {
 
@@ -33,12 +32,19 @@ public class GroupEntity {
     @OneToMany(mappedBy ="groupId")
     private List<TempMemberEntity> tempMembers = new ArrayList<TempMemberEntity>();
 
+    @Builder
+    public GroupEntity(TempMemberEntity adminId, String invitationLink) {
+        this.adminId = adminId;
+        this.invitationLink = invitationLink;
+    }
+
     public static GroupEntity createGroupEntity(TempMemberEntity tempMemberEntity){
-        GroupEntity groupEntity = new GroupEntity();
         Link link = new Link();
-        groupEntity.setAdminId(tempMemberEntity);
-        groupEntity.setInvitationLink(link.createLink());
-        return groupEntity;
+
+        return GroupEntity.builder()
+                .adminId(tempMemberEntity)
+                .invitationLink(link.createLink())
+                .build();
     }
 
 }
