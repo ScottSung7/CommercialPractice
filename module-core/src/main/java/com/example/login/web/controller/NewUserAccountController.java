@@ -4,8 +4,11 @@ import com.example.login.domain.Account;
 import com.example.login.domain.AccountType;
 import com.example.login.repository.AccountRepository;
 import com.example.login.service.AccountService;
+import com.example.exception.ErrrorResult;
 import com.example.login.web.validation.form.AccountSaveForm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
