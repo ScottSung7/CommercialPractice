@@ -56,9 +56,9 @@ public class TempMemberEntity {
                     .memberStatus(MemberStatus.FALSE)
                     .build();
     }
-    public static TempMemberEntity addGroupId(TempMemberEntity adminEntity, GroupEntity groupEntity){
-        adminEntity.setGroupId(groupEntity);
-        return adminEntity;
+    public TempMemberEntity addGroupId(GroupEntity groupEntity){
+        this.setGroupId(groupEntity);
+        return this;
     }
 
     public static TempMemberEntity activateMember(TempMemberEntity inviteeEntity){

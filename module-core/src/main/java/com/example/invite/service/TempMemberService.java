@@ -32,7 +32,8 @@ public class TempMemberService {
         GroupEntity groupEntity = GroupEntity.createGroupEntity(tempMemberEntity);
         groupRepository.save(groupEntity);
 
-        tempMemberEntity = tempMemberEntity.addGroupId(tempMemberEntity, groupEntity);
+
+        tempMemberEntity = tempMemberEntity.addGroupId(groupEntity);
         tempMemberEntity = tempMemberRepository.save(tempMemberEntity);
 
         return TempMemberDTO.toMemberDTO(tempMemberEntity);
