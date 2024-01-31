@@ -1,58 +1,63 @@
 package com.example.login.config;
 
-import com.example.login.config.Jwt.JwtAccessDeniedHandler;
-import com.example.login.config.Jwt.JwtAuthenticationEntryPoint;
-import lombok.RequiredArgsConstructor;
+import com.example.login.config.Jwt.JwtAuthenticationFilter;
+import com.example.login.repository.UserRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import static org.springframework.security.config.Customizer.withDefaults;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfiguration {
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private CorsConfig corsConfig;
 
-
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-
-        http
-            .authorizeHttpRequests((authz) -> authz
-                    .requestMatchers("/","/user/**", "/chat/test/**", "/chat/record/**").permitAll()
-                    .requestMatchers("/admin").hasRole("ADMIN")
-                    .anyRequest().authenticated())
-                .csrf(csrf -> csrf.disable())
-            .exceptionHandling((exception) -> exception
-                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                    .accessDeniedHandler(jwtAccessDeniedHandler))
-            .headers(headers -> headers
-                    .frameOptions(frameOptions-> frameOptions
-                        .sameOrigin()))
-            .sessionManagement((session)->
-                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-            .formLogin((formLogin)->{})
-            .httpBasic(withDefaults());
-        return http.build();
+        return http
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .formLogin().disable()
+                .httpBasic().disable()
+                .apply(new MyCustomDsl()) // 커스텀 필터 등록
+                .and()
+                .authorizeRequests()
+                .requestMatchers("/api/v1/user/**")
+                .access("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN')")
+                .requestMatchers("/api/v1/manager/**")
+                .access("hasRole('MANAGER') or hasRole('ADMIN')")
+                .requestMatchers("/api/v1/admin/**")
+                .access("hasRole('ADMIN')")
+                .anyRequest().permitAll()
+                .and().build();
     }
-    //.csrf((csrf)->csrf.ignoringRequestMatchers("/user/**", "/chat/test/**", "/chat/record/**"))
+   public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
 
+       @Override
+        public void configure(HttpSecurity http) throws Exception {
+            AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+            http
+                    .addFilter(corsConfig.corsFilter())
+                    .addFilterBefore(new JwtAuthenticationFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class);
+            //          .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
+        }
     }
+
 
 
 }
