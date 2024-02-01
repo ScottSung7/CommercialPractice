@@ -10,7 +10,6 @@ import java.util.Collection;
 
 
 public class PrincipalDetails implements UserDetails {
-
     private Users user;
 
     public PrincipalDetails(Users user) {

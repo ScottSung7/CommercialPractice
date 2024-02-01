@@ -18,13 +18,13 @@ import java.util.Collection;
 
 @Service
 @RequiredArgsConstructor
-public class AccountService implements UserDetailsService {
+public class AccountService {
 
     private final AccountRepository accountRepository;
 
     private final PasswordEncoder passwordEncoder;
 
-    @Override
+/*    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountRepository.findByUsername(username);
         if (account == null) {
@@ -36,7 +36,7 @@ public class AccountService implements UserDetailsService {
                 .password(account.getPassword())
                 .roles(account.getRole())
                 .build();
-    }
+    }*/
     public void dashboard(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

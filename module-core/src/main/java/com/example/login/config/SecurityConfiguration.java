@@ -3,6 +3,7 @@ package com.example.login.config;
 import com.example.login.config.Jwt.JwtAuthenticationFilter;
 import com.example.login.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,23 +19,20 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfiguration {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private CorsConfig corsConfig;
 
+    private final CorsConfig corsConfig;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .formLogin().disable()
-                .httpBasic().disable()
-                .apply(new MyCustomDsl()) // 커스텀 필터 등록
-                .and()
+                .csrf(csrf->csrf.disable())
+                .sessionManagement(policy -> policy.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .formLogin(form -> form.disable())
+                .httpBasic(httpBasic -> httpBasic.disable())
+                .with(new MyCustomDsl(), dsl -> {})
+
                 .authorizeRequests()
                 .requestMatchers("/api/v1/user/**")
                 .access("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN')")
@@ -45,18 +43,21 @@ public class SecurityConfiguration {
                 .anyRequest().permitAll()
                 .and().build();
     }
-   public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
 
-       @Override
+    public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
+
+
+        @Override
         public void configure(HttpSecurity http) throws Exception {
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
 
             http
                     .addFilter(corsConfig.corsFilter())
                     .addFilterBefore(new JwtAuthenticationFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class);
-            //          .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
+            //.addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
         }
     }
+
 
 
 

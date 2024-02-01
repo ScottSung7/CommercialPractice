@@ -16,11 +16,11 @@ import java.util.HashMap;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
+/*@RequiredArgsConstructor*/
 public class HomeController {
 
-    private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+ /*   private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;*/
     @GetMapping("/")
     public String home(){
 
