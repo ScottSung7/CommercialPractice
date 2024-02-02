@@ -1,6 +1,7 @@
 package com.example.login.config;
 
 import com.example.login.config.Jwt.JwtAuthenticationFilter;
+import com.example.login.config.Jwt.JwtAuthorizationFilter;
 import com.example.login.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -17,12 +18,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.security.authorization.AuthorityReactiveAuthorizationManager.hasAuthority;
+import static org.springframework.security.authorization.AuthorityReactiveAuthorizationManager.hasRole;
+import static org.springframework.security.authorization.AuthorizationManagers.allOf;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
     private final CorsConfig corsConfig;
+
+    private final UserRepository userRepository;
+
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -33,15 +41,11 @@ public class SecurityConfiguration {
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .with(new MyCustomDsl(), dsl -> {})
 
-                .authorizeRequests()
-                .requestMatchers("/api/v1/user/**")
-                .access("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN')")
-                .requestMatchers("/api/v1/manager/**")
-                .access("hasRole('MANAGER') or hasRole('ADMIN')")
-                .requestMatchers("/api/v1/admin/**")
-                .access("hasRole('ADMIN')")
-                .anyRequest().permitAll()
-                .and().build();
+                .authorizeHttpRequests((authz) -> authz
+                        .requestMatchers(SecurityProperties.UserLogin).hasRole("USER")
+                        .requestMatchers(SecurityProperties.AdminPath).hasRole("ADMIN")
+                        .anyRequest().permitAll())
+              .build();
     }
 
     public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
@@ -53,8 +57,8 @@ public class SecurityConfiguration {
 
             http
                     .addFilter(corsConfig.corsFilter())
-                    .addFilterBefore(new JwtAuthenticationFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class);
-            //.addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
+                    .addFilter(new JwtAuthenticationFilter(authenticationManager))
+                    .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
         }
     }
 

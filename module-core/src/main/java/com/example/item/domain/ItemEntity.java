@@ -16,13 +16,10 @@ import com.example.item.web.form.ItemSaveForm;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItemEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemId;
-
     private String itemName;
-
     private int itemPrice;
 
     public static ItemEntity saveFormToItem(ItemSaveForm form){

@@ -1,8 +1,12 @@
 package com.example.login.config.Jwt;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.example.login.config.auth.PrincipalDetails;
 import com.example.login.domain.Users;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +17,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
+import java.util.Date;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -39,30 +44,41 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             users = om.readValue(request.getInputStream(), Users.class);
 
             System.out.println(users);
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(users.getUsername(), users.getPassword());
+            //PrincipalDetailsService의 loadUserByUsername() 함수 실행 됨. 그 후 정상이면 authentication 리턴 됨.
+            Authentication authentication =
+                    authenticationManager.authenticate(authenticationToken);
 
+            return authentication;
       } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("dddd");
         }
-        System.out.println("outside");
-        System.out.println(users);
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(users.getUsername(), users.getPassword());
-        System.out.println("Processing?11");
-        System.out.println(authenticationToken);
-        //PrincipalDetailsService의 loadUserByUsername() 함수 실행 됨.
-        System.out.println(authenticationManager);
-        Authentication authentication =
-                authenticationManager.authenticate(authenticationToken);
-        System.out.println(authentication);
-        System.out.println("Processing?22");
-        //authentication 객체가 session 영역에 저장됨 => 로그인 됨.
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        System.out.println(principalDetails.getUser().getUsername());
 
 
-        return authentication;
+        return null;
 
     }
 
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        System.out.println("successfulAuthentication 실행됨: 인증 완료");
+        PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
+        System.out.println("로그인 완료됨: "+principalDetails.getUser().getUsername());
+        //authentication 값이 있다는 것은 로그인 되었다는 뜻.
+        //authentication 객체가 session 영역에 저장됨 => 로그인 됨.
+
+        String jwtToken = JWT.create()
+                .withSubject("cos토큰")
+                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
+                .withClaim("id", principalDetails.getUser().getId())
+                .withClaim("username", principalDetails.getUser().getUsername())
+                .sign(Algorithm.HMAC512(JwtProperties.SECRET));
+
+        response.addHeader("Authorization", "Bearer "+jwtToken);
+
+
+    //    super.successfulAuthentication(request, response, chain, authResult);
+
+    }
 }

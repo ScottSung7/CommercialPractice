@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.Data;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +12,9 @@ import java.util.List;
 
 @Data
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Users {
 
     @Id
@@ -22,8 +25,8 @@ public class Users {
     private String password;
     private String roles;
 
-    public List<String> getRoleList(){
-        if (this.roles.length() > 0) {
+    public List<String> bringRoleList(){
+        if (this.roles != null || this.roles.length() > 0) {
             return Arrays.asList(this.roles.split(","));
         }
         return new ArrayList<>();
