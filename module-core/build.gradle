@@ -6,4 +6,6 @@ tasks.getByName("bootJar"){
 dependencies {
     implementation(project(":module-chat"))
 
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 }
