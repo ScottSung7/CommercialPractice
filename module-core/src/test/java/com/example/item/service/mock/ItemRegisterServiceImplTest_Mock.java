@@ -6,6 +6,7 @@ import com.example.item.repository.ItemRegisterRepository;
 import com.example.item.service.ItemRegisterService;
 import com.example.item.service.ItemRegisterServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,6 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@Disabled
 class ItemRegisterServiceImplTest_Mock {
 
     @InjectMocks

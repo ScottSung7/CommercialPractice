@@ -1,0 +1,15 @@
+tasks.getByName("bootJar"){
+    enabled = false
+}
+
+
+dependencies {
+
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    implementation 'mysql:mysql-connector-java:8.0.21'
+
+    implementation 'org.springframework.data:spring-data-envers'
+
+}

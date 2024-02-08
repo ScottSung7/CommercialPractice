@@ -23,5 +23,5 @@ rootProject.name = 'invite'
 
 
 include(
-        "module-core", "module-chat"
+        "module-core", "module-chat", "user-api"
 )
