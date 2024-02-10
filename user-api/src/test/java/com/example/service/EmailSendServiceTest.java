@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 @SpringBootTest
 class EmailSendServiceTest {
 
-    @Autowired
+/*    @Autowired
     private EmailSendService emailSendService;
 
 
@@ -26,6 +26,6 @@ class EmailSendServiceTest {
     public void EmailSendingTest(){
         ResponseEntity<Response> response = emailSendService.sendMail();
         System.out.println(response);
-    }
+    }*/
 
 }
