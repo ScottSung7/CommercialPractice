@@ -1,9 +1,7 @@
 ## Account-api
-  1. 공통
-  - /accounts/login/
-  <br>: 사용자의 로그인
-  
-  2. 고객
+1. 고객
+  - /accounts/customer/login
+  <br>: 고객 로그인
   - /accounts/customer/signup
   <br>: 고객 회원가입
   - /accounts/customer/update
@@ -11,7 +9,9 @@
   - /accounts/customer/verify
   <br>: 고객 이메일 인증
 
-  3. 판매자
+2. 판매자
+  - /accounts/seller/login
+  <br>: 판매자 로그인
   - /accounts/seller/signup
   <br>: 판매자 회원가입
   - /accounts/seller/update
