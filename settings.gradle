@@ -2,7 +2,4 @@
 rootProject.name = 'invite'
 
 
-include(
-        "module-core", "module-chat",
-)
 
