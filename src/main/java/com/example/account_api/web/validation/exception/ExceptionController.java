@@ -25,4 +25,6 @@ public class ExceptionController {
         return ResponseEntity.internalServerError().body(new ExceptionResponse(e.getMessage(), e.getErrorCode()));
     }
 
+    //testing
+
 }
