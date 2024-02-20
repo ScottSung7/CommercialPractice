@@ -37,12 +37,14 @@ dependencies {
     testImplementation 'org.projectlombok:lombok:1.18.26'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'mysql:mysql-connector-java:8.0.21'
     annotationProcessor 'org.projectlombok:lombok'
 
     //jwt
     implementation 'com.auth0:java-jwt:4.4.0'
     //	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.data:spring-data-envers'
     //implementation 'org.apache.commons:commons-lang3:3.12.0'
 

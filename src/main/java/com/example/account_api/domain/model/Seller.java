@@ -22,7 +22,7 @@ public class Seller extends BaseEntity{
     private Long id;
 
     private String companyRegistrationNumber;
-    @Column(unique = true)
+    @Column(name="seller_email", unique = true)
     private String email;
     private String name;
     private String phone;
