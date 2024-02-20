@@ -1,5 +1,8 @@
 package com.example.account_api.web.validation.form;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,9 +16,14 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class SignUpCustomerForm {
 
+    @NotBlank
     private String email;
+    @NotBlank
     private String name;
+    @NotBlank
     private String password;
+    @NotNull
     private LocalDate birth;
+    @NotBlank
     private String phone;
 }

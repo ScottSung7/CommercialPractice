@@ -2,7 +2,7 @@ package com.example.account_api.web.controller;
 
 public interface AccountAPIControllerProperties {
 
-    String ACCOUNT_COMMON_URL = "/accounts/";
+    String ACCOUNT_COMMON_URL = "/accounts";
 
     //CUSTOMER
     String CUSTOMER = "/customer";
