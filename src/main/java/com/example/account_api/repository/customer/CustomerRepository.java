@@ -6,6 +6,6 @@ import java.util.Optional;
 
 public interface CustomerRepository extends CustomerJPARepository {
 
-    Optional<Customer> save(Customer customer);
+    Customer save(Customer customer);
 
 }

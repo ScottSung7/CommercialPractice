@@ -6,15 +6,14 @@ import com.example.account_api.web.validation.form.SignUpCustomerForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class SignUpCustomerServiceImpl implements SignUpCustomerService{
 
     private final CustomerRepository customerRepository;
 
-    public Optional<Customer> signUp(SignUpCustomerForm form){
+    public Customer signUp(SignUpCustomerForm form){
+
         return customerRepository.save(Customer.from(form));
     }
 
