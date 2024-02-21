@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 
 public interface SignUpApplication {
-
     public String customerSignUp(SignUpCustomerForm signUpCustomerForm);
 }
 
