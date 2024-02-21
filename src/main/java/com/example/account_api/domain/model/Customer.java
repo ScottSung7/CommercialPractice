@@ -31,9 +31,9 @@ public class Customer extends BaseEntity{
     private String password;
     private LocalDate birth;
 
-    /*private LocalDateTime verificationExpiredAt;
+    private LocalDateTime verificationExpiredAt;
     private String verificationCode;
-    private boolean verified;*/
+    private boolean verified;
 
     public static Customer from(SignUpCustomerForm form){
         return Customer.builder()

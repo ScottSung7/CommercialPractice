@@ -7,5 +7,5 @@ import java.util.Optional;
 public interface CustomerRepository extends CustomerJPARepository {
 
     Customer save(Customer customer);
-
+    Optional<Customer> findByEmail(String email);
 }
