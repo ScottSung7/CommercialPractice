@@ -5,6 +5,8 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -58,3 +60,4 @@ springdoc:
   model-and-view-allowed: true
   default-produces-media-type: application/json
   default-consumes-media-type: application/json
+

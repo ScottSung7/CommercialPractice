@@ -8,29 +8,34 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import static org.springframework.security.authorization.AuthorityReactiveAuthorizationManager.hasRole;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfiguration {
+public class SecurityConfiguration_Session {
 
     private final CorsConfig corsConfig;
 
+    @Bean
+    public BCryptPasswordEncoder encodePwd(){
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(csrf->csrf.disable())
-                .sessionManagement(policy -> policy.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .formLogin(form -> form.disable())
+            //    .sessionManagement(policy -> policy.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .formLogin(form -> {})
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .with(new MyCustomDsl(), dsl -> {})
                 .authorizeHttpRequests((authz) -> authz
-                       .anyRequest().permitAll())
+                        .requestMatchers("/test").authenticated()
+                        .requestMatchers("accounts/**", "/main").permitAll()
+                        .anyRequest().permitAll()
+                )
+                .csrf(csrf->csrf.disable())
               .build();
     }
 

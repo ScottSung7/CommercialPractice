@@ -1,43 +1,46 @@
-package com.example.account_api.application.service;
+package com.example.account_api.application.service.signIn;
 
-import com.example.account_api.application.tools.LogAndException;
 import com.example.account_api.domain.model.Customer;
 import com.example.account_api.repository.customer.CustomerRepository;
-import com.example.account_api.web.validation.form.SignUpCustomerForm;
+import com.example.account_api.web.validation.exception.AccountException;
+import com.example.account_api.web.validation.form.customer.SignUpCustomerForm;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.Locale;
+
+import static com.example.account_api.web.validation.exception.ErrorCode.NOT_FOUND_USER;
 
 @Service
 @RequiredArgsConstructor
 public class SignUpCustomerServiceImpl implements SignUpCustomerService{
 
     private final CustomerRepository customerRepository;
-    private final LogAndException logAndException;
+
 
     public Customer signUp(SignUpCustomerForm form){
+
+
         return customerRepository.save(Customer.from(form));
     }
 
     @Override
-    public Optional<Customer> isEmailExist(String email) {
-        return customerRepository.findByEmail(email);
+    public boolean isEmailExist(String email) {
+        return customerRepository.findByEmail(email.toLowerCase(Locale.ROOT)).isPresent();
     }
 
     @Override
     @Transactional
-    public LocalDateTime changeCustomerValidateEmail(Long customerId, String verificationCode) {
-        Optional<Customer> customerOptional = customerRepository.findById(customerId);
+    public Customer changeCustomerValidateEmail(Customer signUpCustomer, String verificationCode) {
+        Customer customer = customerRepository.findById(signUpCustomer.getId())
+                .orElseThrow(() -> new AccountException(NOT_FOUND_USER));
 
-        logAndException.notFoundUserCheck(customerOptional.isPresent());
-
-        Customer customer = customerOptional.get();
         customer.setVerificationCode(verificationCode);
         customer.setVerificationExpiredAt(LocalDateTime.now().now().plusDays(1));
-        return customer.getVerificationExpiredAt();
+
+        return customer;
 
     }
 

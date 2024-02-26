@@ -1,7 +1,7 @@
 package com.example.account_api.domain.model;
 
 
-import com.example.account_api.web.validation.form.SignUpCustomerForm;
+import com.example.account_api.web.validation.form.customer.SignUpCustomerForm;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.AuditOverride;

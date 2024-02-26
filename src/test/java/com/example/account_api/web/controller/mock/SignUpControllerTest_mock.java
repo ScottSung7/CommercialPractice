@@ -1,39 +1,38 @@
 package com.example.account_api.web.controller.mock;
 
 import com.example.account_api.application.SignUpApplication;
-import com.example.account_api.web.controller.SignUpController;
-import com.example.account_api.web.validation.form.SignUpCustomerForm;
+import com.example.account_api.web.controller.account.SignUpController;
+import com.example.account_api.web.validation.form.customer.SignUpCustomerForm;
 import com.example.config.CorsConfig;
-import com.example.config.SecurityConfiguration;
+import com.example.config.SecurityConfiguration_Session;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.time.LocalDate;
 
-import static com.example.account_api.web.controller.AccountAPIControllerProperties.*;
+import static com.example.account_api.web.controller.account.AccountAPIControllerProperties.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(SignUpController.class)
 @AutoConfigureMockMvc
-@Import({SecurityConfiguration.class, CorsConfig.class}) //SpringSecurity때문에 추가(csrf().disabled)
+@Import({SecurityConfiguration_Session.class, CorsConfig.class}) //SpringSecurity때문에 추가(csrf().disabled)
 class SignUpControllerTest_mock {
 
     @Autowired
@@ -59,12 +58,14 @@ class SignUpControllerTest_mock {
 
     @Test
     @DisplayName("Mock: 고객 회원가입")
+    @WithMockUser
     void customerSignUp_URL_Test() throws Exception {
         when(signUpApplication.customerSignUp(any(SignUpCustomerForm.class))).thenReturn("회원가입 성공");
 
         String requestedURL = ACCOUNT_COMMON_URL + CUSTOMER_SIGNUP;
         ResultActions response = mockMvc.perform(post(requestedURL)
                 .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
                 .content(objectMapper.writeValueAsString(signUpCustomerForm)));
 
         response.andExpect(status().isOk());
