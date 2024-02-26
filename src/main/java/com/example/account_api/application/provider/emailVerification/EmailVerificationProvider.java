@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface EmailVerificationProvider {
 
-     Optional<SendMailForm> sendVerificationEmail(String from, Customer to);
+     String sendVerificationEmail(Customer to);
 }

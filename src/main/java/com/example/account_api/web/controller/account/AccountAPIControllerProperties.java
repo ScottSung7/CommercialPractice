@@ -1,4 +1,4 @@
-package com.example.account_api.web.controller;
+package com.example.account_api.web.controller.account;
 
 public interface AccountAPIControllerProperties {
 

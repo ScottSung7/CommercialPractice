@@ -1,4 +1,4 @@
-package com.example.account_api.web.controller;
+package com.example.account_api.web.controller.account;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.example.account_api.web.controller.AccountAPIControllerProperties.*;
+import static com.example.account_api.web.controller.account.AccountAPIControllerProperties.*;
 
 @RestController
 @RequestMapping(ACCOUNT_COMMON_URL)

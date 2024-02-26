@@ -1,15 +1,15 @@
-package com.example.account_api.web.controller;
+package com.example.account_api.web.controller.account;
 
 import com.example.account_api.application.SignUpApplication;
 import com.example.account_api.web.validation.exception.AccountException;
 import com.example.account_api.web.validation.exception.ErrorCode;
-import com.example.account_api.web.validation.form.SignUpCustomerForm;
+import com.example.account_api.web.validation.form.customer.SignUpCustomerForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import static com.example.account_api.web.controller.AccountAPIControllerProperties.*;
+import static com.example.account_api.web.controller.account.AccountAPIControllerProperties.*;
 
 @RestController
 @RequestMapping(ACCOUNT_COMMON_URL)
@@ -22,7 +22,10 @@ public class SignUpController {
     public ResponseEntity<String> customerSignUp(@Validated @RequestBody SignUpCustomerForm customerSignUpForm){
         return ResponseEntity.ok(signUpApplication.customerSignUp(customerSignUpForm));
     }
-    @PostMapping("/hi")
+
+
+
+    @PostMapping("/hi3")
     public String hi(){
         throw new AccountException(ErrorCode.UNKNOWN_ERROR);
     }
@@ -30,6 +33,8 @@ public class SignUpController {
     public ResponseEntity<?> customerUpdate(){
         return null;
     }
+
+
 
     @PostMapping(SELLER_SIGNUP)
     public ResponseEntity<?> sellerSignUp(){

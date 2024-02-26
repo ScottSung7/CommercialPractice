@@ -1,7 +1,6 @@
 package com.example.account_api.application;
 
-import com.example.account_api.web.validation.form.SignUpCustomerForm;
-import org.springframework.stereotype.Service;
+import com.example.account_api.web.validation.form.customer.SignUpCustomerForm;
 
 
 public interface SignUpApplication {

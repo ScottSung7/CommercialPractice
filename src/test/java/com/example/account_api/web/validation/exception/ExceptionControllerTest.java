@@ -1,9 +1,8 @@
 package com.example.account_api.web.validation.exception;
 
-import com.example.account_api.web.controller.SignUpController;
+import com.example.account_api.web.controller.account.SignUpController;
 import com.example.config.CorsConfig;
-import com.example.config.SecurityConfiguration;
-import org.junit.jupiter.api.Disabled;
+import com.example.config.SecurityConfiguration_Session;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,13 +13,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest
 @AutoConfigureMockMvc
 @ExtendWith(MockitoExtension.class)
-@Import({SecurityConfiguration.class, CorsConfig.class}) //SpringSecurity때문에 추가(csrf().disabled)
+@Import({SecurityConfiguration_Session.class, CorsConfig.class}) //SpringSecurity때문에 추가(csrf().disabled)
 class ExceptionControllerTest {
 
     @Autowired
@@ -39,11 +39,13 @@ class ExceptionControllerTest {
 
     @Test
     @DisplayName("Exception 테스트")
+    @WithMockUser
     public void test1() throws Exception{
 
         when(signUpController.hi()).thenThrow(new AccountException(ErrorCode.UNKNOWN_ERROR));
 
-        ResultActions response = mockMvc.perform(post("/accounts/hi")
+        ResultActions response = mockMvc.perform(post("/accounts/hi3")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(status().isBadRequest()) //처음에만.
