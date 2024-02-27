@@ -31,6 +31,10 @@ public class SignUpController {
     public ResponseEntity<String> customerSignUp(@Validated @RequestBody SignUpCustomerForm customerSignUpForm){
         return ResponseEntity.ok(signUpApplication.customerSignUp(customerSignUpForm));
     }
+    @PostMapping("/hi")
+    public String hicheck(){
+        return "hi";
+    }
     @PostMapping(CUSTOMER_UPDATE)
     public ResponseEntity<Customer> customerUpdate(@Validated @RequestBody UpdateCustomerForm updateCustomerForm, Authentication authentication){
         Principal principal = Optional.of((Principal) authentication.getPrincipal()).orElseThrow(
