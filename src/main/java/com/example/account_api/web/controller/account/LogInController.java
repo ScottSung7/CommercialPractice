@@ -14,7 +14,6 @@ public class LogInController {
 
     @PostMapping(CUSTOMER_LOGIN)
     public ResponseEntity<?> customerLogin(){
-
         return null;
     }
     @GetMapping(CUSTOMER_VERIFY)

@@ -1,8 +1,9 @@
 package com.example.account_api.web.validation.exception;
 
+import com.example.account_api.web.controller.account.AccountInfoController;
 import com.example.account_api.web.controller.account.SignUpController;
-import com.example.config.CorsConfig;
-import com.example.config.SecurityConfiguration_Session;
+import com.example.config.SpringSecurity.CorsConfig;
+import com.example.config.SpringSecurity.CustomerSecurityConfiguration_Session;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest
 @AutoConfigureMockMvc
 @ExtendWith(MockitoExtension.class)
-@Import({SecurityConfiguration_Session.class, CorsConfig.class}) //SpringSecurity때문에 추가(csrf().disabled)
 class ExceptionControllerTest {
 
     @Autowired
@@ -36,6 +36,9 @@ class ExceptionControllerTest {
 
     @MockBean
     private SignUpController signUpController;
+
+    @MockBean
+    private AccountInfoController accountInfoController;
 
     @Test
     @DisplayName("Exception 테스트")

@@ -1,10 +1,9 @@
 package com.example.account_api.web.controller.mock;
 
-import com.example.account_api.application.SignUpApplication;
+import com.example.account_api.application.applications.signUp.SignUpApplication;
 import com.example.account_api.web.controller.account.SignUpController;
 import com.example.account_api.web.validation.form.customer.SignUpCustomerForm;
-import com.example.config.CorsConfig;
-import com.example.config.SecurityConfiguration_Session;
+import com.example.account_api.web.validation.form.seller.SignUpSellerForm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -32,7 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(SignUpController.class)
 @AutoConfigureMockMvc
-@Import({SecurityConfiguration_Session.class, CorsConfig.class}) //SpringSecurity때문에 추가(csrf().disabled)
 class SignUpControllerTest_mock {
 
     @Autowired
@@ -44,7 +41,7 @@ class SignUpControllerTest_mock {
     private SignUpApplication signUpApplication;
 
     private SignUpCustomerForm signUpCustomerForm;
-
+    private SignUpSellerForm signUpSellerForm;
     @BeforeEach
     public void initEach(){
         signUpCustomerForm = SignUpCustomerForm.builder()
@@ -54,10 +51,19 @@ class SignUpControllerTest_mock {
                 .password("1122")
                 .birth(LocalDate.now())
                 .build();
+
+        signUpSellerForm = SignUpSellerForm.builder()
+                .email("tester seller's email")
+                .name("tester sellr")
+                .phone("1234")
+                .password("1122")
+                .birth(LocalDate.now())
+                .companyRegistrationNumber("333")
+                .build();
     }
 
     @Test
-    @DisplayName("Mock: 고객 회원가입")
+    @DisplayName("SignUpController : 고객 회원가입")
     @WithMockUser
     void customerSignUp_URL_Test() throws Exception {
         when(signUpApplication.customerSignUp(any(SignUpCustomerForm.class))).thenReturn("회원가입 성공");
@@ -72,6 +78,21 @@ class SignUpControllerTest_mock {
      }
 
     @Test
+    @DisplayName("SignUpController : 판매자 회원가입")
+    @WithMockUser
+    void sellerSignUp() throws Exception {
+        when(signUpApplication.sellerSignUp(any(SignUpSellerForm.class))).thenReturn("회원가입 성공");
+
+        String requestedURL = ACCOUNT_COMMON_URL + SELLER_SIGNUP;
+        ResultActions response = mockMvc.perform(post(requestedURL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(csrf())
+                .content(objectMapper.writeValueAsString(signUpSellerForm)));
+
+        response.andExpect(status().isOk());
+    }
+
+    @Test
     void hi_test() throws Exception{
         ResultActions response = mockMvc.perform(post(ACCOUNT_COMMON_URL + "/hi")
                 .contentType(MediaType.APPLICATION_JSON));
@@ -84,10 +105,7 @@ class SignUpControllerTest_mock {
     void customerUpdate() {
     }
 
-    @Test
-    @DisplayName("판매자 회원가입")
-    void sellerSignUp() {
-    }
+
 
     @Test
     void sellerUpdate() {

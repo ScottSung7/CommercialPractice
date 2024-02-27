@@ -1,7 +1,8 @@
-package com.example.account_api.application.service.signIn;
+package com.example.account_api.application.service.signIn.customer;
 
 import com.example.account_api.domain.model.Customer;
 import com.example.account_api.web.validation.form.customer.SignUpCustomerForm;
+import com.example.account_api.web.validation.form.customer.UpdateCustomerForm;
 
 public interface SignUpCustomerService {
 
@@ -10,4 +11,6 @@ public interface SignUpCustomerService {
     boolean isEmailExist(String email);
 
     Customer changeCustomerValidateEmail(Customer SignUpCustomer, String code);
+
+    Customer update(Customer customer);
 }
