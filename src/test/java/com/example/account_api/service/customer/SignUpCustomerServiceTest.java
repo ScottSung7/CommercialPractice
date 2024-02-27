@@ -1,6 +1,6 @@
-package com.example.account_api.service;
+package com.example.account_api.service.customer;
 
-import com.example.account_api.application.service.signIn.SignUpCustomerService;
+import com.example.account_api.application.service.signIn.customer.SignUpCustomerService;
 import com.example.account_api.domain.model.Customer;
 import com.example.account_api.web.Tester;
 import com.example.account_api.web.validation.form.customer.SignUpCustomerForm;

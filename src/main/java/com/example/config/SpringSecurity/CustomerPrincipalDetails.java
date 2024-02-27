@@ -1,4 +1,4 @@
-package com.example.account_api.domain.model.springSecurity;
+package com.example.config.SpringSecurity;
 
 import com.example.account_api.domain.model.Customer;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,11 +7,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class PrincipalDetails implements UserDetails {
+public class CustomerPrincipalDetails implements UserDetails {
 
     private Customer customer;
 
-    public PrincipalDetails(Customer customer){
+    public CustomerPrincipalDetails(Customer customer){
         this.customer = customer;
     }
 
@@ -56,4 +56,6 @@ public class PrincipalDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public String getEmail() {return customer.getEmail();}
 }

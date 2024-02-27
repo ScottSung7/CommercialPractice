@@ -26,4 +26,6 @@ public class UpdateCustomerForm {
     @NotBlank
     private String phone;
 
+    private String membership;
+
 }

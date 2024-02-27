@@ -2,6 +2,7 @@ package com.example.account_api.domain.model;
 
 
 import com.example.account_api.web.validation.form.customer.SignUpCustomerForm;
+import com.example.account_api.web.validation.form.customer.UpdateCustomerForm;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.AuditOverride;
@@ -35,6 +36,8 @@ public class Customer extends BaseEntity{
     private String verificationCode;
     private boolean verified;
 
+    private String membership;
+
     public static Customer from(SignUpCustomerForm form){
         return Customer.builder()
                 .email(form.getEmail().toLowerCase(Locale.ROOT))
@@ -42,6 +45,17 @@ public class Customer extends BaseEntity{
                 .name(form.getName())
                 .birth(form.getBirth())
                 .phone(form.getPhone())
+                .build();
+    }
+
+    public static Customer updateFrom(UpdateCustomerForm form){
+        return Customer.builder()
+                .email(form.getEmail().toLowerCase(Locale.ROOT))
+                .password(form.getPassword())
+                .name(form.getName())
+                .birth(form.getBirth())
+                .phone(form.getPhone())
+                .membership(form.getMembership())
                 .build();
     }
 
