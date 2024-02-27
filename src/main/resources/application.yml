@@ -5,6 +5,8 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -22,16 +24,24 @@ spring:
 #    username: zerobaseadmin
 #    password: zero!zero!
   datasource:
-    url: jdbc:mysql://localhost:3306/zeroorder?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://my-service-commerce-mysql-db.cdy8q0uqsgzh.ap-northeast-2.rds.amazonaws.com:3306/zeroorder?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: 1234
+    password: wconcept504
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
     database-platform: org.hibernate.dialect.MySQLDialect
     generate-ddl: true
+
+#  datasource:
+#   url: jdbc:mysql://localhost:3306/zeroorder?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    username: root
+#    password: 1234
+
+
 
 feign:
   okhttp:
@@ -58,3 +68,4 @@ springdoc:
   model-and-view-allowed: true
   default-produces-media-type: application/json
   default-consumes-media-type: application/json
+

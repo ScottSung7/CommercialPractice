@@ -1,4 +1,4 @@
-package com.example.account_api.web.validation.form;
+package com.example.account_api.web.validation.form.customer;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
