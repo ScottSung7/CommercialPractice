@@ -1,7 +1,6 @@
 package com.example.account_api.application.applications.signUp;
 
 import com.example.account_api.application.provider.emailVerification.EmailVerificationProvider;
-import com.example.account_api.application.service.accountInfo.AccountInfoCustomerService;
 import com.example.account_api.application.service.signIn.customer.SignUpCustomerService;
 import com.example.account_api.application.service.signIn.seller.SignUpSellerService;
 import com.example.account_api.domain.model.Customer;
@@ -24,10 +23,9 @@ public class SignUpApplicationImpl implements SignUpApplication {
     private final SignUpCustomerService signUpCustomerService;
     private final SignUpSellerService signUpSellerService;
 
-    private AccountInfoCustomerService accountInfoCustomerService;
-
     private final EmailVerificationProvider emailVerificationProvider;
 
+    @Override
     public String customerSignUp(SignUpCustomerForm signUpCustomerForm){
 
         if(signUpCustomerService.isEmailExist(signUpCustomerForm.getEmail())){
@@ -35,32 +33,38 @@ public class SignUpApplicationImpl implements SignUpApplication {
         };
         Customer signUpCustomer = signUpCustomerService.signUp(signUpCustomerForm);
 
-//        String verificationCode = emailVerificationProvider.sendVerificationEmail(signUpCustomer);
-//        signUpCustomerService.changeCustomerValidateEmail(signUpCustomer, verificationCode);
+        //emailVerificationProvider.sendVerificationEmail(signUpCustomer);
+        signUpCustomerService.changeCustomerValidateEmail(signUpCustomer);
 
         return signUpCustomer.getEmail()+ " 회원가입에 성공하였습니다.";
     }
+    @Override
+    public void customerVerify(String email){
+        signUpCustomerService.customerVerify(email);
+    }
+    @Override
+    public Customer customerUpdate(UpdateCustomerForm updateCustomerForm) {
 
+        return signUpCustomerService.update(updateCustomerForm);
+    }
+
+    @Override
     public String sellerSignUp(SignUpSellerForm signUpSellerForm) {
         if(signUpSellerService.isEmailExist(signUpSellerForm.getEmail())){
             throw new AccountException(ALREADY_REGISTER_USER);
         }
         Seller signUpSeller = signUpSellerService.signUp(signUpSellerForm);
 
-//        String verificationCode = emailVerificationProvider.sendVerificationEmail(signUpCustomer);
-//        signUpCustomerService.changeCustomerValidateEmail(signUpCustomer, verificationCode);
+    //    emailVerificationProvider.sendVerificationEmail(signUpSeller);
+        signUpSellerService.changeSellerValidateEmail(signUpSeller);
 
         return signUpSeller.getEmail()+ " 회원가입에 성공하였습니다.";
     }
-
     @Override
-    public Customer customerUpdate(UpdateCustomerForm updateCustomerForm, String email) {
-        Customer customer = accountInfoCustomerService.findCustomer(email);
-        customer = Customer.updateFrom(updateCustomerForm);
-        signUpCustomerService.update(customer);
-
-        return customer;
+    public void sellerVerify(String email){
+        signUpSellerService.sellerVerify(email);
     }
+
 
 
 }

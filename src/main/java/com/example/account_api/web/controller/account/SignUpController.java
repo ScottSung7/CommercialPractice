@@ -2,6 +2,7 @@ package com.example.account_api.web.controller.account;
 
 import com.example.account_api.application.applications.signUp.SignUpApplication;
 import com.example.account_api.application.service.signIn.customer.SignUpCustomerService;
+import com.example.account_api.domain.dto.CustomerDto;
 import com.example.account_api.domain.model.Customer;
 import com.example.account_api.web.validation.exception.AccountException;
 import com.example.account_api.web.validation.exception.ErrorCode;
@@ -31,18 +32,25 @@ public class SignUpController {
     public ResponseEntity<String> customerSignUp(@Validated @RequestBody SignUpCustomerForm customerSignUpForm){
         return ResponseEntity.ok(signUpApplication.customerSignUp(customerSignUpForm));
     }
+    @GetMapping(CUSTOMER_VERIFY +"/{email}")
+    public ResponseEntity<String> verifyCustomer(@PathVariable("email") String email){
+        signUpApplication.customerVerify(email);
+        return ResponseEntity.ok("인증이 완료되었습니다.");
+    }
+
     @PostMapping("/hi")
     public String hicheck(){
         return "hi";
     }
     @PostMapping(CUSTOMER_UPDATE)
-    public ResponseEntity<Customer> customerUpdate(@Validated @RequestBody UpdateCustomerForm updateCustomerForm, Authentication authentication){
-        Principal principal = Optional.of((Principal) authentication.getPrincipal()).orElseThrow(
+    public ResponseEntity<CustomerDto> customerUpdate(@Validated @RequestBody UpdateCustomerForm updateCustomerForm, Authentication authentication){
+        CustomerPrincipalDetails customerDetails = Optional.of((CustomerPrincipalDetails)authentication.getPrincipal()).orElseThrow(
                 () -> new AccountException(ErrorCode.NOT_LOGIN_ERROR)
         );
-        CustomerPrincipalDetails customerDetails = (CustomerPrincipalDetails) principal;
 
-        return ResponseEntity.ok(signUpApplication.customerUpdate(updateCustomerForm, customerDetails.getEmail()));
+        Customer customer = signUpApplication.customerUpdate(updateCustomerForm);
+
+        return ResponseEntity.ok(CustomerDto.from(customer));
     }
 
     //Seller
@@ -54,7 +62,11 @@ public class SignUpController {
     public ResponseEntity sellerUpdate(){
         return null;
     }
-
+    @GetMapping(SELLER_VERIFY + "/{email}")
+    public ResponseEntity<String> verifySeller(@PathVariable("email") String email){
+        signUpApplication.sellerVerify(email);
+        return ResponseEntity.ok("인증이 완료되었습니다.");
+    }
 
     @PostMapping("/hi3")
     public String hi(){
