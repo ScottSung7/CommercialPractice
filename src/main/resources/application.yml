@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
 
 spring:
   mvc:
@@ -23,11 +23,18 @@ spring:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    username: zerobaseadmin
 #    password: zero!zero!
+
   datasource:
-    url: jdbc:mysql://my-service-commerce-mysql-db.cdy8q0uqsgzh.ap-northeast-2.rds.amazonaws.com:3306/zeroorder?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/zeroorder?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: wconcept504
+    password: 1234
+
+#  datasource:
+#    url: jdbc:mysql://my-service-commerce-mysql-db.cdy8q0uqsgzh.ap-northeast-2.rds.amazonaws.com:3306/zeroorder?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    username: root
+#    password: wconcept504
   jpa:
     show-sql: true
     hibernate:
@@ -35,11 +42,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQLDialect
     generate-ddl: true
 
-#  datasource:
-#   url: jdbc:mysql://localhost:3306/zeroorder?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    username: root
-#    password: 1234
+
 
 
 

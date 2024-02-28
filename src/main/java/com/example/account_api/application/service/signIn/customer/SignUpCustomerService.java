@@ -6,11 +6,13 @@ import com.example.account_api.web.validation.form.customer.UpdateCustomerForm;
 
 public interface SignUpCustomerService {
 
-    Customer signUp(SignUpCustomerForm form);
+    public Customer signUp(SignUpCustomerForm form);
 
-    boolean isEmailExist(String email);
+    public boolean isEmailExist(String email);
 
-    Customer changeCustomerValidateEmail(Customer SignUpCustomer, String code);
+    public Customer changeCustomerValidateEmail(Customer SignUpCustomer);
 
-    Customer update(Customer customer);
+    public Customer update(UpdateCustomerForm updateCustomerForm);
+
+    public void customerVerify(String email);
 }

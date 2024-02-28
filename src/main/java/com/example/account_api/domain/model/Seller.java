@@ -45,6 +45,7 @@ public class Seller extends BaseEntity{
                 .name(form.getName())
                 .birth(form.getBirth())
                 .phone(form.getPhone())
+                .verified(false)
                 .build();
     }
 

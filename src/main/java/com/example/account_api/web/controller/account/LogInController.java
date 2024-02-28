@@ -16,19 +16,13 @@ public class LogInController {
     public ResponseEntity<?> customerLogin(){
         return null;
     }
-    @GetMapping(CUSTOMER_VERIFY)
-    public ResponseEntity<?> customerVerify(){
-        return null;
-    }
+
 
     @PostMapping(SELLER_LOGIN)
     public ResponseEntity<?> sellerLogin(){
         return null;
     }
-    @GetMapping(SELLER_VERIFY)
-    public ResponseEntity<?> sellerVerify(){
-        return null;
-    }
+
 
 
 }

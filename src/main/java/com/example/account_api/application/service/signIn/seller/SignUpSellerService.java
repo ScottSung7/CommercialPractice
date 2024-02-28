@@ -8,9 +8,11 @@ import com.example.account_api.web.validation.form.seller.SignUpSellerForm;
 
 public interface SignUpSellerService {
 
-    Seller signUp(SignUpSellerForm form);
+    public Seller signUp(SignUpSellerForm form);
 
-    boolean isEmailExist(String email);
+    public boolean isEmailExist(String email);
 
-    Seller changeSellerValidateEmail(Seller SignUpSeller, String code);
+    public Seller changeSellerValidateEmail(Seller SignUpSeller);
+
+    public void sellerVerify(String email);
 }

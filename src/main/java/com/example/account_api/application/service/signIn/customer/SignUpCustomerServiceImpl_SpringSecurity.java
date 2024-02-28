@@ -3,6 +3,7 @@ package com.example.account_api.application.service.signIn.customer;
 import com.example.account_api.domain.model.Customer;
 import com.example.account_api.repository.customer.CustomerRepository;
 import com.example.account_api.web.validation.exception.AccountException;
+import com.example.account_api.web.validation.exception.ErrorCode;
 import com.example.account_api.web.validation.form.customer.SignUpCustomerForm;
 import com.example.account_api.web.validation.form.customer.UpdateCustomerForm;
 import jakarta.transaction.Transactional;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Locale;
 
-import static com.example.account_api.web.validation.exception.ErrorCode.NOT_FOUND_USER;
+import static com.example.account_api.web.validation.exception.ErrorCode.*;
 
 @Service
 @Primary
@@ -35,9 +36,25 @@ public class SignUpCustomerServiceImpl_SpringSecurity implements SignUpCustomerS
 
         return customerRepository.save(customer);
     }
-    @Override
-    public Customer update(Customer customer) {
-        return customerRepository.save(customer);
+    @Transactional
+    public void customerVerify(String email){
+        Customer customer = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new AccountException(NOT_FOUND_USER));
+        if(customer.isVerified()){
+            throw new AccountException(ALREADY_VERIFIED);
+        }else if(customer.getVerificationExpiredAt().isBefore(LocalDateTime.now())){
+            throw new AccountException(VERIFICATION_EXPIRED);
+        }
+        customer.setVerified(true);
+
+    }
+    @Transactional
+    public Customer update(UpdateCustomerForm updateCustomerForm) {
+        Customer customer = customerRepository.findByEmail(updateCustomerForm.getEmail())
+                .orElseThrow(() -> new AccountException(NOT_FOUND_USER));
+        customer.setPassword(customerPasswordEncoder.encode(updateCustomerForm.getPassword()));
+
+        return  Customer.updateFrom(updateCustomerForm, customer);
     }
 
     @Override
@@ -47,15 +64,13 @@ public class SignUpCustomerServiceImpl_SpringSecurity implements SignUpCustomerS
 
     @Override
     @Transactional
-    public Customer changeCustomerValidateEmail(Customer signUpCustomer, String verificationCode) {
+    public Customer changeCustomerValidateEmail(Customer signUpCustomer) {
         Customer customer = customerRepository.findById(signUpCustomer.getId())
                 .orElseThrow(() -> new AccountException(NOT_FOUND_USER));
 
-        customer.setVerificationCode(verificationCode);
         customer.setVerificationExpiredAt(LocalDateTime.now().now().plusDays(1));
 
         return customer;
-
     }
 
 

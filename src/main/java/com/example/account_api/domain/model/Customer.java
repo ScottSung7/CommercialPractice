@@ -6,6 +6,9 @@ import com.example.account_api.web.validation.form.customer.UpdateCustomerForm;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.AuditOverride;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +22,7 @@ import java.util.Locale;
 @AllArgsConstructor
 @AuditOverride(forClass = BaseEntity.class)
 public class Customer extends BaseEntity{
+
 
     @Id
     @Column(name="customer_id", nullable = false)
@@ -45,18 +49,16 @@ public class Customer extends BaseEntity{
                 .name(form.getName())
                 .birth(form.getBirth())
                 .phone(form.getPhone())
+                .verified(false)
                 .build();
     }
 
-    public static Customer updateFrom(UpdateCustomerForm form){
-        return Customer.builder()
-                .email(form.getEmail().toLowerCase(Locale.ROOT))
-                .password(form.getPassword())
-                .name(form.getName())
-                .birth(form.getBirth())
-                .phone(form.getPhone())
-                .membership(form.getMembership())
-                .build();
+    public static Customer updateFrom(UpdateCustomerForm form, Customer customer){
+        customer.setName(form.getName());
+        customer.setBirth(form.getBirth());
+        customer.setPhone(form.getPhone());
+
+        return customer;
     }
 
 

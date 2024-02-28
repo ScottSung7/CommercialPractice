@@ -35,9 +35,10 @@ public class SellerPrincipalDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return seller.getEmail();
+        return seller.getName();
     }
 
+    public String getEmail() {return seller.getEmail();}
     @Override
     public boolean isAccountNonExpired() {
         return true;
