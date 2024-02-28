@@ -33,6 +33,8 @@ public class SellerDto {
                 .id(seller.getId())
                 .email(seller.getEmail())
                 .password(seller.getPassword())
+                .phone(seller.getPhone())
+                .name(seller.getName())
                 .birth(seller.getBirth())
                 .verificationExpiredAt(seller.getVerificationExpiredAt())
                 .verified(seller.isVerified())
