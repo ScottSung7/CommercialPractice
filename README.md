@@ -2,6 +2,8 @@
 
 Monolithic한 프로젝트에서 점차 MSA 구조를 갖추어 가면서 각 파트에서 어떤 기능과 아키텍처가 필요할지 고민해보려고 합니다.
 
+www.scottcommerce.net
+
 ## 1. Developer-Monolithic Branch
 빠른 배포를 목표로 한 Monolithic한 구조로 AWS EC2하나에 배포하였습니다.
 기능은 간단한 쇼핑몰로서 회원가입, 크레딧 충전, 결제, 상품등록같이 간단한 기능만 가질 예정 입니다.
