@@ -9,9 +9,12 @@ import com.example.account_api.web.validation.form.seller.SignUpSellerForm;
 public interface SignUpApplication {
     public String customerSignUp(SignUpCustomerForm signUpCustomerForm);
 
-    public Customer customerUpdate(UpdateCustomerForm updateCustomerForm, String email);
+    public Customer customerUpdate(UpdateCustomerForm updateCustomerForm);
 
     public String sellerSignUp(SignUpSellerForm signUpSellerForm);
 
+    public void customerVerify(String email);
+
+    public void sellerVerify(String email);
 }
 

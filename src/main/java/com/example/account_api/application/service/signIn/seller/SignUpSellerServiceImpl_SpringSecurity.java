@@ -1,5 +1,6 @@
 package com.example.account_api.application.service.signIn.seller;
 
+import com.example.account_api.domain.model.Customer;
 import com.example.account_api.domain.model.Seller;
 import com.example.account_api.domain.model.Seller;
 import com.example.account_api.repository.seller.SellerRepository;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Locale;
 
-import static com.example.account_api.web.validation.exception.ErrorCode.NOT_FOUND_USER;
+import static com.example.account_api.web.validation.exception.ErrorCode.*;
 
 @Service
 @Primary
@@ -44,15 +45,26 @@ public class SignUpSellerServiceImpl_SpringSecurity implements SignUpSellerServi
 
     @Override
     @Transactional
-    public Seller changeSellerValidateEmail(Seller signUpSeller, String verificationCode) {
+    public Seller changeSellerValidateEmail(Seller signUpSeller) {
          Seller seller = sellerRepository.findById(signUpSeller.getId())
                 .orElseThrow(() -> new AccountException(NOT_FOUND_USER));
 
-        seller.setVerificationCode(verificationCode);
         seller.setVerificationExpiredAt(LocalDateTime.now().now().plusDays(1));
 
         return seller;
 
+    }
+    @Override
+    @Transactional
+    public void sellerVerify(String email) {
+        Seller seller = sellerRepository.findByEmail(email)
+                .orElseThrow(() -> new AccountException(NOT_FOUND_USER));
+        if(seller.isVerified()){
+            throw new AccountException(ALREADY_VERIFIED);
+        }else if(seller.getVerificationExpiredAt().isBefore(LocalDateTime.now())){
+            throw new AccountException(VERIFICATION_EXPIRED);
+        }
+        seller.setVerified(true);
     }
 
 }
