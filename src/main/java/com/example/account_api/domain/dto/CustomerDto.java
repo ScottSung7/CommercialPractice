@@ -35,6 +35,8 @@ public class CustomerDto {
         return CustomerDto.builder()
                 .id(customer.getId())
                 .email(customer.getEmail())
+                .phone(customer.getPhone())
+                .name(customer.getName())
                 .password(customer.getPassword())
                 .birth(customer.getBirth())
                 .verificationExpiredAt(customer.getVerificationExpiredAt())
