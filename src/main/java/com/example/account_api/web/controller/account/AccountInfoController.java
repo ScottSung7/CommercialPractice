@@ -1,6 +1,7 @@
 package com.example.account_api.web.controller.account;
 
 
+import com.example.account_api.application.applications.AccountInfo.AccountInfoApplication;
 import com.example.account_api.application.service.accountInfo.customer.AccountInfoCustomerService;
 import com.example.account_api.application.service.accountInfo.seller.AccountInfoSellerService;
 import com.example.account_api.domain.dto.CustomerDto;
@@ -27,15 +28,15 @@ import static com.example.account_api.web.controller.account.AccountAPIControlle
 @RequiredArgsConstructor
 public class AccountInfoController {
 
-    private final AccountInfoCustomerService accountInfoCustomerService;
-    private final AccountInfoSellerService accountInfoSellerService;
+    private final AccountInfoApplication accountInfoApplication;
+
     @PostMapping("/customer")
     public ResponseEntity<CustomerDto> getCustomerInfo(Authentication authentication) {
 
         CustomerPrincipalDetails customerDetails = Optional.of((CustomerPrincipalDetails)authentication.getPrincipal()).orElseThrow(
                 () -> new AccountException(ErrorCode.NOT_LOGIN_ERROR)
         );
-        Customer customer = accountInfoCustomerService.findCustomer(customerDetails.getEmail());
+        Customer customer = accountInfoApplication.findCustomer(customerDetails.getEmail());
 
         return ResponseEntity.ok(CustomerDto.from(customer));
     }
@@ -46,7 +47,7 @@ public class AccountInfoController {
         SellerPrincipalDetails sellerDetails = Optional.of((SellerPrincipalDetails)authentication.getPrincipal()).orElseThrow(
                 () -> new AccountException(ErrorCode.NOT_LOGIN_ERROR)
         );
-        Seller seller = accountInfoSellerService.findSeller(sellerDetails.getEmail());
+        Seller seller = accountInfoApplication.findSeller(sellerDetails.getEmail());
 
         return ResponseEntity.ok(SellerDto.from(seller));
     }
