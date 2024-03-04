@@ -1,9 +1,9 @@
 package com.example.account_api.web.validation.exception;
 
+import com.example.account_api.application.service.CustomerBalanceService;
 import com.example.account_api.web.controller.account.AccountInfoController;
 import com.example.account_api.web.controller.account.SignUpController;
-import com.example.config.SpringSecurity.CorsConfig;
-import com.example.config.SpringSecurity.CustomerSecurityConfiguration_Session;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest
 @AutoConfigureMockMvc
+@MockBean(JpaMetamodelMappingContext.class)
 @ExtendWith(MockitoExtension.class)
 class ExceptionControllerTest {
 
@@ -39,6 +40,9 @@ class ExceptionControllerTest {
 
     @MockBean
     private AccountInfoController accountInfoController;
+
+    @MockBean
+    private CustomerBalanceService customerBalanceService;
 
     @Test
     @DisplayName("Exception 테스트")

@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.example.account_api.web.validation.exception.ErrorCode.NOT_ENOUGH_BALANCE;
+
 @Service
 @RequiredArgsConstructor
 public class CustomerBalanceService {
@@ -19,7 +21,7 @@ public class CustomerBalanceService {
     private final CustomerRepository customerRepository;
 
     @Transactional(noRollbackFor = {AccountException.class})
-    public CustomerBalanceHistory changeBalance(String email, ChangeBalanceForm form) throws AccountException{
+    public CustomerBalanceHistory changeBalance(String email, ChangeBalanceForm form) throws AccountException {
         Customer customer = customerRepository.findByEmail(email)
                 .orElseThrow(() -> new AccountException(ErrorCode.NOT_FOUND_USER));
 
@@ -31,7 +33,7 @@ public class CustomerBalanceService {
                                 .customer(customer)
                                 .build());
         if(customerBalanceHistory.getCurrentMoney() + form.getMoney() < 0){
-            throw new AccountException(ErrorCode.NOT_ENOUGH_BALANCE);
+            throw new AccountException(NOT_ENOUGH_BALANCE);
         }
 
         customerBalanceHistory = CustomerBalanceHistory.builder()

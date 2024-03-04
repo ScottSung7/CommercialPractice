@@ -9,7 +9,6 @@ import com.example.account_api.application.service.signIn.customer.SignUpCustome
 import com.example.account_api.domain.model.Seller;
 import com.example.account_api.web.Tester;
 import com.example.account_api.web.validation.exception.AccountException;
-import com.example.account_api.web.validation.exception.ErrorCode;
 import com.example.account_api.web.validation.form.customer.SignUpCustomerForm;
 import com.example.account_api.web.validation.form.seller.SignUpSellerForm;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +18,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static com.example.account_api.web.validation.exception.ErrorCode.ALREADY_REGISTER_USER;
 import static org.junit.jupiter.api.Assertions.*;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -82,9 +82,9 @@ class SignUpApplicationTest_Mock {
 
         when(signUpCustomerService.isEmailExist(signUpCustomerForm.getEmail())).thenReturn(true);
 
-       AccountException accountException
+       AccountException orderException
                =  assertThrows(AccountException.class, ()->  signUpApplication.customerSignUp(signUpCustomerForm));
-        assertEquals(ErrorCode.ALREADY_REGISTER_USER, accountException.getErrorCode());
+        assertEquals(ALREADY_REGISTER_USER, orderException.getErrorCode());
     }
 
 

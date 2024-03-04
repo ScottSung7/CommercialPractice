@@ -5,9 +5,8 @@ import com.example.account_api.domain.model.Customer;
 import com.example.account_api.web.TestConfiguration;
 import com.example.account_api.web.Tester;
 import com.example.account_api.web.validation.exception.AccountException;
-import com.example.account_api.web.validation.exception.ErrorCode;
+
 import com.example.account_api.web.validation.form.customer.SignUpCustomerForm;
-import com.example.account_api.web.validation.form.customer.UpdateCustomerForm;
 import com.example.account_api.web.validation.form.seller.SignUpSellerForm;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Disabled;
@@ -19,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
 
+import static com.example.account_api.web.validation.exception.ErrorCode.ALREADY_REGISTER_USER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -81,9 +81,9 @@ class SignUpApplicationTest {
 
         signUpApplication.customerSignUp(signUpCustomerForm);
 
-       AccountException accountException
+       AccountException orderException
                =  assertThrows(AccountException.class, ()->  signUpApplication.customerSignUp(signUpCustomerForm));
-        assertEquals(ErrorCode.ALREADY_REGISTER_USER, accountException.getErrorCode());
+        assertEquals(ALREADY_REGISTER_USER, orderException.getErrorCode());
     }
 
 

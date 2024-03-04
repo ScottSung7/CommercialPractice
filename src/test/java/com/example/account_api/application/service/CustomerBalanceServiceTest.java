@@ -9,11 +9,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 @RequiredArgsConstructor
 class CustomerBalanceServiceTest {
 
-    private final CustomerBalanceHistoryRepository customerBalanceHIstoryRepository;
-    @Test
-    void changeBalance() {
-
-
-
-    }
+//    private final CustomerBalanceHistoryRepository customerBalanceHistoryRepository;
+//    @Test
+//    void changeBalance() {
+//
+//
+//
+//    }
 }

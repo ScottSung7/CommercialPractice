@@ -2,14 +2,11 @@ package com.example.account_api.web.controller.account;
 
 
 import com.example.account_api.application.applications.AccountInfo.AccountInfoApplication;
-import com.example.account_api.application.service.accountInfo.customer.AccountInfoCustomerService;
-import com.example.account_api.application.service.accountInfo.seller.AccountInfoSellerService;
 import com.example.account_api.domain.dto.CustomerDto;
 import com.example.account_api.domain.dto.SellerDto;
 import com.example.account_api.domain.model.Customer;
 import com.example.account_api.domain.model.Seller;
 import com.example.account_api.web.validation.exception.AccountException;
-import com.example.account_api.web.validation.exception.ErrorCode;
 import com.example.config.SpringSecurity.CustomerPrincipalDetails;
 import com.example.config.SpringSecurity.SellerPrincipalDetails;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 import static com.example.account_api.web.controller.account.AccountAPIControllerProperties.ACCOUNT_COMMON_URL;
+import static com.example.account_api.web.validation.exception.ErrorCode.NOT_LOGIN_ERROR;
 
 @RestController
 @RequestMapping(ACCOUNT_COMMON_URL)
@@ -34,7 +32,7 @@ public class AccountInfoController {
     public ResponseEntity<CustomerDto> getCustomerInfo(Authentication authentication) {
 
         CustomerPrincipalDetails customerDetails = Optional.of((CustomerPrincipalDetails)authentication.getPrincipal()).orElseThrow(
-                () -> new AccountException(ErrorCode.NOT_LOGIN_ERROR)
+                () -> new AccountException(NOT_LOGIN_ERROR)
         );
         Customer customer = accountInfoApplication.findCustomer(customerDetails.getEmail());
 
@@ -45,7 +43,7 @@ public class AccountInfoController {
     public ResponseEntity<SellerDto> getSellerInfo(Authentication authentication) {
 
         SellerPrincipalDetails sellerDetails = Optional.of((SellerPrincipalDetails)authentication.getPrincipal()).orElseThrow(
-                () -> new AccountException(ErrorCode.NOT_LOGIN_ERROR)
+                () -> new AccountException(NOT_LOGIN_ERROR)
         );
         Seller seller = accountInfoApplication.findSeller(sellerDetails.getEmail());
 
