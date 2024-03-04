@@ -35,8 +35,8 @@ jobs:
     - name: Setup MySQl
       uses: samin/mysql-action@v1
       with: 
-        host port: 3306
-        container port: 3306
+        # host port: 3306
+        # container port: 3306
         character set server: 'utf8'
         mysql dtabase: 'zeroorder'
         mysql user: 'root'
