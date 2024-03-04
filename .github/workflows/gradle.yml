@@ -35,9 +35,9 @@ jobs:
     - name: Make application.properties
       run: |
         cd ./src/main/resources
-        touch ./application.properties
+        touch ./application.yml
           
-        echo "${{ secrets.DATABASE_PROPERTIES }}" >> ./application.properties
+        echo "${{ secrets.DATABASE_PROPERTIES }}" >> ./application.yml
       shell: bash
           
     - name: Setup MySQl
