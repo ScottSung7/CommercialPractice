@@ -1,11 +1,9 @@
 package com.example.account_api.web.controller.account;
 
 import com.example.account_api.application.applications.signUp.SignUpApplication;
-import com.example.account_api.application.service.signIn.customer.SignUpCustomerService;
 import com.example.account_api.domain.dto.CustomerDto;
 import com.example.account_api.domain.model.Customer;
 import com.example.account_api.web.validation.exception.AccountException;
-import com.example.account_api.web.validation.exception.ErrorCode;
 import com.example.account_api.web.validation.form.customer.SignUpCustomerForm;
 import com.example.account_api.web.validation.form.customer.UpdateCustomerForm;
 import com.example.account_api.web.validation.form.seller.SignUpSellerForm;
@@ -16,10 +14,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.Optional;
 
 import static com.example.account_api.web.controller.account.AccountAPIControllerProperties.*;
+import static com.example.account_api.web.validation.exception.ErrorCode.NOT_LOGIN_ERROR;
+import static com.example.account_api.web.validation.exception.ErrorCode.UNKNOWN_ERROR;
 
 @RestController
 @RequestMapping(ACCOUNT_COMMON_URL)
@@ -45,7 +44,7 @@ public class SignUpController {
     @PostMapping(CUSTOMER_UPDATE)
     public ResponseEntity<CustomerDto> customerUpdate(@Validated @RequestBody UpdateCustomerForm updateCustomerForm, Authentication authentication){
         CustomerPrincipalDetails customerDetails = Optional.of((CustomerPrincipalDetails)authentication.getPrincipal()).orElseThrow(
-                () -> new AccountException(ErrorCode.NOT_LOGIN_ERROR)
+                () -> new AccountException(NOT_LOGIN_ERROR)
         );
 
         Customer customer = signUpApplication.customerUpdate(updateCustomerForm);
@@ -70,7 +69,7 @@ public class SignUpController {
 
     @PostMapping("/hi3")
     public String hi(){
-        throw new AccountException(ErrorCode.UNKNOWN_ERROR);
+        throw new AccountException(UNKNOWN_ERROR);
     }
 
 
