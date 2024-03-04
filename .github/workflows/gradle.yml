@@ -32,6 +32,14 @@ jobs:
     # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+    - name: Make application.properties
+      run: |
+        cd ./src/main/resources
+        touch ./application.properties
+          
+        echo "${{ secrets.DATABASE_PROPERTIES }}" >> ./application.properties
+      shell: bash
+          
     - name: Setup MySQl
       uses: samin/mysql-action@v1
       with: 
@@ -41,6 +49,10 @@ jobs:
         mysql dtabase: 'zeroorder'
         mysql user: 'root'
         mysql password: '1234'
+    - name: Start Redis
+      uses: supercharge/redis-github-action@1.1.0
+      with:
+        redis-version: 6
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
