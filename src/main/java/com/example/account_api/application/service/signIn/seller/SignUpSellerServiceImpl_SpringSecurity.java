@@ -1,18 +1,14 @@
 package com.example.account_api.application.service.signIn.seller;
 
-import com.example.account_api.domain.model.Customer;
-import com.example.account_api.domain.model.Seller;
 import com.example.account_api.domain.model.Seller;
 import com.example.account_api.repository.seller.SellerRepository;
 import com.example.account_api.web.validation.exception.AccountException;
-import com.example.account_api.web.validation.form.seller.SignUpSellerForm;
 import com.example.account_api.web.validation.form.seller.SignUpSellerForm;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

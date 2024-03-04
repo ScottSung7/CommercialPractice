@@ -3,7 +3,6 @@ package com.example.account_api.application.service.signIn.customer;
 import com.example.account_api.domain.model.Customer;
 import com.example.account_api.repository.customer.CustomerRepository;
 import com.example.account_api.web.validation.exception.AccountException;
-import com.example.account_api.web.validation.exception.ErrorCode;
 import com.example.account_api.web.validation.form.customer.SignUpCustomerForm;
 import com.example.account_api.web.validation.form.customer.UpdateCustomerForm;
 import jakarta.transaction.Transactional;
@@ -11,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

@@ -12,20 +12,12 @@ public class ExceptionController {
     @ExceptionHandler({
             AccountException.class
     })
-    public ResponseEntity<ExceptionResponse> accountBadRequestException(final AccountException e){
+    public ResponseEntity<ExceptionResponse> orderBadRequestException(final AccountException e){
 
 
         log.warn("api Exception: {}", e.getErrorCode());
         return ResponseEntity.badRequest().body(new ExceptionResponse(e.getMessage(), e.getErrorCode()));
     }
-    //이게 아니라 bad request로 통합 된건가?
-//    @ExceptionHandler({
-//            AccountException.class
-//    })
-//    public ResponseEntity<ExceptionResponse> accountInternalServerErrorException(final AccountException e){
-//        log.warn("api Exception: {}", e.getErrorCode());
-//        return ResponseEntity.internalServerError().body(new ExceptionResponse(e.getMessage(), e.getErrorCode()));
-//    }
 
 
 }

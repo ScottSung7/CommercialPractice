@@ -12,7 +12,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import static com.example.account_api.web.validation.exception.ErrorCode.VERIFICATION_EMAIL_ERROR;
 
 @Service
 @Slf4j
@@ -38,7 +38,7 @@ public class EmailVerificationProviderImpl_Google implements EmailVerificationPr
             return code;
         }else{
             log.info("Send email result : "+ to.getEmail()+"(FAIL)");
-            throw new AccountException(ErrorCode.VERIFICATION_EMAIL_ERROR);
+            throw new AccountException(VERIFICATION_EMAIL_ERROR);
         }
     }
 
@@ -57,7 +57,7 @@ public class EmailVerificationProviderImpl_Google implements EmailVerificationPr
             return code;
         }else{
             log.info("Send email result : "+ to.getEmail()+"(FAIL)");
-            throw new AccountException(ErrorCode.VERIFICATION_EMAIL_ERROR);
+            throw new AccountException(VERIFICATION_EMAIL_ERROR);
         }
     }
     public boolean createCertificationMail(String to, String subject, String text){
