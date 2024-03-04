@@ -46,7 +46,7 @@ jobs:
         # host port: 3306
         # container port: 3306
         character set server: 'utf8'
-        mysql dtabase: 'zeroorder'
+        mysql database: 'zeroorder'
         mysql user: 'root'
         mysql password: '1234'
     - name: Start Redis
