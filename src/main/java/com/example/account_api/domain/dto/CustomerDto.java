@@ -31,6 +31,8 @@ public class CustomerDto {
 
     private String membership;
 
+    private Integer balance;
+
     public static CustomerDto from (Customer customer){
         return CustomerDto.builder()
                 .id(customer.getId())
@@ -42,6 +44,7 @@ public class CustomerDto {
                 .verificationExpiredAt(customer.getVerificationExpiredAt())
                 .verified(customer.isVerified())
                 .membership(customer.getMembership())
+                .balance(customer.getBalance() == null ? 0 : customer.getBalance())
                 .build();
     }
 
