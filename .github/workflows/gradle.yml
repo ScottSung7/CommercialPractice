@@ -32,7 +32,15 @@ jobs:
     # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
-
+    - name: Setup MySQl
+      uses: samin/mysql-action@v1
+      with: 
+        host port: 3306
+        container port: 3306
+        character set server: 'utf8'
+        mysql dtabase: 'zeroorder'
+        mysql user: 'root'
+        mysql password: '1234'
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
