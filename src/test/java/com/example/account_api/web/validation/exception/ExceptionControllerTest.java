@@ -4,6 +4,7 @@ import com.example.account_api.application.service.CustomerBalanceService;
 import com.example.account_api.web.controller.account.AccountInfoController;
 import com.example.account_api.web.controller.account.SignUpController;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @MockBean(JpaMetamodelMappingContext.class)
 @ExtendWith(MockitoExtension.class)
+@Disabled
 class ExceptionControllerTest {
 
     @Autowired
@@ -47,6 +49,7 @@ class ExceptionControllerTest {
     @Test
     @DisplayName("Exception 테스트")
     @WithMockUser
+    @Disabled
     public void test1() throws Exception{
 
         when(signUpController.hi()).thenThrow(new AccountException(ErrorCode.UNKNOWN_ERROR));

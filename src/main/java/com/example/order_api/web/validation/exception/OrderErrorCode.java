@@ -9,8 +9,10 @@ import org.springframework.http.HttpStatus;
 public enum OrderErrorCode {
 
 
-    UNKNOWN_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "알 수 없는 에러가 발생하였습니다.");
-
+    NOT_FOUND_PRODUCT(HttpStatus.BAD_REQUEST, "상품을 찾을 수 없습니다."),
+    NOT_FOUND_ITEM (HttpStatus.BAD_REQUEST, "아이템을 찾을 수 없습니다."),
+    SAME_ITEM_NAME(HttpStatus.BAD_REQUEST, "아이템명 중복입니다.");
+    
 
     private final HttpStatus httpStatus;
     private final String detail;
