@@ -24,17 +24,17 @@ spring:
 #    username: zerobaseadmin
 #    password: zero!zero!
 
-  datasource:
-    url: jdbc:mysql://localhost:3306/zeroorder?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: test
-    password: 1234
+  # datasource:
+  #   url: jdbc:mysql://localhost:3306/zeroorder?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
+  #   driver-class-name: com.mysql.cj.jdbc.Driver
+  #   username: test
+  #   password: 1234
 
-#  datasource:
-#    url: jdbc:mysql://my-service-commerce-mysql-db.cdy8q0uqsgzh.ap-northeast-2.rds.amazonaws.com:3306/zeroorder?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    username: root
-#    password: wconcept504
+ datasource:
+   url: jdbc:mysql://my-service-commerce-mysql-db.cdy8q0uqsgzh.ap-northeast-2.rds.amazonaws.com:3306/zeroorder?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
+   driver-class-name: com.mysql.cj.jdbc.Driver
+   username: root
+   password: wconcept504
   jpa:
     show-sql: true
     hibernate:
