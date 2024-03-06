@@ -25,7 +25,7 @@ public class ProductItem extends BaseEntity{
     private Integer price;
     private Integer count;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne //cascade Option? delete
     @JoinColumn(name="product_id")
     private Product product;
 

@@ -20,4 +20,5 @@ public class BaseEntity {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
     private String role = "USER";
+
 }
