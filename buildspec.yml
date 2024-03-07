@@ -14,5 +14,8 @@ phases:
       - echo Build completed on `date`
 artifacts:
   files:
-    - build/libs/board-*.war
+    - build/libs/invite.jar
+    - appspec.yml
+    - startup.sh
   discard-paths: yes
+
