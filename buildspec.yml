@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     runtime-version:
-      java: corretto17
+      java: corretto8
   build:
     commands:
       - echo Build start on `date`
@@ -18,4 +18,3 @@ artifacts:
     - appspec.yml
     - startup.sh
   discard-paths: yes
-
