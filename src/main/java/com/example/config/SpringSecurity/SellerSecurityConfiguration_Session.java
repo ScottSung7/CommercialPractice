@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -46,19 +47,20 @@ public class SellerSecurityConfiguration_Session {
     public SecurityFilterChain sellerChain(HttpSecurity http) throws Exception {
         return http
                 .authenticationProvider(sellerAuthenticationProvider())
-                .formLogin(form -> form.loginPage("/seller/login")
-                        .loginProcessingUrl("/sellerLogin")
+                .securityMatcher("/accounts/seller/**")
+                .formLogin(form -> form.loginPage("/accounts/seller/login")
+                        .loginProcessingUrl("/accounts/seller/login")
                         .successForwardUrl("/main"))
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/seller").authenticated()
                         .requestMatchers("/test").authenticated()
-                        .requestMatchers("accounts/**", "/main").permitAll()
-                        .anyRequest().permitAll()
+                        .requestMatchers("/accounts/seller/login", "/accounts/seller/logout",
+                                "/accounts/seller/signup", "/main", "/").permitAll()
+                        .requestMatchers("/accounts/seller/**").authenticated()
                 )
-                //.cors(cors -> cors.disable())
+                .httpBasic(Customizer.withDefaults())
                 .addFilter(corsConfig.corsFilter())
                 .csrf(csrf->csrf.disable())
-              .build();
+                .build();
     }
 
 
