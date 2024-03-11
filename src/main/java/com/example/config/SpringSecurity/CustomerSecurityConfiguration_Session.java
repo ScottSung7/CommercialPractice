@@ -43,21 +43,21 @@ public class CustomerSecurityConfiguration_Session {
     public SecurityFilterChain customerChain(HttpSecurity http) throws Exception {
         return http
                 .authenticationProvider(customerAuthenticationProvider())
-            //    .sessionManagement(policy -> policy.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .formLogin(form -> form.loginPage("/customer/login")
-                        .loginProcessingUrl("/customerLogin")
+                .securityMatcher("/accounts/customer/**")
+                .formLogin(form -> form.loginPage("/accounts/customer/login")
+                        .loginProcessingUrl("/accounts/customer/login")
                         .successForwardUrl("/main"))
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/customer").authenticated()
                         .requestMatchers("/test").authenticated()
-                        .requestMatchers("accounts/**", "/main").permitAll()
-                        .anyRequest().permitAll()
+                        .requestMatchers("/accounts/customer/login", "/accounts/customer/logout",
+                                "/accounts/customer/signup",
+                                "/", "/main").permitAll()
+                        .requestMatchers("/accounts/customer/**").authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
                 .addFilter(corsConfig.corsFilter())
-              //  .addFilter(corsConfig.corsFilter())
                 .csrf(csrf->csrf.disable())
-              .build();
+                .build();
     }
 
 
