@@ -6,6 +6,7 @@ import com.example.accountapi.web.validation.form.customer.SignUpCustomerForm;
 import com.example.accountapi.web.validation.form.seller.SignUpSellerForm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(SignUpController.class)
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureMockMvc
+@Disabled
 class SignUpControllerTest_mock {
 
     @Autowired

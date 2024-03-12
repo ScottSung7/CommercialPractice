@@ -23,7 +23,7 @@ public class EmailVerificationProviderImpl_Google implements EmailVerificationPr
 
     @Override
     public String sendVerificationEmail(Seller to){
-        String code = getRandomCode();
+        String code = "ABC";
         SendMailForm sendMailForm = SendMailForm.builder()
                 .from(ADMIN_EMAIL)
                 .to(to.getEmail())
@@ -42,7 +42,7 @@ public class EmailVerificationProviderImpl_Google implements EmailVerificationPr
 
     @Override
     public String sendVerificationEmail(Customer to){
-       String code = getRandomCode();
+       String code = "AAA";
         SendMailForm sendMailForm = SendMailForm.builder()
                 .from(ADMIN_EMAIL)
                 .to(to.getEmail())

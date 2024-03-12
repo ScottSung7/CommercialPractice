@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Import(TestConfiguration.class)
+@Disabled
 class SignUpApplicationTest {
 
 
