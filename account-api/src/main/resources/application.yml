@@ -1,6 +1,5 @@
 server:
   port: 8080
-
 spring:
   config:
     activate:
@@ -24,11 +23,6 @@ spring:
     driver-class-name: ${local.db.driver}
     username: ${local.db.id}
     password: ${local.db.pw}
-#  datasource:
-#    url: ${aws.db.url}
-#    driver-class-name: ${aws.db.driver}
-#    username: ${aws.db.id}
-#    password: ${aws.db.pw}
   jpa:
     show-sql: true
     hibernate:
