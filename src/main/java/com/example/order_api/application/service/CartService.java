@@ -1,7 +1,7 @@
 package com.example.order_api.application.service;
 
-import com.example.account_api.domain.redis.Cart;
 import com.example.order_api.application.client.RedisClient;
+import com.example.order_api.domain.model.redis.Cart;
 import com.example.order_api.web.validation.form.AddProductCartForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

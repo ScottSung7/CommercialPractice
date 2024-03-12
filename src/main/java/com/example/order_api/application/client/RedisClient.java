@@ -1,6 +1,7 @@
 package com.example.order_api.application.client;
 
-import com.example.account_api.domain.redis.Cart;
+
+import com.example.order_api.domain.model.redis.Cart;
 import com.example.order_api.web.validation.exception.OrderErrorCode;
 import com.example.order_api.web.validation.exception.OrderException;
 import com.fasterxml.jackson.core.JsonProcessingException;

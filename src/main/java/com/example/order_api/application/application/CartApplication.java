@@ -1,10 +1,11 @@
 package com.example.order_api.application.application;
 
-import com.example.account_api.domain.redis.Cart;
+
 import com.example.order_api.application.service.CartService;
 import com.example.order_api.application.service.ProductSearchService;
 import com.example.order_api.domain.model.Product;
 import com.example.order_api.domain.model.ProductItem;
+import com.example.order_api.domain.model.redis.Cart;
 import com.example.order_api.web.validation.exception.OrderErrorCode;
 import com.example.order_api.web.validation.exception.OrderException;
 import com.example.order_api.web.validation.form.AddProductCartForm;
