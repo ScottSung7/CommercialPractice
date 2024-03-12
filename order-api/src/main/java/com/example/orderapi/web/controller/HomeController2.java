@@ -1,0 +1,16 @@
+package com.example.orderapi.web.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class HomeController2 {
+
+ @GetMapping("/testorder")
+    public String testOrder(){
+        return "testorder";
+ }
+
+
+
+}
