@@ -1,6 +1,7 @@
-package com.example.accountapi.config.SpringSecurity;
+package com.example.accountapi.config.SpringSecurity.seller;
 
 
+import com.example.accountapi.config.SpringSecurity.CorsConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,40 +18,41 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
-@Order(2)
-public class CustomerSecurityConfiguration_Session {
+@Order(1)
+public class SellerSecurityConfiguration_Session {
 
     private final CorsConfig corsConfig;
     @Bean
-    public PasswordEncoder customerPasswordEncoder(){
+    public PasswordEncoder sellerPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public UserDetailsService customerDetailService(){
-        return new CustomerLogInService_SpringSecurity();
+    public UserDetailsService sellerDetailService(){
+
+        return new SellerLogInService_SpringSecurity();
     }
     @Bean
-    public DaoAuthenticationProvider customerAuthenticationProvider(){
+    public DaoAuthenticationProvider sellerAuthenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(customerDetailService());
-        provider.setPasswordEncoder(customerPasswordEncoder());
+        provider.setUserDetailsService(sellerDetailService());
+        provider.setPasswordEncoder(sellerPasswordEncoder());
         return provider;
     }
+
     @Bean
-    public SecurityFilterChain customerChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain sellerChain(HttpSecurity http) throws Exception {
         return http
-                .authenticationProvider(customerAuthenticationProvider())
-                .securityMatcher("/accounts/customer/**")
-                .formLogin(form -> form.loginPage("/accounts/customer/login")
-                        .loginProcessingUrl("/accounts/customer/login")
+                .authenticationProvider(sellerAuthenticationProvider())
+                .securityMatcher("/accounts/seller/**")
+                .formLogin(form -> form.loginPage("/accounts/seller/login")
+                        .loginProcessingUrl("/accounts/seller/login")
                         .successForwardUrl("/main"))
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/test").authenticated()
-                        .requestMatchers("/accounts/customer/login", "/accounts/customer/logout",
-                                "/accounts/customer/signup",
-                                "/", "/main").permitAll()
-                        .requestMatchers("/accounts/customer/**").authenticated()
+                        .requestMatchers("/accounts/seller/login", "/accounts/seller/logout",
+                                "/accounts/seller/signup", "/main", "/").permitAll()
+                        .requestMatchers("/accounts/seller/**").authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
                 .addFilter(corsConfig.corsFilter())

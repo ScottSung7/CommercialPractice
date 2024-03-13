@@ -4,7 +4,7 @@ import com.example.accountapi.application.service.CustomerBalanceService;
 import com.example.accountapi.web.validation.exception.AccountException;
 import com.example.accountapi.web.validation.form.ChangeBalanceForm;
 import com.example.accountapi.web.validation.exception.ErrorCode;
-import com.example.accountapi.config.SpringSecurity.CustomerPrincipalDetails;
+import com.example.accountapi.config.SpringSecurity.customer.CustomerPrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
