@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
 @SpringBootApplication
-@Profile({"default", "prod"})
+@Profile({"dev", "prod"})
 public class OrderApiApplication {
 
     public static void main(String[] args) {

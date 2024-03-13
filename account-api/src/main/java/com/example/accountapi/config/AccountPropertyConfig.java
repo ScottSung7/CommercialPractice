@@ -1,4 +1,4 @@
-package com.example.accountapi.config.property;
+package com.example.accountapi.config;
 
 import org.springframework.context.annotation.Configuration;
 
