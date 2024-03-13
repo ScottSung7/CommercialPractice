@@ -1,8 +1,8 @@
-package com.example.accountapi.config.SpringSecurity;
+package com.example.accountapi.config.SpringSecurity.seller;
 
 
-import com.example.accountapi.domain.model.Customer;
-import com.example.accountapi.repository.customer.CustomerRepository;
+import com.example.accountapi.domain.model.Seller;
+import com.example.accountapi.repository.seller.SellerRepository;
 import com.example.accountapi.web.validation.exception.AccountException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,20 +14,20 @@ import static com.example.accountapi.web.validation.exception.ErrorCode.NOT_FOUN
 
 
 @Service
-public class CustomerLogInService_SpringSecurity implements UserDetailsService {
+public class SellerLogInService_SpringSecurity implements UserDetailsService {
 
     @Autowired
-    CustomerRepository customerRepository;
+    SellerRepository sellerRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Customer customer = customerRepository.findByEmail(email).orElseThrow(
+        Seller seller = sellerRepository.findByEmail(email).orElseThrow(
                 () -> new AccountException(NOT_FOUND_USER)
         );
-        System.out.println("Customer Login");
-       // System.out.println(customer.getName());
+        System.out.println("seller Login");
+        //System.out.println(seller.getName());
 
-        return new CustomerPrincipalDetails(customer);
+        return new SellerPrincipalDetails(seller);
     }
 
 }
