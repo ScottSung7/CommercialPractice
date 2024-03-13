@@ -1,4 +1,4 @@
-package com.example.accountapi.config.SpringSecurity;
+package com.example.accountapi.config.SpringSecurity.seller;
 
 
 import com.example.accountapi.domain.model.Seller;
