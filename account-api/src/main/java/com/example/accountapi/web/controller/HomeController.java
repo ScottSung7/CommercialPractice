@@ -1,9 +1,6 @@
 package com.example.accountapi.web.controller;
 
-import com.example.accountapi.application.client.OrderServiceClient;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -12,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequiredArgsConstructor
 public class HomeController {
 
     @RequestMapping("/main")
@@ -21,11 +17,11 @@ public class HomeController {
             return "home";
     }
 
-    @GetMapping("/accounts/customer/login")
+    @GetMapping("/customer/login")
     public String loginCustomer(){
         return "LogInCustomer";
     }
-    @GetMapping("/accounts/seller/login")
+    @GetMapping("/seller/login")
     public String loginSeller(){
         return "LogInSeller";
     }
@@ -44,25 +40,10 @@ public class HomeController {
         public String hi2(){
         return "checking";
     }
-    @GetMapping("/accounts/customer/test")
-    public String testCustomer(){
-        return "checking";
-    }
+
     @RequestMapping("/test")
         public String test(){
         return "checking";
     }
 
-    @Autowired
-    OrderServiceClient orderServiceClient;
-
-    @GetMapping("/feignTesting")
-    public void feignTest(){
-        String test = orderServiceClient.orderTesting().getBody();
-        System.out.println(test);
-        System.out.println("done");
     }
-
-
-}
-

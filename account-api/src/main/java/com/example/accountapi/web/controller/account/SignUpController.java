@@ -8,7 +8,7 @@ import com.example.accountapi.web.validation.form.customer.SignUpCustomerForm;
 import com.example.accountapi.web.validation.form.customer.UpdateCustomerForm;
 import com.example.accountapi.web.validation.form.seller.SignUpSellerForm;
 import com.example.accountapi.web.validation.exception.ErrorCode;
-import com.example.accountapi.config.SpringSecurity.customer.CustomerPrincipalDetails;
+import com.example.accountapi.config.SpringSecurity.CustomerPrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
