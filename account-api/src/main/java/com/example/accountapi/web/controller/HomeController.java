@@ -17,11 +17,11 @@ public class HomeController {
             return "home";
     }
 
-    @GetMapping("/customer/login")
+    @GetMapping("/accounts/customer/login")
     public String loginCustomer(){
         return "LogInCustomer";
     }
-    @GetMapping("/seller/login")
+    @GetMapping("/accounts/seller/login")
     public String loginSeller(){
         return "LogInSeller";
     }
@@ -40,10 +40,12 @@ public class HomeController {
         public String hi2(){
         return "checking";
     }
-
+    @GetMapping("/accounts/customer/test")
+    public String testCustomer(){
+        return "checking";
+    }
     @RequestMapping("/test")
         public String test(){
         return "checking";
     }
-
     }

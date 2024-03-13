@@ -1,4 +1,4 @@
-package com.example.accountapi.config;
+package com.example.accountapi.config.swagger;
 
 
 
