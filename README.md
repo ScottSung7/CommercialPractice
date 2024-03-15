@@ -19,8 +19,7 @@ www.scottcommerce.net
 ## 2. Multi-Module (Developer Multi-Module Branch)
 <br>
 
-![multi-module](https://github.com/ScottSung7/CommercialPractice/assets/98432596/6c9aa6f7-afd8-455e-94f6-a43f80718cc9)
-
+![multi-module drawio](https://github.com/ScottSung7/CommercialPractice/assets/98432596/a6ae1da5-9697-421f-85ce-0ce5cad70134)
 
 
 ### Account-api
