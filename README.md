@@ -11,7 +11,8 @@ www.scottcommerce.net
 A. 유연성: <br> 
  - 이후에 EC2를 증설해 트래픽 처리는 가능하도록 **Application Load Balancer를** 구현하여 놓아서 최소한의 유연성에 대비해 놓았습니다. 또한, AutoScaling도 고려해 볼 수 있습니다.
  <br><br>
-B. 배포: SSH통신은 **Bastion Host Instance**를 통해서 소스를 바로 배포하도록 하였습니다. ECS보다 EC2에서 바로 배포하는게 익숙하다고 생각하여 이렇게 구성하였습니다.(Bastion Host는 Aws System Manager를 통한 통신으로 변경 예정.)
+B. 배포: <br>
+SSH통신은 **Bastion Host Instance**를 통해서 소스를 바로 배포하도록 하였습니다. ECS보다 EC2에서 바로 배포하는게 익숙하다고 생각하여 이렇게 구성하였습니다.(Bastion Host는 Aws System Manager를 통한 통신으로 변경 예정.)
 <br><br>
 C. 보안: <br> 
  - 보안을 위해 배포를 하는 ec2를** private subnet**에 두어 외부와 직접적인 제한 하였습니다. 
