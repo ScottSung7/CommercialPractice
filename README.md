@@ -4,15 +4,15 @@ Monolithic한 프로젝트에서 점차 MSA 구조를 갖추어 가면서 각 �
 
 www.scottcommerce.net
 
-## 1. Monolithic (Developer Monolithic Branch)
+##2 1. Monolithic (Developer Monolithic Branch)
 빠른 배포를 목표로 한 Monolithic한 구조로 AWS EC2하나에 배포하였습니다.
 기능은 간단한 쇼핑몰로서 회원가입, 크레딧 충전, 결제, 상품등록같이 간단한 기능만 가질 예정 입니다.
 <br><br>
-A. 유연성: <br> 
+##3 A. 유연성: <br> 
  - 이후에 EC2를 증설해 트래픽 처리는 가능하도록 **Application Load Balancer를** 구현하여 놓아서 최소한의 유연성에 대비해 놓았습니다. 또한, AutoScaling도 고려해 볼 수 있습니다.
  <br><br>
 B. 배포: <br>
-SSH통신은 **Bastion Host Instance**를 통해서 소스를 바로 배포하도록 하였습니다. ECS보다 EC2에서 바로 배포하는게 익숙하다고 생각하여 이렇게 구성하였습니다.(Bastion Host는 Aws System Manager를 통한 통신으로 변경 예정.)
+- SSH통신은 **Bastion Host Instance**를 통해서 소스를 바로 배포하도록 하였습니다. ECS보다 EC2에서 바로 배포하는게 익숙하다고 생각하여 이렇게 구성하였습니다.(Bastion Host는 Aws System Manager를 통한 통신으로 변경 예정.)
 <br><br>
 C. 보안: <br> 
  - 보안을 위해 배포를 하는 ec2를** private subnet**에 두어 외부와 직접적인 제한 하였습니다. 
@@ -28,7 +28,7 @@ D. 사용 편의성: <br>
 A. 유연성: <br>
   - ECS를 통하여 배포하며 **AutoScaling**을 통해 유연하게 트래픽에 대응할 수 있도록 하였습니다.
 <br><br>
-B. 배포<br>
+B. 배포: <br>
  - 편의를 위해 각 API마다 **도커 컨테이너**로 만들어서 ECS를 통해 배포하였습니다. <br>
  - 아직은 크기가 크지 않으므로 **하나의 EC2에 다른 포트번호**로 배포를 하여 Open Feign을 통해 내부통신을 합니다. 
 <br><br>
