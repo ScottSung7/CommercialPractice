@@ -4,7 +4,7 @@ Monolithic한 프로젝트에서 점차 MSA 구조를 갖추어 가면서 각 �
 
 www.scottcommerce.net
 
-## 1. Developer-Monolithic Branch
+## 1. Monolithic (Developer Monolithic Branch)
 빠른 배포를 목표로 한 Monolithic한 구조로 AWS EC2하나에 배포하였습니다.
 기능은 간단한 쇼핑몰로서 회원가입, 크레딧 충전, 결제, 상품등록같이 간단한 기능만 가질 예정 입니다.
 <br><br>
@@ -15,6 +15,13 @@ www.scottcommerce.net
  속도 및 편의성: 빠른 배포가 목적이므로 EC2 인스턴스 내부에서 Redis나 Mysql을 쓰기보다 관리하기도 쉽고 편리하게 사용이 가능한 AWS서비스(ElasticCache, RDS-Mysql)를 배포 소스에 연동하였습니다. 
 
 ![aws drawio (1)](https://github.com/ScottSung7/CommercialPractice/assets/98432596/045f694e-362e-437f-adab-6fe19751a740)
+
+## 2. Multi-Module (Developer Multi-Module Branch)
+<br>
+![Multi-module](https://github.com/ScottSung7/CommercialPractice/assets/98432596/b551f135-d206-4572-bdd9-b5008cb5d83e)
+
+
+
 
 ### Account-api
 로그인 페이지로 스프링 시큐리티 세션을 이용하여 구현.
