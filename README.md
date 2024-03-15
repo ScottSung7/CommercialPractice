@@ -6,8 +6,7 @@ www.scottcommerce.net
 
 ## 1. Monolithic (Developer Monolithic Branch)
 빠른 배포를 목표로 한 Monolithic한 구조로 AWS EC2하나에 배포하였습니다.
-기능은 간단한 쇼핑몰로서 회원가입, 크레딧 충전, 결제, 상품등록같이 간단한 기능만 가질 예정 입니다.
-<br><br>
+기능은 간단한 쇼핑몰로서 회원가입, 크레딧 충전, 결제, 상품등록같이 간단한 기능만 가질 예정 입니다. <br>
 #### A. 유연성:
  - 이후에 EC2를 증설해 트래픽 처리는 가능하도록 **Application Load Balancer를** 구현하여 놓아서 최소한의 유연성에 대비해 놓았습니다. 또한, AutoScaling도 고려해 볼 수 있습니다.
 #### B. 배포: 
@@ -20,13 +19,12 @@ www.scottcommerce.net
 ![aws drawio (1)](https://github.com/ScottSung7/CommercialPractice/assets/98432596/045f694e-362e-437f-adab-6fe19751a740)
 
 ## 2. Multi-Module (Developer Multi-Module Branch)
-서비스의 종류가 늘어나면서 코드 관리의 편의성 위해 프로젝트를 Multi-Module로 구성하면서 포트번호로 API를 나누어 배포하여 약간의 MSA구조를 가미하였습니다. 
-<br><br>
+서비스의 종류가 늘어나면서 코드 관리의 편의성 위해 프로젝트를 Multi-Module로 구성하면서 포트번호로 API를 나누어 배포하여 약간의 MSA구조를 가미하였습니다. <br>
 #### A. 유연성:
   - ECS를 통하여 배포하며 **AutoScaling**을 통해 유연하게 트래픽에 대응할 수 있도록 하였습니다.
 #### B. 배포:
  - 편의를 위해 각 API마다 **도커 컨테이너**로 만들어서 ECS를 통해 배포하였습니다. <br>
- - 아직은 크기가 크지 않으므로 **하나의 EC2에 다른 포트번호**로 배포를 하여 Open Feign을 통해 내부통신을 합니다. 
+ - 아직은 크기가 크지 않으므로 **하나의 EC2에 다른 포트번호**로 배포를 하여 **Open Feign**을 통해 내부 HTTP 통신을 합니다. 
 #### C. 보안:
  - ECS Instance들을 private subnet에 두는 것을 넘어서 **WAF**를 통해서 특정 지역이나 IP가 접속하지 못하도록 막고 있고 기본으로 제공되는 **Shield**를 통해 DDOS공격에 대비하고 있습니다.
 #### D. 사용 편의성: 
