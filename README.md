@@ -12,9 +12,9 @@ www.scottcommerce.net
 #### B. 배포: 
 - SSH통신은 **Bastion Host Instance**를 통해서 소스를 바로 배포하도록 하였습니다. ECS보다 EC2에서 바로 배포하는게 익숙하다고 생각하여 이렇게 구성하였습니다.(Bastion Host는 Aws System Manager를 통한 통신으로 변경 예정.)
 #### C. 보안: 
- - 보안을 위해 배포를 하는 ec2를** private subnet**에 두어 외부와 직접적인 제한 하였습니다. 
+ - 보안을 위해 배포를 하는 ec2를 **private subnet**에 두어 외부와 직접적인 제한 하였습니다. 
 #### D. 사용 편의성:
-  - 빠른 배포가 목적이므로 EC2 인스턴스 내부에서 Redis나 Mysql을 쓰기보다 관리하기도 쉽고 편리하게 사용이 가능한 **AWS서비스(ElasticCache, RDS-Mysql)**를 배포 소스에 연동하였습니다. 
+  - 빠른 배포가 목적이므로 EC2 인스턴스 내부에서 Redis나 Mysql을 쓰기보다 관리하기도 쉽고 편리하게 사용이 가능한 **AWS서비스**(ElasticCache, RDS-Mysql)를 배포 소스에 연동하였습니다. 
 
 ![aws drawio (1)](https://github.com/ScottSung7/CommercialPractice/assets/98432596/045f694e-362e-437f-adab-6fe19751a740)
 
@@ -30,7 +30,7 @@ www.scottcommerce.net
 #### D. 사용 편의성: 
  - **Multi-Module**구조로 만들어서 하나의 큰 Monlithic프로젝트가 아니라 하나의 API로 관리를 할수 있도록 하였습니다.<br>
  - **ECS**를 이용하여 배포를 하여서 컨테이너 관리를 손쉽게 할수 있습니다.<br>
- - Code Commit과 Code Build를 통한 **CI를 자동화 **시키고 ECR을 통해서 손쉽게 배포하도록 구성하였습니다.
+ - Code Commit과 Code Build를 통한 **CI를 자동화** 시키고 ECR을 통해서 손쉽게 배포하도록 구성하였습니다.
 
 ![multi-module drawio](https://github.com/ScottSung7/CommercialPractice/assets/98432596/a6ae1da5-9697-421f-85ce-0ce5cad70134)
 
