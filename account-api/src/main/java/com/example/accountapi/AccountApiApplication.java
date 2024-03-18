@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.FeignAutoConfiguration;
 import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
-@Profile({"default", "prod"})
+@Profile({"default", "prod", "docker"})
 @EnableFeignClients(basePackages = "com.example.accountapi.application.client")
 @ImportAutoConfiguration({FeignAutoConfiguration.class})
 public class AccountApiApplication {

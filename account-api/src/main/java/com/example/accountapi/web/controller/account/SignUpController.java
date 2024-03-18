@@ -1,6 +1,7 @@
 package com.example.accountapi.web.controller.account;
 
 import com.example.accountapi.application.applications.signUp.SignUpApplication;
+import com.example.accountapi.application.client.OrderServiceClient;
 import com.example.accountapi.domain.dto.CustomerDto;
 import com.example.accountapi.domain.model.Customer;
 import com.example.accountapi.web.validation.exception.AccountException;
@@ -10,6 +11,7 @@ import com.example.accountapi.web.validation.form.seller.SignUpSellerForm;
 import com.example.accountapi.web.validation.exception.ErrorCode;
 import com.example.accountapi.config.SpringSecurity.customer.CustomerPrincipalDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
@@ -68,8 +70,13 @@ public class SignUpController {
     public String hi(){
         throw new AccountException(ErrorCode.UNKNOWN_ERROR);
     }
-
-
+    @Autowired
+    OrderServiceClient orderServiceClient;
+    @PostMapping("/feignTesting")
+    public String feignTest(){
+        String test = orderServiceClient.orderTesting().getBody();
+        return test;
+    }
 }
 
 
