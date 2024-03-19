@@ -56,12 +56,7 @@ public class HomeController {
     @Autowired
     OrderServiceClient orderServiceClient;
 
-    @GetMapping("/feignTesting")
-    public void feignTest(){
-        String test = orderServiceClient.orderTesting().getBody();
-        System.out.println(test);
-        System.out.println("done");
-    }
+
 
 
 }
