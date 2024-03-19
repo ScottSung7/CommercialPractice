@@ -15,6 +15,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -47,15 +48,22 @@ public class CustomerSecurityConfiguration_Session {
     }
     @Bean
     public SecurityFilterChain customerChain(HttpSecurity http) throws Exception {
+
+        System.out.println("Customer Chain Checking");
+
         AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
 
         http
                 .authenticationProvider(customerAuthenticationProvider())
+                .sessionManagement((sessionManagement) ->
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
                 .addFilter(new AuthenticationFilter(authenticationManager))
                 .securityMatcher("/accounts/customer/**")
-                .formLogin(form -> form.loginPage("/accounts/customer/login")
-                        .loginProcessingUrl("/accounts/customer/login")
-                        .successForwardUrl("/main"))
+                .formLogin(form -> form.disable())
+//                .formLogin(form -> form.loginPage("/accounts/customer/login")
+//                        .loginProcessingUrl("/accounts/customer/login")
+//                        .successForwardUrl("/main"))
                  .httpBasic(Customizer.withDefaults())
                  .addFilter(corsConfig.corsFilter())
                  .csrf(csrf->csrf.disable())
@@ -65,8 +73,9 @@ public class CustomerSecurityConfiguration_Session {
                                 "/accounts/customer/signup",
                                 "/", "/main").permitAll()
                         .requestMatchers("/accounts/customer/**").authenticated()
-                );
-         return http.build();
+                 );
+
+        return http.build();
     }
 
 
