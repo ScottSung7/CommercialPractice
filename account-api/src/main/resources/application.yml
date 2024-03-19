@@ -1,6 +1,8 @@
 server:
   port: 8080
 spring:
+  application:
+    name: account-api
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -50,10 +52,20 @@ springdoc:
   model-and-view-allowed: true
   default-produces-media-type: application/json
   default-consumes-media-type: application/json
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    prefer-ip-address: true
 ---
 server:
   port: 8080
 spring:
+  application:
+    name: account-api
   config:
     activate:
       on-profile: prod
@@ -82,6 +94,7 @@ spring:
       ddl-auto: create-drop
     database-platform: org.hibernate.dialect.MySQLDialect
     generate-ddl: true
+
 feign:
   okhttp:
     enabled: true
@@ -105,9 +118,17 @@ springdoc:
   model-and-view-allowed: true
   default-produces-media-type: application/json
   default-consumes-media-type: application/json
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
 ---
 server:
   port: 8080
+
+
 spring:
   config:
     activate:
