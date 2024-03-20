@@ -10,3 +10,20 @@ eureka:
     fetch-registry: false
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka/
+---
+server:
+  port: 8761
+sprig:
+  config:
+    activate:
+      on-profile: prod
+  application:
+    name: eureka-service
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://10.1.1.20:8761/eureka/
+
+
