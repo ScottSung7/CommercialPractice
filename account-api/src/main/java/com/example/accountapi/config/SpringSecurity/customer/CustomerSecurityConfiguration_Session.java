@@ -6,6 +6,7 @@ import com.example.accountapi.config.SpringSecurity.CorsConfig;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.bouncycastle.asn1.x509.UserNotice;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -46,6 +47,7 @@ public class CustomerSecurityConfiguration_Session {
         provider.setPasswordEncoder(customerPasswordEncoder());
         return provider;
     }
+
     @Bean
     public SecurityFilterChain customerChain(HttpSecurity http) throws Exception {
 
@@ -64,16 +66,15 @@ public class CustomerSecurityConfiguration_Session {
 //                .formLogin(form -> form.loginPage("/accounts/customer/login")
 //                        .loginProcessingUrl("/accounts/customer/login")
 //                        .successForwardUrl("/main"))
-                 .httpBasic(Customizer.withDefaults())
+                 .httpBasic(httpBasic -> httpBasic.disable())
                  .addFilter(corsConfig.corsFilter())
                  .csrf(csrf->csrf.disable())
-                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/test").authenticated()
-                        .requestMatchers("/accounts/customer/login", "/accounts/customer/logout",
-                                "/accounts/customer/signup",
-                                "/", "/main").permitAll()
-                        .requestMatchers("/accounts/customer/**").authenticated()
+                .authorizeRequests((authorizeRequests) ->
+                        authorizeRequests.anyRequest().permitAll()
                  );
+//                .exceptionHandling((exceptionHandling) ->
+//                        exceptionHandling.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+//                );
 
         return http.build();
     }
