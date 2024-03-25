@@ -60,6 +60,9 @@ eureka:
       defaultZone: http://127.0.0.1:8761/eureka/
   instance:
     prefer-ip-address: true
+grpc:
+  server:
+    port: 6565
 ---
 server:
   port: 8080
@@ -94,6 +97,7 @@ spring:
       ddl-auto: create-drop
     database-platform: org.hibernate.dialect.MySQLDialect
     generate-ddl: true
+    defer-datasource-initialization: true
 
 feign:
   okhttp:

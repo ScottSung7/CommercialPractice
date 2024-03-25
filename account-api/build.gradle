@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.3'
     id 'io.spring.dependency-management' version '1.1.4'
+    id 'com.google.protobuf' version '0.9.4'
 }
 
 group = 'com.example'
@@ -25,7 +26,29 @@ dependencyManagement {
 tasks.getByName('bootJar'){
     enabled = true
 }
-
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.25.1"
+    }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.62.2'
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+}
+sourceSets {
+    main{
+        java{
+            srcDirs 'build/generated/source/proto/main/grpc'
+            srcDirs 'build/generated/source/proto/main/java'
+        }
+    }
+}
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -37,7 +60,8 @@ dependencies {
     implementation group: 'org.springframework.security', name: 'spring-security-messaging', version: '5.6.2'
 
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-
+    implementation project(path: ':proto')
+    implementation project(path: ':proto')
 
 
     testImplementation 'org.projectlombok:lombok:1.18.26'
@@ -60,6 +84,12 @@ dependencies {
 
     //openfeign
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+    //grpc
+    implementation project(':proto')
+    implementation 'net.devh:grpc-server-spring-boot-starter:3.0.0.RELEASE'
+    implementation 'net.devh:grpc-client-spring-boot-starter:3.0.0.RELEASE'
+    implementation 'io.grpc:grpc-all:1.62.2'
 
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.assertj:assertj-core:3.23.1'
