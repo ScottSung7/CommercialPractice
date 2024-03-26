@@ -14,9 +14,13 @@ public class UserService {
 
     public UserInformation getUserInformation(int userId) {
         System.out.println("service in???");
-        UserInformationRequest request = UserInformationRequest.newBuilder()
+        UserInformationRequest request = UserInformationRequest
+                .newBuilder()
                 .setUserId(userId)
                 .build();
-        return this.userClient.getUserInformation(request);
+        UserInformation userInfo = this.userClient.getUserInformation(request);
+
+
+        return userInfo;
     }
 }
