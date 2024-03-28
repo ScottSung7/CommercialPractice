@@ -11,7 +11,7 @@ phases:
       - REPOSITORY_URI_ORDER=211327774117.dkr.ecr.ap-northeast-2.amazonaws.com/scott-commerce-order
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
-      - echo parameter check ${google.mail.id}
+      - echo parameter check ${google_mail_id}
 
   build:
     commands:
