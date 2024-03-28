@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
 @SpringBootApplication
-@Profile({"default", "prod"})
+@Profile({"default", "docker", "prod"})
 @EnableDiscoveryClient
 public class OrderApiApplication {
 

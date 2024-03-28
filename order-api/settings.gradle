@@ -1,4 +1,5 @@
 rootProject.name = 'order-api'
 
-include ':proto'
-project(':proto').projectDir = new File('../proto')
+
+//include ':protoProject'
+//project(':protoProject').projectDir = new File('../protoProject')
