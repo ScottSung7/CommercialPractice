@@ -31,14 +31,16 @@ phases:
       - ls ./src/main/resources
 
       - cd ../order-api
-      - aws s3 cp s3://my-env-scott/env-account-api.properties ./src/main/resources/
+      - aws s3 cp s3://my-env-scott/env-order-api.properties ./src/main/resources/
+      - pwd
       - ls ./src/main/resources
+      
       
       - chmod u+x gradlew
       - ./gradlew clean build
       - docker build --platform linux/amd64 -t $REPOSITORY_URI_ORDER:latest .
       - docker tag $REPOSITORY_URI_ORDER:latest $REPOSITORY_URI_ORDER:$IMAGE_TAG
-      - rm ./src/main/resources/env-account-api.properties
+      - rm ./src/main/resources/env-order-api.properties
       - ls ./src/main/resources
 
       - cd ../eureka
