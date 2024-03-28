@@ -13,24 +13,21 @@ phases:
       - IMAGE_TAG=${COMMIT_HASH:=latest}
       - echo parameter check ${google_check}
       
+      
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
 
-      - cd eureka
-      - chmod u+x gradlew
-      - ./gradlew clean build
-      - docker build --platform linux/amd64 -t $REPOSITORY_URI_EUREKA:latest .
-      - docker tag $REPOSITORY_URI_EUREKA:latest $REPOSITORY_URI_EUREKA:$IMAGE_TAG
-
-      - cd ../account-api
+      - cd account-api
+      - chmod 666 src/main/resources/application-prod.yml
       - sed -e "s/\${db_url}/$db_url/g" src/main/resources/application-prod.yml
       - sed -e "s/\${db_driver}/$db_driver/g" src/main/resources/application-prod.yml
       - sed -e "s/\${db_id}/$db_id/g" src/main/resources/application-prod.yml
       - sed -e "s/\${db_pw}/$db_pw/g" src/main/resources/application-prod.yml
       - sed -e "s/\${eureka_url}/$eureka_url/g" src/main/resources/application-prod.yml
 
+      - chmod 666 src/main/resources/application.yml
       - sed -e "s/\${google_mail_host}/$google_mail_host/g" src/main/resources/application.yml
       - sed -e "s/\${google_mail_port}/$google_mail_port/g" src/main/resources/application.yml
       - sed -e "s/\${google_mail_id}/$google_mail_id/g" src/main/resources/application.yml
@@ -42,12 +39,14 @@ phases:
       - docker tag $REPOSITORY_URI_ACCOUNT:latest $REPOSITORY_URI_ACCOUNT:$IMAGE_TAG
 
       - cd ../order-api
+      - chmod 666 src/main/resources/application-prod.yml
       - sed -e "s/\${db_url}/$db_url/g" src/main/resources/application-prod.yml
       - sed -e "s/\${db_driver}/$db_driver/g" src/main/resources/application-prod.yml
       - sed -e "s/\${db_id}/$db_id/g" src/main/resources/application-prod.yml
       - sed -e "s/\${db_pw}/$db_pw/g" src/main/resources/application-prod.yml
       - sed -e "s/\${eureka_url}/$eureka_url/g" src/main/resources/application-prod.yml
 
+      - chmod 666 src/main/resources/application.yml
       - sed -e "s/\${google_mail_host}/$google_mail_host/g" src/main/resources/application.yml
       - sed -e "s/\${google_mail_port}/$google_mail_port/g" src/main/resources/application.yml
       - sed -e "s/\${google_mail_id}/$google_mail_id/g" src/main/resources/application.yml
@@ -57,6 +56,12 @@ phases:
       - ./gradlew clean build
       - docker build --platform linux/amd64 -t $REPOSITORY_URI_ORDER:latest .
       - docker tag $REPOSITORY_URI_ORDER:latest $REPOSITORY_URI_ORDER:$IMAGE_TAG
+
+      - cd ../eureka
+      - chmod u+x gradlew
+      - ./gradlew clean build
+      - docker build --platform linux/amd64 -t $REPOSITORY_URI_EUREKA:latest .
+      - docker tag $REPOSITORY_URI_EUREKA:latest $REPOSITORY_URI_EUREKA:$IMAGE_TAG
 
   post_build:
     commands:
