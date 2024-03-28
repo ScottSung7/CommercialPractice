@@ -84,11 +84,11 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
-    //grpc
-    implementation project(':proto')
-    implementation 'net.devh:grpc-server-spring-boot-starter:3.0.0.RELEASE'
-    implementation 'net.devh:grpc-client-spring-boot-starter:3.0.0.RELEASE'
-    implementation 'io.grpc:grpc-all:1.62.2'
+//    //grpc
+//    implementation project(':protoProject')
+//    implementation 'net.devh:grpc-server-spring-boot-starter:3.0.0.RELEASE'
+//    implementation 'net.devh:grpc-client-spring-boot-starter:3.0.0.RELEASE'
+//    implementation 'io.grpc:grpc-all:1.62.2'
 
     //metrics
     implementation 'org.springframework.boot:spring-boot-starter-actuator'

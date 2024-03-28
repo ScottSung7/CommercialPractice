@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: account-api
   config:
     activate:
       on-profile: docker
@@ -10,4 +12,4 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://10.1.1.20:8761/eureka/
+      defaultZone: ${docker.eureka.url}
