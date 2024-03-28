@@ -12,10 +12,7 @@ phases:
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
       - echo parameter check ${google_check}
-      - echo "parameter ${google_check}"
-      - echo check $google_check
-      - exit;
-
+      
   build:
     commands:
       - echo Build started on `date`
@@ -28,12 +25,34 @@ phases:
       - docker tag $REPOSITORY_URI_EUREKA:latest $REPOSITORY_URI_EUREKA:$IMAGE_TAG
 
       - cd ../account-api
+      - sed -e "s/\${db_url}/$db_url/g" src/main/resources/application-prod.yml
+      - sed -e "s/\${db_driver}/$db_driver/g" src/main/resources/application-prod.yml
+      - sed -e "s/\${db_id}/$db_id/g" src/main/resources/application-prod.yml
+      - sed -e "s/\${db_pw}/$db_pw/g" src/main/resources/application-prod.yml
+      - sed -e "s/\${eureka_url}/$eureka_url/g" src/main/resources/application-prod.yml
+
+      - sed -e "s/\${google_mail_host}/$google_mail_host/g" src/main/resources/application.yml
+      - sed -e "s/\${google_mail_port}/$google_mail_port/g" src/main/resources/application.yml
+      - sed -e "s/\${google_mail_id}/$google_mail_id/g" src/main/resources/application.yml
+      - sed -e "s/\${google_mail_pw}/$google_mail_pw/g" src/main/resources/application.yml
+      
       - chmod u+x gradlew
       - ./gradlew clean build
       - docker build --platform linux/amd64 -t $REPOSITORY_URI_ACCOUNT:latest .
       - docker tag $REPOSITORY_URI_ACCOUNT:latest $REPOSITORY_URI_ACCOUNT:$IMAGE_TAG
 
       - cd ../order-api
+      - sed -e "s/\${db_url}/$db_url/g" src/main/resources/application-prod.yml
+      - sed -e "s/\${db_driver}/$db_driver/g" src/main/resources/application-prod.yml
+      - sed -e "s/\${db_id}/$db_id/g" src/main/resources/application-prod.yml
+      - sed -e "s/\${db_pw}/$db_pw/g" src/main/resources/application-prod.yml
+      - sed -e "s/\${eureka_url}/$eureka_url/g" src/main/resources/application-prod.yml
+
+      - sed -e "s/\${google_mail_host}/$google_mail_host/g" src/main/resources/application.yml
+      - sed -e "s/\${google_mail_port}/$google_mail_port/g" src/main/resources/application.yml
+      - sed -e "s/\${google_mail_id}/$google_mail_id/g" src/main/resources/application.yml
+      - sed -e "s/\${google_mail_pw}/$google_mail_pw/g" src/main/resources/application.yml
+      
       - chmod u+x gradlew
       - ./gradlew clean build
       - docker build --platform linux/amd64 -t $REPOSITORY_URI_ORDER:latest .
