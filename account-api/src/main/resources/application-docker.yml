@@ -1,0 +1,13 @@
+spring:
+  config:
+    activate:
+      on-profile: docker
+  datasource:
+    url: ${docker.db.url}
+    driver-class-name: ${docker.db.driver}
+    username: ${docker.db.id}
+    password: ${docker.db.pw}
+eureka:
+  client:
+    service-url:
+      defaultZone: http://10.1.1.20:8761/eureka/
