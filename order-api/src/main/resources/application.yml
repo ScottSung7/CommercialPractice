@@ -7,10 +7,10 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   mail:
-    host: ${google_mail_host}
-    port: ${google_mail_port}
-    username: ${google_mail_id}
-    password: ${google_mail_pw}
+    host: ${google.mail.host}
+    port: ${google.mail.port}
+    username: ${google.mail.id}
+    password: ${google.mail.pw}
     properties:
       mail:
         smtp:
