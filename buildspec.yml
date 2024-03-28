@@ -20,42 +20,26 @@ phases:
       - echo Building the Docker image...
 
       - cd account-api
-      - chmod 666 src/main/resources/application-prod.yml
-      - sed -e "s/\${db_url}/$db_url/g" src/main/resources/application-prod.yml
-      - sed -e "s/\${db_driver}/$db_driver/g" src/main/resources/application-prod.yml
-      - sed -e "s/\${db_id}/$db_id/g" src/main/resources/application-prod.yml
-      - sed -e "s/\${db_pw}/$db_pw/g" src/main/resources/application-prod.yml
-      - sed -e "s/\${eureka_url}/$eureka_url/g" src/main/resources/application-prod.yml
-
-      - chmod 666 src/main/resources/application.yml
-      - sed -e "s/\${google_mail_host}/$google_mail_host/g" src/main/resources/application.yml
-      - sed -e "s/\${google_mail_port}/$google_mail_port/g" src/main/resources/application.yml
-      - sed -e "s/\${google_mail_id}/$google_mail_id/g" src/main/resources/application.yml
-      - sed -e "s/\${google_mail_pw}/$google_mail_pw/g" src/main/resources/application.yml
+      - aws s3 cp s3://my-env-scott/env-account-api.properties /src/main/resources/
+      - ls src/main/resources
       
       - chmod u+x gradlew
       - ./gradlew clean build
       - docker build --platform linux/amd64 -t $REPOSITORY_URI_ACCOUNT:latest .
       - docker tag $REPOSITORY_URI_ACCOUNT:latest $REPOSITORY_URI_ACCOUNT:$IMAGE_TAG
+      - rm src/main/resources/env-account-api.properties
+      - ls src/main/resources
 
       - cd ../order-api
-      - chmod 666 src/main/resources/application-prod.yml
-      - sed -e "s/\${db_url}/$db_url/g" src/main/resources/application-prod.yml
-      - sed -e "s/\${db_driver}/$db_driver/g" src/main/resources/application-prod.yml
-      - sed -e "s/\${db_id}/$db_id/g" src/main/resources/application-prod.yml
-      - sed -e "s/\${db_pw}/$db_pw/g" src/main/resources/application-prod.yml
-      - sed -e "s/\${eureka_url}/$eureka_url/g" src/main/resources/application-prod.yml
-
-      - chmod 666 src/main/resources/application.yml
-      - sed -e "s/\${google_mail_host}/$google_mail_host/g" src/main/resources/application.yml
-      - sed -e "s/\${google_mail_port}/$google_mail_port/g" src/main/resources/application.yml
-      - sed -e "s/\${google_mail_id}/$google_mail_id/g" src/main/resources/application.yml
-      - sed -e "s/\${google_mail_pw}/$google_mail_pw/g" src/main/resources/application.yml
+      - aws s3 cp s3://my-env-scott/env-account-api.properties /src/main/resources/
+      - ls src/main/resources
       
       - chmod u+x gradlew
       - ./gradlew clean build
       - docker build --platform linux/amd64 -t $REPOSITORY_URI_ORDER:latest .
       - docker tag $REPOSITORY_URI_ORDER:latest $REPOSITORY_URI_ORDER:$IMAGE_TAG
+      - rm src/main/resources/env-account-api.properties
+      - ls src/main/resources
 
       - cd ../eureka
       - chmod u+x gradlew
