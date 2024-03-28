@@ -18,14 +18,20 @@ phases:
       - echo Building the Docker image...
 
       - cd eureka
+      - chmod u+x gradlew
+      - ./gradlew clean build
       - docker build -t $REPOSITORY_URI_EUREKA:latest .
       - docker tag $REPOSITORY_URI_EUREKA:latest $REPOSITORY_URI_EUREKA:$IMAGE_TAG
 
       - cd ../account-api
+      - chmod u+x gradlew
+      - ./gradlew clean build
       - docker build -t $REPOSITORY_URI_ACCOUNT:latest .
       - docker tag $REPOSITORY_URI_ACCOUNT:latest $REPOSITORY_URI_ACCOUNT:$IMAGE_TAG
 
       - cd ../order-api
+      - chmod u+x gradlew
+      - ./gradlew clean build
       - docker build -t $REPOSITORY_URI_ORDER:latest .
       - docker tag $REPOSITORY_URI_ORDER:latest $REPOSITORY_URI_ACCOUNT:$IMAGE_TAG
 
