@@ -57,11 +57,19 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://127.0.0.1:8761/eureka/
+      defaultZone: ${local.eureka.url}
+    eureka-server-d-n-s-name: account-api
   instance:
     prefer-ip-address: true
+
 #grpc:
-#  client:
-#    user-service:
-#      address: static://localhost:6565
-#      negotiation-type: plaintext
+#  server:
+#    port: 6565
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#  endpoint:
+#    health:
+#      show-details: always
