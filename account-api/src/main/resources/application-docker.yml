@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: account-api
+  config:
+    activate:
+      on-profile: docker
+  datasource:
+    url: ${docker.db.url}
+    driver-class-name: ${docker.db.driver}
+    username: ${docker.db.id}
+    password: ${docker.db.pw}
+eureka:
+  client:
+    service-url:
+      defaultZone: ${docker.eureka.url}
