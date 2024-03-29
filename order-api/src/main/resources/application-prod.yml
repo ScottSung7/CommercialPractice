@@ -3,11 +3,11 @@ spring:
     activate:
       on-profile: prod
   datasource:
-    url: ${aws.db.url}
-    driver-class-name: ${aws.db.driver}
-    username: ${aws.db.id}
-    password: ${aws.db.pw}
+    url: ${db.url}
+    driver-class-name: ${db.driver}
+    username: ${db.id}
+    password: ${db.pw}
 eureka:
   client:
     service-url:
-      defaultZone: ${aws.eureka.url}
+      defaultZone: ${eureka.url}
