@@ -3,7 +3,7 @@
 Monolithic한 프로젝트에서 점차 MSA 구조를 갖추어 가면서 각 파트에서 어떤 기능과 아키텍처가 필요할지 고민해보려고 합니다.
 
 www.scottcommerce.net/index.html
-\n(비용 이슈로 9am to 6pm만 열어 놓았습니다.)
+<br>(비용 이슈로 평일 9am to 6pm만 열어 놓았습니다.)
 
 ## 1. Monolithic (Developer Monolithic Branch)
 빠른 배포를 목표로 한 Monolithic한 구조로 AWS EC2하나에 배포하였습니다.
