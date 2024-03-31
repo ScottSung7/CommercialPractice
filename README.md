@@ -39,7 +39,7 @@ www.scottcommerce.net/swagger-ui/index.html
 
 ![multi-module drawio](https://github.com/ScottSung7/CommercialPractice/assets/98432596/a6ae1da5-9697-421f-85ce-0ce5cad70134)
 
-
+## API 명세
 ### Account-api
 로그인 페이지로 스프링 시큐리티 세션을 이용하여 구현.
 고객과 판매자의 로그인 페이지가 다르고 config도 다르다. (두개의 로그인 설정 및 페이지)
