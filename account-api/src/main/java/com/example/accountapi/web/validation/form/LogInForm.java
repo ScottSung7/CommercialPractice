@@ -7,4 +7,5 @@ public class LogInForm {
 
     private String email;
     private String password;
+    private String type;
 }
