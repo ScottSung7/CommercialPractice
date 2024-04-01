@@ -1,25 +1,24 @@
 package com.example.accountapi.web.controller.account;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping(AccountAPIControllerProperties.ACCOUNT_COMMON_URL)
+@Controller
 public class LogInController {
 
-    @PostMapping(AccountAPIControllerProperties.CUSTOMER_LOGIN)
-    public ResponseEntity<?> customerLogin(){
-        return null;
+    @GetMapping("/accounts/customer/login")
+    public String loginCustomer(){
+        return "LogInCustomer";
     }
 
-
-    @PostMapping(AccountAPIControllerProperties.SELLER_LOGIN)
-    public ResponseEntity<?> sellerLogin(){
-        return null;
+    @GetMapping("/accounts/seller/login")
+    public String loginSeller(){
+        return "LogInSeller";
     }
-
 
 
 }

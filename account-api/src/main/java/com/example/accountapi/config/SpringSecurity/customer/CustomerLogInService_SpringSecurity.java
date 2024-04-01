@@ -24,8 +24,6 @@ public class CustomerLogInService_SpringSecurity implements UserDetailsService {
         Customer customer = customerRepository.findByEmail(email).orElseThrow(
                 () -> new AccountException(NOT_FOUND_USER)
         );
-        System.out.println("Customer Login");
-       // System.out.println(customer.getName());
 
         return new CustomerPrincipalDetails(customer);
     }

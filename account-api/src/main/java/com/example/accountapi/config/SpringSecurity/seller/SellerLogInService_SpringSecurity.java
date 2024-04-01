@@ -21,10 +21,11 @@ public class SellerLogInService_SpringSecurity implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        System.out.println("seller Login");
         Seller seller = sellerRepository.findByEmail(email).orElseThrow(
                 () -> new AccountException(NOT_FOUND_USER)
         );
-        System.out.println("seller Login");
+
         //System.out.println(seller.getName());
 
         return new SellerPrincipalDetails(seller);
