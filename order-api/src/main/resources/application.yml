@@ -34,6 +34,12 @@ feign:
     enabled: true
 
 springdoc:
+  servers:
+    - url: http://localhost:8080
+      description: account-api
+    - url: http://localhost:8081
+      description: order-api
+
   api-docs:
     path: /api-docs
     groups:

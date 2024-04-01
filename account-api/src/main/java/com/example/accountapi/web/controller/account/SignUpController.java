@@ -66,10 +66,7 @@ public class SignUpController {
         return ResponseEntity.ok("인증이 완료되었습니다.");
     }
 
-    @PostMapping("/hi3")
-    public String hi(){
-        throw new AccountException(ErrorCode.UNKNOWN_ERROR);
-    }
+
     @Autowired
     OrderServiceClient orderServiceClient;
     @PostMapping("/feignTesting")

@@ -21,15 +21,6 @@ public class HomeController {
             return "home";
     }
 
-    @GetMapping("/accounts/customer/login")
-    public String loginCustomer(){
-        return "LogInCustomer";
-    }
-    @GetMapping("/accounts/seller/login")
-    public String loginSeller(){
-        return "LogInSeller";
-    }
-
     @RequestMapping("/")
     public String home2(){
         System.out.println("hi");
