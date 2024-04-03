@@ -1,11 +1,11 @@
 package com.example.accountapi.service.seller;
 
 
-import com.example.accountapi.application.service.signIn.seller.SignUpSellerService;
+import com.example.accountapi.application.service.signUp.seller.SignUpSellerService;
 import com.example.accountapi.domain.model.Seller;
 import com.example.accountapi.web.Tester;
 
-import com.example.accountapi.web.validation.form.seller.SignUpSellerForm;
+import com.example.accountapi.web.validation.form.seller.SellerSignUpForm;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,20 +24,20 @@ class SignUpSellerServiceTest {
     @Test
     @DisplayName("SignUpSellerService: signUp_Seller")
     void signUp_Seller(){
-        SignUpSellerForm signUpSellerForm = Tester.signUpSellerForm;
-        Seller seller = Seller.from(signUpSellerForm);
+        SellerSignUpForm sellerSignUpForm = Tester.sellerSignUpForm;
+        Seller seller = Seller.from(sellerSignUpForm);
 
-        Seller sellerReturned = signUpSellerService.signUp(signUpSellerForm);
+        Seller sellerReturned = signUpSellerService.signUp(sellerSignUpForm);
 
         assertEquals(sellerReturned.getName(), "tester");
     }
     @Test
     @DisplayName("SignUpSellerService: isEmailExist_Seller")
     void isEmailExist_Seller(){
-        SignUpSellerForm signUpSellerForm = Tester.signUpSellerForm;
-        Seller seller = Seller.from(signUpSellerForm);
+        SellerSignUpForm sellerSignUpForm = Tester.sellerSignUpForm;
+        Seller seller = Seller.from(sellerSignUpForm);
 
-        assertFalse(signUpSellerService.isEmailExist(signUpSellerForm.getEmail()));
+        assertFalse(signUpSellerService.isEmailExist(sellerSignUpForm.getEmail()));
     }
 
 }

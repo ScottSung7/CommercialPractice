@@ -1,0 +1,9 @@
+spring:
+  config:
+    activate:
+      on-profile: compose
+eureka:
+  client:
+      defaultZone: http://eureka-service/eureka/
+
+

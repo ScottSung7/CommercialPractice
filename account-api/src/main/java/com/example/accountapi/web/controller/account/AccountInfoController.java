@@ -6,6 +6,7 @@ import com.example.accountapi.domain.dto.CustomerDto;
 import com.example.accountapi.domain.dto.SellerDto;
 import com.example.accountapi.domain.model.Customer;
 import com.example.accountapi.domain.model.Seller;
+import com.example.accountapi.web.validation.LoginCheck;
 import com.example.accountapi.web.validation.exception.AccountException;
 import com.example.accountapi.web.validation.exception.ErrorCode;
 import com.example.accountapi.config.SpringSecurity.customer.CustomerPrincipalDetails;
@@ -31,9 +32,7 @@ public class AccountInfoController {
     @PostMapping("/customer")
     public ResponseEntity<CustomerDto> getCustomerInfo(Authentication authentication) {
 
-        CustomerPrincipalDetails customerDetails = Optional.of((CustomerPrincipalDetails)authentication.getPrincipal()).orElseThrow(
-                () -> new AccountException(ErrorCode.NOT_LOGIN_ERROR)
-        );
+        CustomerPrincipalDetails customerDetails = LoginCheck.customerCheck(authentication);
         Customer customer = accountInfoApplication.findCustomer(customerDetails.getEmail());
 
         return ResponseEntity.ok(CustomerDto.from(customer));
@@ -42,9 +41,7 @@ public class AccountInfoController {
     @PostMapping("/seller")
     public ResponseEntity<SellerDto> getSellerInfo(Authentication authentication) {
 
-        SellerPrincipalDetails sellerDetails = Optional.of((SellerPrincipalDetails)authentication.getPrincipal()).orElseThrow(
-                () -> new AccountException(ErrorCode.NOT_LOGIN_ERROR)
-        );
+        SellerPrincipalDetails sellerDetails = LoginCheck.sellerCheck(authentication);
         Seller seller = accountInfoApplication.findSeller(sellerDetails.getEmail());
 
         return ResponseEntity.ok(SellerDto.from(seller));

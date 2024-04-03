@@ -59,4 +59,6 @@ public class CustomerPrincipalDetails implements UserDetails {
     }
 
     public String getEmail() {return customer.getEmail();}
+
+    public String getType() {return "CUSTOMER";}
 }

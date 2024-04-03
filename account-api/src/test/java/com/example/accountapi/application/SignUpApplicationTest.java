@@ -7,8 +7,8 @@ import com.example.accountapi.web.TestConfiguration;
 import com.example.accountapi.web.Tester;
 
 import com.example.accountapi.web.validation.exception.AccountException;
-import com.example.accountapi.web.validation.form.customer.SignUpCustomerForm;
-import com.example.accountapi.web.validation.form.seller.SignUpSellerForm;
+import com.example.accountapi.web.validation.form.customer.CustomerSignUpForm;
+import com.example.accountapi.web.validation.form.seller.SellerSignUpForm;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -53,8 +53,8 @@ class SignUpApplicationTest {
     @Test
     @DisplayName("SignUpApplication : signUp_Customer")
     void signUp_Customer() {
-        SignUpCustomerForm signUpCustomerForm = Tester.signUpCustomerForm;
-        System.out.println(signUpApplication.customerSignUp(signUpCustomerForm));
+        CustomerSignUpForm customerSignUpForm = Tester.customerSignUpForm;
+        System.out.println(signUpApplication.customerSignUp(customerSignUpForm));
     }
     @Test
     @Transactional
@@ -69,8 +69,8 @@ class SignUpApplicationTest {
     @Test
     @DisplayName("SignUpApplication : signUp_Seller")
     void signUp_Seller() {
-        SignUpSellerForm signUpSellerForm = Tester.signUpSellerForm;
-        System.out.println(signUpApplication.sellerSignUp(signUpSellerForm));
+        SellerSignUpForm sellerSignUpForm = Tester.sellerSignUpForm;
+        System.out.println(signUpApplication.sellerSignUp(sellerSignUpForm));
     }
 
     
@@ -78,13 +78,13 @@ class SignUpApplicationTest {
     @DisplayName("signUpApplication ALREADY_REGISTER_EXCEPTION.")
     @Disabled
     void signUpApplication_alreadyRegisterException() {
-        SignUpCustomerForm signUpCustomerForm = Tester.signUpCustomerForm;
-        Customer customer = Customer.from(signUpCustomerForm);
+        CustomerSignUpForm customerSignUpForm = Tester.customerSignUpForm;
+        Customer customer = Customer.from(customerSignUpForm);
 
-        signUpApplication.customerSignUp(signUpCustomerForm);
+        signUpApplication.customerSignUp(customerSignUpForm);
 
        AccountException orderException
-               =  assertThrows(AccountException.class, ()->  signUpApplication.customerSignUp(signUpCustomerForm));
+               =  assertThrows(AccountException.class, ()->  signUpApplication.customerSignUp(customerSignUpForm));
         assertEquals(ALREADY_REGISTER_USER, orderException.getErrorCode());
     }
 

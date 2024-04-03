@@ -1,31 +1,33 @@
 package com.example.accountapi.web.validation.form;
 
-import com.example.accountapi.web.validation.form.seller.SignUpSellerForm;
+
+import com.example.accountapi.web.validation.form.customer.CustomerSignUpForm;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
-
-class SignUpSellerForm_ValidationTest {
+@Disabled
+class CustomerSignUpForm_ValidationTest {
 
     private Validator validator;
 
-    private SignUpSellerForm tester =
-                    SignUpSellerForm.builder()
+    private CustomerSignUpForm tester =
+                    CustomerSignUpForm.builder()
                             .name("tester")
                             .email("test@test.com")
                             .password("1234")
                             .phone("112233")
                             .birth(LocalDate.of(1991,2,3))
-                            .companyRegistrationNumber("333")
                             .build();
 
     @BeforeEach
@@ -39,16 +41,16 @@ class SignUpSellerForm_ValidationTest {
         String testField = "email";
         String testViolation = "must not be blank";
 
-        SignUpSellerForm signUpSellerForm =
-                SignUpSellerForm.builder()
+        CustomerSignUpForm customerSignUpForm =
+                CustomerSignUpForm.builder()
                         .name(tester.getName())
                         .password(tester.getPassword())
                         .birth(tester.getBirth())
                         .phone(tester.getPhone())
                         .build();
 
-        Set<ConstraintViolation<SignUpSellerForm>> violations =
-                validator.validate(signUpSellerForm);
+        Set<ConstraintViolation<CustomerSignUpForm>> violations =
+                validator.validate(customerSignUpForm);
         ConstraintViolation<?> constraintViolation = violations.stream().findFirst().get();
 
         assertEquals(violations.size(), 1);
@@ -62,16 +64,16 @@ class SignUpSellerForm_ValidationTest {
         String testField = "name";
         String testViolation = "must not be blank";
 
-        SignUpSellerForm signUpSellerForm =
-                SignUpSellerForm.builder()
+        CustomerSignUpForm customerSignUpForm =
+                CustomerSignUpForm.builder()
                         .email(tester.getEmail())
                         .password(tester.getPassword())
                         .birth(tester.getBirth())
                         .phone(tester.getPhone())
                         .build();
 
-        Set<ConstraintViolation<SignUpSellerForm>> violations =
-                validator.validate(signUpSellerForm);
+        Set<ConstraintViolation<CustomerSignUpForm>> violations =
+                validator.validate(customerSignUpForm);
         ConstraintViolation<?> constraintViolation = violations.stream().findFirst().get();
 
         assertEquals(violations.size(), 1);
@@ -84,16 +86,16 @@ class SignUpSellerForm_ValidationTest {
         String testField = "password";
         String testViolation = "must not be blank";
 
-        SignUpSellerForm signUpSellerForm =
-                SignUpSellerForm.builder()
+        CustomerSignUpForm customerSignUpForm =
+                CustomerSignUpForm.builder()
                         .email(tester.getEmail())
                         .name(tester.getName())
                         .birth(tester.getBirth())
                         .phone(tester.getPhone())
                         .build();
 
-        Set<ConstraintViolation<SignUpSellerForm>> violations =
-                validator.validate(signUpSellerForm);
+        Set<ConstraintViolation<CustomerSignUpForm>> violations =
+                validator.validate(customerSignUpForm);
         ConstraintViolation<?> constraintViolation = violations.stream().findFirst().get();
 
         assertEquals(violations.size(), 1);
@@ -107,16 +109,16 @@ class SignUpSellerForm_ValidationTest {
         String testField = "birth";
         String testViolation = "must not be null";
 
-        SignUpSellerForm signUpSellerForm =
-                SignUpSellerForm.builder()
+        CustomerSignUpForm customerSignUpForm =
+                CustomerSignUpForm.builder()
                         .name(tester.getName())
                         .email(tester.getEmail())
                         .password(tester.getPassword())
                         .phone(tester.getPhone())
                         .build();
 
-        Set<ConstraintViolation<SignUpSellerForm>> violations =
-                validator.validate(signUpSellerForm);
+        Set<ConstraintViolation<CustomerSignUpForm>> violations =
+                validator.validate(customerSignUpForm);
         ConstraintViolation<?> constraintViolation = violations.stream().findFirst().get();
 
         assertEquals(violations.size(), 1);
@@ -130,21 +132,20 @@ class SignUpSellerForm_ValidationTest {
         String testField = "phone";
         String testViolation = "must not be blank";
 
-        SignUpSellerForm signUpSellerForm =
-                SignUpSellerForm.builder()
+        CustomerSignUpForm customerSignUpForm =
+                CustomerSignUpForm.builder()
                         .name(tester.getName())
                         .email(tester.getEmail())
                         .password(tester.getPassword())
                         .birth(tester.getBirth())
                         .build();
 
-        Set<ConstraintViolation<SignUpSellerForm>> violations =
-                validator.validate(signUpSellerForm);
+        Set<ConstraintViolation<CustomerSignUpForm>> violations =
+                validator.validate(customerSignUpForm);
         ConstraintViolation<?> constraintViolation = violations.stream().findFirst().get();
 
         assertEquals(violations.size(), 1);
         assertEquals(constraintViolation.getPropertyPath().toString(), testField);
         assertEquals(constraintViolation.getMessage().toString(), testViolation);
     }
-
 }

@@ -1,37 +1,98 @@
 package com.example.accountapi.web.controller.account;
 
 
+import com.example.accountapi.application.service.signUp.customer.SignUpCustomerService;
+import com.example.accountapi.application.service.signUp.seller.SignUpSellerService;
 import com.example.accountapi.config.SpringSecurity.type.jwt.JWTUtil;
+import com.example.accountapi.domain.model.Customer;
+import com.example.accountapi.domain.model.Seller;
+import com.example.accountapi.web.validation.exception.AccountException;
+import com.example.accountapi.web.validation.form.customer.CustomerSignUpForm;
+import com.example.accountapi.web.validation.form.seller.SellerSignUpForm;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.example.accountapi.web.validation.exception.ErrorCode.*;
+
 @RestController
+@RequiredArgsConstructor
 public class ATesterController {
 
     @Autowired
     private JWTUtil jwtUtil;
+    private final SignUpCustomerService signUpCustomerService;
+    private final SignUpSellerService signUpSellerService;
+    private final ObjectMapper mapper;
 
+    private Customer customer;
+    private Seller seller;
     @PostMapping("test/create/customer")
-    @Operation(summary ="구매자 test@test.com 유저를 등록하고 테스트에 필요한 JWT 토큰을 생성합니다.")
-    public String jtokenCustomer(){
-        return jwtUtil.createJwt("tester@test.com", "CUSTOMER", 60*60*10*1000L);
+    @Operation(summary = "구매자 \"test@test.com\" 유저를 등록하고 테스트에 필요한 JWT 토큰을 생성합니다.")
+    public ResponseEntity<String> jtokenCustomer() throws JsonProcessingException {
+        CustomerSignUpForm customerSignUpForm = CustomerSignUpForm.builder()
+                .email("tester@test.com")
+                .name("tester")
+                .phone("01000000000")
+                .birth(LocalDate.of(1990, 1, 1))
+                .password("1234")
+                .build();
+
+        customer = signUpCustomerService.signUp(customerSignUpForm);
+
+        return ResponseEntity.ok(makeKeyToJSON(customer.getEmail(), "CUSTOMER"));
     }
+
     @PostMapping("test/login/customer")
-    @Operation(summary ="구매자 등록 후 이미 등록 후 토큰을 다시 받기 위해 요청합니다.")
-    public String jtokenLoginCustomer(){
-        return jwtUtil.createJwt("tester@test.com", "CUSTOMER", 60*60*10*1000L);
+    @Operation(summary = "구매자 등록 후 토큰을 다시 받기 위해 요청합니다.")
+    public ResponseEntity<String> jtokenLoginCustomer() throws JsonProcessingException {
+        if(customer == null) {
+            throw new AccountException(NO_REGISTERED_TEST_CUSTOMER);
+        }
+
+        return ResponseEntity.ok(makeKeyToJSON(customer.getEmail(), "CUSTOMER"));
     }
+
     @PostMapping("test/create/seller")
-    @Operation(summary ="판매자 test@test.com 유저를 등록하고 테스트에 필요한 JWT 토큰을 생성합니다.")
-    public String jtokenSeller(){
-        return jwtUtil.createJwt("tester@test.com", "SELLER", 60*60*10*1000L);
+    @Operation(summary = "판매자 \"test@test.com\" 유저를 등록하고 테스트에 필요한 JWT 토큰을 생성합니다.")
+    public ResponseEntity<String> jtokenSeller() throws JsonProcessingException {
+        SellerSignUpForm sellerSignUpForm = SellerSignUpForm.builder()
+                .email("tester@test.com")
+                .name("tester")
+                .phone("010-0000-0000")
+                .birth(LocalDate.of(1990, 1, 1))
+                .password("1234")
+                .companyRegistrationNumber("33055")
+                .build();
+        seller = signUpSellerService.signUp(sellerSignUpForm);
+
+        return ResponseEntity.ok(makeKeyToJSON(seller.getEmail(), "SELLER"));
     }
+
     @PostMapping("test/login/seller")
-    @Operation(summary ="판매자 등록 후 토큰을 다시 받기 위해 요청합니다.")
-    public String jtokenLoginSeller(){
-        return jwtUtil.createJwt("tester@test.com", "SELLER", 60*60*10*1000L);
+    @Operation(summary = "판매자 등록 후 토큰을 다시 받기 위해 요청합니다.")
+    public ResponseEntity<String> jtokenLoginSeller() throws JsonProcessingException {
+        if(seller == null) {
+            throw new AccountException(NO_REGISTERED_TEST_SELLER);
+        }
+        return ResponseEntity.ok(makeKeyToJSON(seller.getEmail(), "SELLER"));
+    }
+
+    private String makeKeyToJSON(String email, String type) throws JsonProcessingException {
+        Map<String, String> map = new HashMap();
+        String key = jwtUtil.createJwt(email,type, 60 * 60 * 10 * 1000L);
+        map.put("key", key);
+
+        return mapper.writeValueAsString(map);
     }
 
 }

@@ -42,13 +42,19 @@ springdoc:
     groups:
       enabled: true
   swagger-ui:
-    path: /account-api/index.html
+    path: /index.html
     enabled: true
     groups-order: ASC
     tags-sorter: alpha
     operations-sorter: alpha
     display-request-duration: true
     doc-expansion: none
+    urls[0]:
+      name: account-api
+      url: http://localhost:8080/api-docs
+    urls[1]:
+      name: order-api
+      url: http://localhost:8081/api-docs
   cache:
     disabled: true
   override-with-generic-response: false
@@ -64,7 +70,8 @@ eureka:
     eureka-server-d-n-s-name: account-api
   instance:
     prefer-ip-address: true
-
+email:
+  server: http://localhost:8080
 #grpc:
 #  server:
 #    port: 6565
