@@ -1,13 +1,13 @@
 package com.example.accountapi.service.seller;
 
 
-import com.example.accountapi.application.service.signIn.seller.SignUpSellerService;
-import com.example.accountapi.application.service.signIn.seller.SignUpSellerServiceImpl_SpringSecurity;
+import com.example.accountapi.application.service.signUp.seller.SignUpSellerService;
+import com.example.accountapi.application.service.signUp.seller.SignUpSellerServiceImpl_SpringSecurity;
 import com.example.accountapi.domain.model.Seller;
 import com.example.accountapi.repository.seller.SellerRepository;
 import com.example.accountapi.web.Tester;
 
-import com.example.accountapi.web.validation.form.seller.SignUpSellerForm;
+import com.example.accountapi.web.validation.form.seller.SellerSignUpForm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,24 +39,24 @@ class SignUpSellerServiceTest_Security_Mock {
     @Test
     @DisplayName("SignUpSellerService Mock: signUp_Seller")
     void signUp_Seller(){
-        SignUpSellerForm signUpSellerForm = Tester.signUpSellerForm;
-        Seller seller = Seller.from(signUpSellerForm);
+        SellerSignUpForm sellerSignUpForm = Tester.sellerSignUpForm;
+        Seller seller = Seller.from(sellerSignUpForm);
 
         when(sellerRepository.save(any(Seller.class))).thenReturn(seller);
 
-        Seller sellerReturned = signUpSellerService.signUp(signUpSellerForm);
+        Seller sellerReturned = signUpSellerService.signUp(sellerSignUpForm);
 
         assertEquals(sellerReturned.getName(), "tester");
     }
     @Test
     @DisplayName("SignUpSellerService Mock: isEmailExist_Seller")
     void isEmailExist_Seller(){
-        SignUpSellerForm signUpSellerForm = Tester.signUpSellerForm;
-        Seller seller = Seller.from(signUpSellerForm);
+        SellerSignUpForm sellerSignUpForm = Tester.sellerSignUpForm;
+        Seller seller = Seller.from(sellerSignUpForm);
 
-        when(sellerRepository.findByEmail(signUpSellerForm.getEmail())).thenReturn(Optional.ofNullable(seller));
+        when(sellerRepository.findByEmail(sellerSignUpForm.getEmail())).thenReturn(Optional.ofNullable(seller));
 
-        assertTrue(signUpSellerService.isEmailExist(signUpSellerForm.getEmail()));
+        assertTrue(signUpSellerService.isEmailExist(sellerSignUpForm.getEmail()));
     }
 
 }

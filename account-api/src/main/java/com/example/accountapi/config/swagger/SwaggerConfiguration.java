@@ -29,15 +29,14 @@ import java.util.Arrays;
 
 @Configuration
 public class SwaggerConfiguration {
-    @Bean
-    public GroupedOpenApi group1(){
-        String[] paths = {"/**"};
-        return GroupedOpenApi.builder()
-                .group("client")
-                .pathsToMatch(paths)
-       //         .addOperationCustomizer(operationCustomizer())
-                .build();
-    }
+//    @Bean
+//    public GroupedOpenApi group1(){
+//        String[] paths = {"/**"};
+//        return GroupedOpenApi.builder()
+//                .group("client")
+//                .pathsToMatch(paths)
+//                .build();
+//    }
 
     @Bean
     public OpenAPI springOpenApi(){
@@ -50,12 +49,9 @@ public class SwaggerConfiguration {
         SecurityRequirement securityRequirement = new SecurityRequirement().addList("bearerAuth");
 
         OpenAPI openAPI = new OpenAPI().info(new Info()
-                        .title("API")
+                        .title("Account API")
                         .description("testing")
                         .version("v0.1"))
-                        .servers(Arrays.asList(
-                                new Server().url("http://localhost:8080").url("http://localhost:8081")
-                        ))
                         .components(new Components().addSecuritySchemes("bearerAuth", securityScheme))
                         .security(Arrays.asList(securityRequirement));
 
@@ -63,27 +59,27 @@ public class SwaggerConfiguration {
         return openAPI;
     }
 
-    @Autowired
-     JWTUtil jwtUtil;
-    @Bean
-    public OperationCustomizer operationCustomizer() {
-
-        String key = jwtUtil.createJwt("test@test.com", "CUSTOMER",  60 * 60 * 10L);
-
-        return (operation, handlerMethod) -> {
-            operation.addParametersItem(
-                    new Parameter()
-                            .in(ParameterIn.HEADER.toString())
-                            .required(false)
-                            .schema(new StringSchema().example(key))
-                            .description("api를 사용하기 위한 인증키")
-                            .name("인증 키")
-
-            );
-
-            return operation;
-        };
-    }
+//    @Autowired
+//     JWTUtil jwtUtil;
+//    @Bean
+//    public OperationCustomizer operationCustomizer() {
+//
+//        String key = jwtUtil.createJwt("test@test.com", "CUSTOMER",  60 * 60 * 10L);
+//
+//        return (operation, handlerMethod) -> {
+//            operation.addParametersItem(
+//                    new Parameter()
+//                            .in(ParameterIn.HEADER.toString())
+//                            .required(false)
+//                            .schema(new StringSchema().example(key))
+//                            .description("api를 사용하기 위한 인증키")
+//                            .name("인증 키")
+//
+//            );
+//
+//            return operation;
+//        };
+//    }
 
 
 }

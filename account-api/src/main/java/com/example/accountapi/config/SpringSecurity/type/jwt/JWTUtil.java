@@ -28,19 +28,10 @@ public class JWTUtil {
     }
 
     public Boolean isExpired(String token) {
-
         Date to = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration();
-        System.out.println(new Date(System.currentTimeMillis()));
-        System.out.println(to);
-
-
         return to.before(new Date(System.currentTimeMillis()));
     }
     public String createJwt(String email, String type, Long expiredMs) {
-        System.out.println("생성");
-        System.out.println(expiredMs);
-        System.out.println(new Date(System.currentTimeMillis()));
-        System.out.println(new Date(System.currentTimeMillis() + expiredMs));
 
         return Jwts.builder()
                 .claim("email", email)

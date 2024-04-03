@@ -1,13 +1,13 @@
 package com.example.accountapi.service.customer;
 
 
-import com.example.accountapi.application.service.signIn.customer.SignUpCustomerService;
-import com.example.accountapi.application.service.signIn.customer.SignUpCustomerServiceImpl_SpringSecurity;
+import com.example.accountapi.application.service.signUp.customer.SignUpCustomerService;
+import com.example.accountapi.application.service.signUp.customer.SignUpCustomerServiceImpl_SpringSecurity;
 import com.example.accountapi.domain.model.Customer;
 import com.example.accountapi.repository.customer.CustomerRepository;
 import com.example.accountapi.web.Tester;
 
-import com.example.accountapi.web.validation.form.customer.SignUpCustomerForm;
+import com.example.accountapi.web.validation.form.customer.CustomerSignUpForm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,24 +41,24 @@ class SignUpCustomerServiceTest_Security_Mock {
     @Test
     @DisplayName("SignUpCustomerService Mock: signUp_Customer")
     void signUp_Customer(){
-        SignUpCustomerForm signUpCustomerForm = Tester.signUpCustomerForm;
-        Customer customer = Customer.from(signUpCustomerForm);
+        CustomerSignUpForm customerSignUpForm = Tester.customerSignUpForm;
+        Customer customer = Customer.from(customerSignUpForm);
 
         when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
-        Customer customerReturned = signUpCustomerService.signUp(signUpCustomerForm);
+        Customer customerReturned = signUpCustomerService.signUp(customerSignUpForm);
 
         assertEquals(customerReturned.getName(), "tester");
     }
     @Test
     @DisplayName("SignUpCustomerService Mock: isEmailExist_Customer")
     void isEmailExist_Customer(){
-        SignUpCustomerForm signUpCustomerForm = Tester.signUpCustomerForm;
-        Customer customer = Customer.from(signUpCustomerForm);
+        CustomerSignUpForm customerSignUpForm = Tester.customerSignUpForm;
+        Customer customer = Customer.from(customerSignUpForm);
 
-        when(customerRepository.findByEmail(signUpCustomerForm.getEmail())).thenReturn(Optional.ofNullable(customer));
+        when(customerRepository.findByEmail(customerSignUpForm.getEmail())).thenReturn(Optional.ofNullable(customer));
 
-        assertTrue(signUpCustomerService.isEmailExist(signUpCustomerForm.getEmail()));
+        assertTrue(signUpCustomerService.isEmailExist(customerSignUpForm.getEmail()));
     }
 
 }

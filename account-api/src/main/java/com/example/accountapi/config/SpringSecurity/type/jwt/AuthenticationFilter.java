@@ -3,6 +3,7 @@ package com.example.accountapi.config.SpringSecurity.type.jwt;
 import com.example.accountapi.config.SpringSecurity.customer.CustomerPrincipalDetails;
 import com.example.accountapi.config.SpringSecurity.seller.SellerPrincipalDetails;
 import com.example.accountapi.config.SpringSecurity.type.jwt.JWTUtil;
+import com.example.accountapi.web.validation.exception.AccountException;
 import com.example.accountapi.web.validation.form.LogInForm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
@@ -21,6 +22,9 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.example.accountapi.web.validation.exception.ErrorCode.LOGIN_FAILED;
+import static com.example.accountapi.web.validation.exception.ErrorCode.LOGIN_TYPE_NOT_EXIST;
+
 @RequiredArgsConstructor
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -34,7 +38,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                                 HttpServletResponse response) throws AuthenticationException {
 
         try {
-
             //파싱
             LogInForm creds;
 
@@ -57,31 +60,29 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             }else if (creds.getType().equals("SELLER")){
                 return sellerAuthenticationProvider.authenticate(token);
             }else{
-                throw new RuntimeException("유저가 없습니다.");
+                throw new AccountException(LOGIN_TYPE_NOT_EXIST);
             }
 
         }catch(IOException e){
-            throw new RuntimeException(e);
+            throw new AccountException(LOGIN_FAILED);
         }
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
-
-        System.out.println("successfulAuthentication");
-
+        //TODO:이메일 인증과 토큰 엮기.
         String type = request.getParameter("type");
-        String username;
-        System.out.println(type);
+        String email;
+
         if(type.equals("CUSTOMER")) {
             CustomerPrincipalDetails customUserDetails = (CustomerPrincipalDetails) authentication.getPrincipal();
-            username = customUserDetails.getUsername();
+            email = customUserDetails.getEmail();
         }else if(type.equals("SELLER")) {
             SellerPrincipalDetails sellerUserDetails = (SellerPrincipalDetails) authentication.getPrincipal();
-            username = sellerUserDetails.getUsername();
+            email = sellerUserDetails.getEmail();
         }else{
-            throw new RuntimeException("유저가 없습니다.");
+            throw new AccountException(LOGIN_TYPE_NOT_EXIST);
         }
 
 //        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
@@ -90,7 +91,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 //
 //        String role = auth.getAuthority();
 
-        String token = jwtUtil.createJwt(username, type, 60*60*10*1000L);
+        String token = jwtUtil.createJwt(email, type, 60*60*10*1000L);
 
         response.addHeader("Authorization", "Bearer " + token);
     }

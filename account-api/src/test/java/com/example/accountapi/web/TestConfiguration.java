@@ -4,13 +4,14 @@ package com.example.accountapi.web;
 import com.example.accountapi.application.applications.signUp.SignUpApplication;
 import com.example.accountapi.application.applications.signUp.SignUpApplicationImpl;
 import com.example.accountapi.application.provider.emailVerification.EmailVerificationProvider;
-import com.example.accountapi.application.service.signIn.customer.SignUpCustomerService;
-import com.example.accountapi.application.service.signIn.customer.SignUpCustomerServiceImpl_SpringSecurity;
-import com.example.accountapi.application.service.signIn.seller.SignUpSellerService;
-import com.example.accountapi.application.service.signIn.seller.SignUpSellerServiceImpl_SpringSecurity;
+import com.example.accountapi.application.service.signUp.customer.SignUpCustomerService;
+import com.example.accountapi.application.service.signUp.customer.SignUpCustomerServiceImpl_SpringSecurity;
+import com.example.accountapi.application.service.signUp.seller.SignUpSellerService;
+import com.example.accountapi.application.service.signUp.seller.SignUpSellerServiceImpl_SpringSecurity;
 import com.example.accountapi.domain.model.Customer;
 import com.example.accountapi.repository.customer.CustomerRepository;
 import com.example.accountapi.repository.seller.SellerRepository;
+import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -19,7 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @org.springframework.boot.test.context.TestConfiguration
 public class TestConfiguration {
@@ -40,9 +40,10 @@ public class TestConfiguration {
     private EmailVerificationProvider emailVerificationProvider;
 
     @Bean
+    @Disabled
     public SignUpApplication signUpApplication() {
-        Customer customer = Customer.from(Tester.signUpCustomerForm);
-        when(emailVerificationProvider.sendVerificationEmail(customer)).thenReturn("code");
+        Customer customer = Customer.from(Tester.customerSignUpForm);
+        //when(emailVerificationProvider.sendVerificationEmail(customer)).thenReturn("code");
         return new SignUpApplicationImpl(signUpCustomerService(), signUpSellerService(), emailVerificationProvider);
     }
 

@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.FeignAutoConfiguration;
 import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
-@Profile({"default", "prod", "docker"})
+@Profile({"default", "prod", "docker", "compose"})
 @EnableFeignClients(basePackages = "com.example.accountapi.application.client")
 @ImportAutoConfiguration({FeignAutoConfiguration.class})
 @EnableDiscoveryClient

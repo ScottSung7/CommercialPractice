@@ -4,15 +4,15 @@ package com.example.accountapi.application;
 import com.example.accountapi.application.applications.signUp.SignUpApplication;
 import com.example.accountapi.application.applications.signUp.SignUpApplicationImpl;
 import com.example.accountapi.application.provider.emailVerification.EmailVerificationProvider;
-import com.example.accountapi.application.service.signIn.customer.SignUpCustomerService;
-import com.example.accountapi.application.service.signIn.seller.SignUpSellerService;
+import com.example.accountapi.application.service.signUp.customer.SignUpCustomerService;
+import com.example.accountapi.application.service.signUp.seller.SignUpSellerService;
 import com.example.accountapi.domain.model.Customer;
 import com.example.accountapi.domain.model.Seller;
 import com.example.accountapi.web.Tester;
 
 import com.example.accountapi.web.validation.exception.AccountException;
-import com.example.accountapi.web.validation.form.customer.SignUpCustomerForm;
-import com.example.accountapi.web.validation.form.seller.SignUpSellerForm;
+import com.example.accountapi.web.validation.form.customer.CustomerSignUpForm;
+import com.example.accountapi.web.validation.form.seller.SellerSignUpForm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,44 +49,44 @@ class SignUpApplicationTest_Mock {
     @Test
     @DisplayName("SignUpApplication Mock: signUp_Customer")
     void signUp_Customer() {
-        SignUpCustomerForm signUpCustomerForm = Tester.signUpCustomerForm;
-        Customer customer = Customer.from(signUpCustomerForm);
+        CustomerSignUpForm customerSignUpForm = Tester.customerSignUpForm;
+        Customer customer = Customer.from(customerSignUpForm);
 
-        when(signUpCustomerService.isEmailExist(signUpCustomerForm.getEmail())).thenReturn(false);
-        when(signUpCustomerService.signUp(signUpCustomerForm)).thenReturn(customer);
+        when(signUpCustomerService.isEmailExist(customerSignUpForm.getEmail())).thenReturn(false);
+        when(signUpCustomerService.signUp(customerSignUpForm)).thenReturn(customer);
 
         //when(emailVerificationProvider.sendVerificationEmail(customer)).thenReturn("Code");
         //when(signUpCustomerService.changeCustomerValidateEmail(customer, "Code")).thenReturn(customer);
 
-        System.out.println(signUpApplication.customerSignUp(signUpCustomerForm));
+        System.out.println(signUpApplication.customerSignUp(customerSignUpForm));
     }
 
     @Test
     @DisplayName("SignUpApplication Mock: signUp_Seller")
     void signUp_Seller() {
-        SignUpSellerForm signUpSellerForm = Tester.signUpSellerForm;
-        Seller seller = Seller.from(signUpSellerForm);
+        SellerSignUpForm sellerSignUpForm = Tester.sellerSignUpForm;
+        Seller seller = Seller.from(sellerSignUpForm);
 
-        when(signUpSellerService.isEmailExist(signUpSellerForm.getEmail())).thenReturn(false);
-        when(signUpSellerService.signUp(signUpSellerForm)).thenReturn(seller);
+        when(signUpSellerService.isEmailExist(sellerSignUpForm.getEmail())).thenReturn(false);
+        when(signUpSellerService.signUp(sellerSignUpForm)).thenReturn(seller);
 
         //when(emailVerificationProvider.sendVerificationEmail(seller)).thenReturn("Code");
         //when(signUpSellerService.changeSellerValidateEmail(seller, "Code")).thenReturn(seller);
 
-        System.out.println(signUpApplication.sellerSignUp(signUpSellerForm));
+        System.out.println(signUpApplication.sellerSignUp(sellerSignUpForm));
     }
 
 
     @Test
     @DisplayName("signUpCustomerService ALREADY_REGISTER_EXCEPTION.")
     void signUpApplication_alreadyRegisterException() {
-        SignUpCustomerForm signUpCustomerForm = Tester.signUpCustomerForm;
-        Customer customer = Customer.from(signUpCustomerForm);
+        CustomerSignUpForm customerSignUpForm = Tester.customerSignUpForm;
+        Customer customer = Customer.from(customerSignUpForm);
 
-        when(signUpCustomerService.isEmailExist(signUpCustomerForm.getEmail())).thenReturn(true);
+        when(signUpCustomerService.isEmailExist(customerSignUpForm.getEmail())).thenReturn(true);
 
        AccountException orderException
-               =  assertThrows(AccountException.class, ()->  signUpApplication.customerSignUp(signUpCustomerForm));
+               =  assertThrows(AccountException.class, ()->  signUpApplication.customerSignUp(customerSignUpForm));
         assertEquals(ALREADY_REGISTER_USER, orderException.getErrorCode());
     }
 
