@@ -1,10 +1,10 @@
-package com.example.accountapi.application.service.signIn.customer;
+package com.example.accountapi.application.service.signUp.customer;
 
 import com.example.accountapi.domain.model.Customer;
 import com.example.accountapi.repository.customer.CustomerRepository;
 import com.example.accountapi.web.validation.exception.AccountException;
-import com.example.accountapi.web.validation.form.customer.SignUpCustomerForm;
-import com.example.accountapi.web.validation.form.customer.UpdateCustomerForm;
+import com.example.accountapi.web.validation.form.customer.CustomerSignUpForm;
+import com.example.accountapi.web.validation.form.customer.CustomerUpdateForm;
 import com.example.accountapi.web.validation.exception.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -26,13 +26,18 @@ public class SignUpCustomerServiceImpl_SpringSecurity implements SignUpCustomerS
     @Autowired
     @Qualifier("customerPasswordEncoder")
     private final PasswordEncoder customerPasswordEncoder;
-
-    public Customer signUp(SignUpCustomerForm form){
+    @Override
+    public Customer signUp(CustomerSignUpForm form){
         Customer customer = Customer.from(form);
         customer.setPassword(customerPasswordEncoder.encode(form.getPassword()));
 
+        if(customerRepository.findByEmail(customer.getEmail().toLowerCase(Locale.ROOT)).isPresent()){
+            throw new AccountException(ErrorCode.ALREADY_REGISTER_USER);
+        };
+
         return customerRepository.save(customer);
     }
+    @Override
     @Transactional
     public void customerVerify(String email){
         Customer customer = customerRepository.findByEmail(email)
@@ -45,13 +50,15 @@ public class SignUpCustomerServiceImpl_SpringSecurity implements SignUpCustomerS
         customer.setVerified(true);
 
     }
+    @Override
     @Transactional
-    public Customer update(UpdateCustomerForm updateCustomerForm) {
-        Customer customer = customerRepository.findByEmail(updateCustomerForm.getEmail())
+    public Customer update(CustomerUpdateForm customerUpdateForm) {
+        Customer customer = customerRepository.findByEmail(customerUpdateForm.getEmail())
                 .orElseThrow(() -> new AccountException(ErrorCode.NOT_FOUND_USER));
-        customer.setPassword(customerPasswordEncoder.encode(updateCustomerForm.getPassword()));
+        customer.setPassword(customerPasswordEncoder.encode(customerUpdateForm.getPassword()));
 
-        return  Customer.updateFrom(updateCustomerForm, customer);
+
+        return  Customer.updateFrom(customerUpdateForm, customer);
     }
 
     @Override

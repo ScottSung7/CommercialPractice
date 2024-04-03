@@ -1,17 +1,21 @@
 package com.example.accountapi.application.applications.signUp;
 
 import com.example.accountapi.domain.model.Customer;
-import com.example.accountapi.web.validation.form.customer.SignUpCustomerForm;
-import com.example.accountapi.web.validation.form.customer.UpdateCustomerForm;
-import com.example.accountapi.web.validation.form.seller.SignUpSellerForm;
+import com.example.accountapi.domain.model.Seller;
+import com.example.accountapi.web.validation.form.customer.CustomerSignUpForm;
+import com.example.accountapi.web.validation.form.customer.CustomerUpdateForm;
+import com.example.accountapi.web.validation.form.seller.SellerSignUpForm;
+import com.example.accountapi.web.validation.form.seller.SellerUpdateForm;
 
 
 public interface SignUpApplication {
-    public String customerSignUp(SignUpCustomerForm signUpCustomerForm);
+    public Customer customerSignUp(CustomerSignUpForm customerSignUpForm);
 
-    public Customer customerUpdate(UpdateCustomerForm updateCustomerForm);
+    public Customer customerUpdate(CustomerUpdateForm customerUpdateForm);
 
-    public String sellerSignUp(SignUpSellerForm signUpSellerForm);
+    public Seller sellerSignUp(SellerSignUpForm sellerSignUpForm);
+
+    public Seller sellerUpdate(SellerUpdateForm sellerUpdateForm);
 
     public void customerVerify(String email);
 

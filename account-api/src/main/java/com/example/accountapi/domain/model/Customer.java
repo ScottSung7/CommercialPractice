@@ -1,8 +1,8 @@
 package com.example.accountapi.domain.model;
 
 
-import com.example.accountapi.web.validation.form.customer.SignUpCustomerForm;
-import com.example.accountapi.web.validation.form.customer.UpdateCustomerForm;
+import com.example.accountapi.web.validation.form.customer.CustomerSignUpForm;
+import com.example.accountapi.web.validation.form.customer.CustomerUpdateForm;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.AuditOverride;
@@ -42,7 +42,7 @@ public class Customer extends BaseEntity{
     @Column(columnDefinition = "int default 0")
     private Integer balance;
 
-    public static Customer from(SignUpCustomerForm form){
+    public static Customer from(CustomerSignUpForm form){
         return Customer.builder()
                 .email(form.getEmail().toLowerCase(Locale.ROOT))
                 .password(form.getPassword())
@@ -53,11 +53,11 @@ public class Customer extends BaseEntity{
                 .build();
     }
 
-    public static Customer updateFrom(UpdateCustomerForm form, Customer customer){
+    public static Customer updateFrom(CustomerUpdateForm form, Customer customer){
         customer.setName(form.getName());
         customer.setBirth(form.getBirth());
         customer.setPhone(form.getPhone());
-
+        customer.setMembership(form.getMembership());
         return customer;
     }
 

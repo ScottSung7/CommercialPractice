@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: account-api
   config:
     activate:
       on-profile: docker

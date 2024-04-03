@@ -1,9 +1,9 @@
 package com.example.accountapi.web;
 
 
-import com.example.accountapi.web.validation.form.customer.SignUpCustomerForm;
-import com.example.accountapi.web.validation.form.customer.UpdateCustomerForm;
-import com.example.accountapi.web.validation.form.seller.SignUpSellerForm;
+import com.example.accountapi.web.validation.form.customer.CustomerSignUpForm;
+import com.example.accountapi.web.validation.form.customer.CustomerUpdateForm;
+import com.example.accountapi.web.validation.form.seller.SellerSignUpForm;
 
 import java.time.LocalDate;
 
@@ -11,14 +11,14 @@ import java.time.LocalDate;
 public class Tester {
 
 
-    public static SignUpCustomerForm signUpCustomerForm = SignUpCustomerForm.builder()
+    public static CustomerSignUpForm customerSignUpForm = CustomerSignUpForm.builder()
             .email("sungscott@naver.com")
             .name("tester")
             .phone("1234")
             .password("1122")
             .birth(LocalDate.now())
             .build();
-    public static UpdateCustomerForm updateCustomerForm = UpdateCustomerForm.builder()
+    public static CustomerUpdateForm customerUpdateForm = CustomerUpdateForm.builder()
             .email("sungscott@naver.com")
             .name("tester")
             .phone("0000")
@@ -26,7 +26,7 @@ public class Tester {
             .birth(LocalDate.now())
             .build();
 
-    public static SignUpSellerForm signUpSellerForm = SignUpSellerForm.builder()
+    public static SellerSignUpForm sellerSignUpForm = SellerSignUpForm.builder()
             .email("sungscott@naver.com")
             .name("tester")
             .phone("1234")

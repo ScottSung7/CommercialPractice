@@ -1,0 +1,13 @@
+spring:
+  config:
+    activate:
+      on-profile: compose
+  datasource:
+    url: jdbc:mysql://db:3306/zeroorder?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: sa
+    password: 1234
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-service:8761/eureka

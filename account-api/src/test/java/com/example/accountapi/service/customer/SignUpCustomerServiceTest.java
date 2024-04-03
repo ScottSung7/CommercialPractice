@@ -1,11 +1,11 @@
 package com.example.accountapi.service.customer;
 
 
-import com.example.accountapi.application.service.signIn.customer.SignUpCustomerService;
+import com.example.accountapi.application.service.signUp.customer.SignUpCustomerService;
 import com.example.accountapi.domain.model.Customer;
 import com.example.accountapi.web.Tester;
 
-import com.example.accountapi.web.validation.form.customer.SignUpCustomerForm;
+import com.example.accountapi.web.validation.form.customer.CustomerSignUpForm;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,19 +25,19 @@ class SignUpCustomerServiceTest {
 
     @Test
     void signUpService_working(){
-        SignUpCustomerForm signUpCustomerForm = Tester.signUpCustomerForm;
-        Customer customer = Customer.from(signUpCustomerForm);
+        CustomerSignUpForm customerSignUpForm = Tester.customerSignUpForm;
+        Customer customer = Customer.from(customerSignUpForm);
 
-        Customer customerReturned = signUpCustomerService.signUp(signUpCustomerForm);
+        Customer customerReturned = signUpCustomerService.signUp(customerSignUpForm);
 
         assertEquals(customerReturned.getName(), "tester");
     }
     @Test
     void isEmailExist_test(){
-        SignUpCustomerForm signUpCustomerForm = Tester.signUpCustomerForm;
-        Customer customer = Customer.from(signUpCustomerForm);
+        CustomerSignUpForm customerSignUpForm = Tester.customerSignUpForm;
+        Customer customer = Customer.from(customerSignUpForm);
 
-        assertFalse(signUpCustomerService.isEmailExist(signUpCustomerForm.getEmail()));
+        assertFalse(signUpCustomerService.isEmailExist(customerSignUpForm.getEmail()));
     }
 
 }

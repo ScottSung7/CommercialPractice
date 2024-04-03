@@ -50,17 +50,17 @@ class ExceptionControllerTest {
     @WithMockUser
     @Disabled
     public void test1() throws Exception{
-
-        when(signUpController.hi()).thenThrow(new AccountException(ErrorCode.UNKNOWN_ERROR));
-
-        ResultActions response = mockMvc.perform(post("/accounts/hi3")
-                .with(csrf())
-                .contentType(MediaType.APPLICATION_JSON));
-
-        response.andExpect(status().isBadRequest()) //처음에만.
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errorCode").value("UNKNOWN_ERROR"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("알 수 없는 에러가 발생하였습니다."))
-                .andDo(MockMvcResultHandlers.print());
+//
+//        when(signUpController.hi()).thenThrow(new AccountException(ErrorCode.UNKNOWN_ERROR));
+//
+//        ResultActions response = mockMvc.perform(post("/accounts/hi3")
+//                .with(csrf())
+//                .contentType(MediaType.APPLICATION_JSON));
+//
+//        response.andExpect(status().isBadRequest()) //처음에만.
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.errorCode").value("UNKNOWN_ERROR"))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("알 수 없는 에러가 발생하였습니다."))
+//                .andDo(MockMvcResultHandlers.print());
 
     }
 
