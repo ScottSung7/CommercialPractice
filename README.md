@@ -3,11 +3,12 @@
 Monolithic한 프로젝트에서 점차 MSA 구조를 갖추어 가면서 각 파트에서 어떤 기능과 아키텍처가 필요할지 고민해보려고 합니다.
 
 www.scottcommerce.net/swagger-ui/index.html
-<br> ** 현재 openAPI에 JWT토큰 등록 이슈로 수정 후 4/4 목요일에 다시 오픈 예정입니다.
+<br> ** order-api가 swagger파일에 있으나 validation 작업 중이라 동작하지 않습니다. 
 <br><br> 유의사항 
-<br> 1. 비용 이슈로 한정적으로 오픈 하고 있습니다. (9am - 6pm)
+<br> 1. 비용 이슈로 한정적으로 오픈 하고 있습니다. (평일: 9am - 6pm)
 <br> 2. 해외 IP에서는 접근이 불가합니다. 
 <br> 3. a-test-controller에서 jwt토큰을 받아서 Authorize 버튼 클릭해 등록 후 확인 가능합니다. (sign-up에서만 요구하지 않음.)
+<br> 4. 현재는 비용 이슈로 EC2에 docker-compose를 이용해 띄워져 있으며 필요시 각 단계별 구성을 포트폴리오 제출 또는 현장시연 가능합니다.
 
 ## 1. Monolithic (Developer Monolithic Branch)
 빠른 배포를 목표로 한 Monolithic한 구조로 AWS EC2하나에 배포하였습니다.
@@ -44,29 +45,25 @@ www.scottcommerce.net/swagger-ui/index.html
 ## API 명세
 
 ### Account-api
+0. 테스트용 계정 및 JWT 토큰 생성 (a-tester-controller)
+- /test/create/customer : 구매자 회원가입 및 JWT 토큰 생성
+- /test/login/customer : 구매자 토큰 재발급
+- /test/create/customer : 판매자 회원가입 및 JWT 토큰 생성
+- /test/create/customer : 판매자 토큰 재발급
 
-1. 고객 CRUD
-  - /accounts/customer/login
-  <br>: 고객 로그인
-  - /accounts/customer/signup
-  <br>: 고객 회원가입
-  - /accounts/customer/update
-  <br>: 고객 정보 수정
-  - /accounts/customer/verify
-  <br>: 고객 이메일 인증
+2. 고객 CRUD (sign-up-controller)
+  - /accounts/customer/signup : 고객 회원가입
+  - /accounts/customer/update : 고객 정보 수정
+  - /accounts/customer/verify/{email} : 고객 이메일 인증
+2. 판매자 CRUD (sign-up-controller)
 
-2. 판매자 CRUD
-  - /accounts/seller/login
-  <br>: 판매자 로그인 
-  - /accounts/seller/signup
-  <br>: 판매자 회원가입
-  - /accounts/seller/update
-  <br> 판매자 정보 수정
-  - /accounts/seller/verify/{email}
-  <br> 판매자 이메일 인증
+  - /accounts/seller/signup : 판매자 회원가입
+  - /accounts/seller/update : 판매자 정보 수정
+  - /accounts/seller/verify/{email} : 판매자 이메일 인증
 
 3. 고객 정보
-- 상세 URI 추가 예정
+- /accounts/customer: 고객 정보 조회
+- /accounts/seller: 판매자 정보 조회
 
 4. 고객 예치금
 - 상세 URI 추가 예정
