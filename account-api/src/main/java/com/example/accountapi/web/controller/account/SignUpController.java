@@ -1,7 +1,6 @@
 package com.example.accountapi.web.controller.account;
 
 import com.example.accountapi.application.applications.signUp.SignUpApplication;
-import com.example.accountapi.application.client.OrderServiceClient;
 import com.example.accountapi.application.tools.crpto.AESCryptoUtil;
 import com.example.accountapi.domain.dto.CustomerDto;
 import com.example.accountapi.domain.dto.SellerDto;
@@ -17,7 +16,6 @@ import com.example.accountapi.web.validation.form.seller.SellerUpdateForm;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;

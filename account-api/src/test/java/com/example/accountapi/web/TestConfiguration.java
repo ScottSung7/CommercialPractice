@@ -3,7 +3,7 @@ package com.example.accountapi.web;
 
 import com.example.accountapi.application.applications.signUp.SignUpApplication;
 import com.example.accountapi.application.applications.signUp.SignUpApplicationImpl;
-import com.example.accountapi.application.provider.emailVerification.EmailVerificationProvider;
+import com.example.accountapi.application.tools.provider.emailVerification.EmailVerificationProvider;
 import com.example.accountapi.application.service.signUp.customer.SignUpCustomerService;
 import com.example.accountapi.application.service.signUp.customer.SignUpCustomerServiceImpl_SpringSecurity;
 import com.example.accountapi.application.service.signUp.seller.SignUpSellerService;

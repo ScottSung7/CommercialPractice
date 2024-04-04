@@ -1,4 +1,4 @@
-package com.example.accountapi.application.provider.emailVerification;
+package com.example.accountapi.application.tools.provider.emailVerification;
 
 import com.example.accountapi.domain.model.Customer;
 import com.example.accountapi.domain.model.Seller;

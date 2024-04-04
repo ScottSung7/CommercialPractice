@@ -23,17 +23,14 @@ public class CustomerBalanceService {
         Customer customer = customerRepository.findByEmail(email)
                 .orElseThrow(() -> new AccountException(ErrorCode.NOT_FOUND_USER));
 
-        CustomerBalanceHistory customerBalanceHistory =
-                customerBalanceHIstoryRepository.findFirstByCustomer_IdOrderByIdDesc(customer.getId())
-                        .orElse(CustomerBalanceHistory.builder()
-                                .changedMoney(0)
-                                .currentMoney(0)
-                                .customer(customer)
-                                .build());
+        //초기화 또는 현 상태.
+        CustomerBalanceHistory customerBalanceHistory = getCurrentStatus(customer);
+
         if(customerBalanceHistory.getCurrentMoney() + form.getMoney() < 0){
             throw new AccountException(ErrorCode.NOT_ENOUGH_BALANCE);
         }
 
+        //balance 변경됨.
         customerBalanceHistory = CustomerBalanceHistory.builder()
                 .changedMoney(form.getMoney())
                 .currentMoney(customerBalanceHistory.getCurrentMoney() + form.getMoney())
@@ -45,9 +42,23 @@ public class CustomerBalanceService {
 
         return customerBalanceHIstoryRepository.save(customerBalanceHistory);
 
-
-
     }
+    public CustomerBalanceHistory checkBalance(String email) throws AccountException{
+        Customer customer = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new AccountException(ErrorCode.NOT_FOUND_USER));
+        return getCurrentStatus(customer);
+    }
+
+    private CustomerBalanceHistory getCurrentStatus(Customer customer){
+        return customerBalanceHIstoryRepository.findFirstByCustomer_IdOrderByIdDesc(customer.getId())
+                        .orElse(CustomerBalanceHistory.builder()
+                                .changedMoney(0)
+                                .currentMoney(0)
+                                .customer(customer)
+                                .build());
+    }
+
+
 
 
 }

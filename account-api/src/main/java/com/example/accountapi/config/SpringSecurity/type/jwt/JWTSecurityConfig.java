@@ -69,6 +69,8 @@ public class JWTSecurityConfig {
                 .sessionManagement((sessionManagement) ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
+                .exceptionHandling((exceptionHandling) ->
+                        exceptionHandling.authenticationEntryPoint(new CustomAuthenticationEntryPoint()))
                 .addFilter(corsConfig.corsFilter())
                 .addFilterBefore(new JWTFilter(jwtUtil), AuthenticationFilter.class)
                 .addFilterAt(new AuthenticationFilter(customerAuthenticationProvider(), sellerAuthenticationProvider(), jwtUtil), UsernamePasswordAuthenticationFilter.class)
