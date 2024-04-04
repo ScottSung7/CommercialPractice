@@ -67,7 +67,8 @@ http://www.scottcommerce.net/swagger-ui/index.html
 - /accounts/seller: 판매자 정보 조회
 
 4. 고객 예치금
-- 상세 URI 추가 예정
+- /accounts/customer/balance: 고객 예치금 추가.
+- /acdcounts/customer/balance/check: 고객 예치금 확인.
 
 ### Order-api
 - 상세 URI 추가 예정
