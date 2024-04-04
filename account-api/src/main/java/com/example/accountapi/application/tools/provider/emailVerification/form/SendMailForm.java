@@ -1,4 +1,4 @@
-package com.example.accountapi.application.provider.emailVerification.form;
+package com.example.accountapi.application.tools.provider.emailVerification.form;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
