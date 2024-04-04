@@ -32,6 +32,7 @@ public class SellerUpdateForm {
     private String password;
 
     @NotNull(message = "생년월일을 입력해주세요(입력 형식: yyyy-MM-dd)")
+    @Schema(description = "생년월일", example = "1999-01-01")
     private LocalDate birth;
 
     @NotBlank(message = "휴대폰 번호를 입력해주세요")

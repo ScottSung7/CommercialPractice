@@ -1,6 +1,6 @@
-package com.example.accountapi.application.provider.emailVerification;
+package com.example.accountapi.application.tools.provider.emailVerification;
 
-import com.example.accountapi.application.provider.emailVerification.form.SendMailForm;
+import com.example.accountapi.application.tools.provider.emailVerification.form.SendMailForm;
 import com.example.accountapi.application.tools.crpto.AESCryptoUtil;
 import com.example.accountapi.domain.model.Customer;
 import com.example.accountapi.domain.model.Seller;

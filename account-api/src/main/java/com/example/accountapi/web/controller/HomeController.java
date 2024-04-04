@@ -1,11 +1,8 @@
 package com.example.accountapi.web.controller;
 
-import com.example.accountapi.application.client.OrderServiceClient;
+import com.example.accountapi.application.tools.client.OrderServiceClient;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,8 +40,6 @@ public class HomeController {
         return "checking";
     }
 
-    @Autowired
-    OrderServiceClient orderServiceClient;
 
 
 
