@@ -47,26 +47,26 @@ http://www.scottcommerce.net/swagger-ui/index.html
 
 ### Account-api
 0. 테스트용 계정 및 JWT 토큰 생성 (a-tester-controller)
-- /test/create/customer : 구매자 회원가입 및 JWT 토큰 생성
-- /test/login/customer : 구매자 토큰 재발급
-- /test/create/customer : 판매자 회원가입 및 JWT 토큰 생성
-- /test/create/customer : 판매자 토큰 재발급
+- /test/create/customer : 구매자 회원가입 및 JWT 토큰 생성.
+- /test/login/customer : 구매자 토큰 재발급.
+- /test/create/customer : 판매자 회원가입 및 JWT 토큰 생성.
+- /test/create/customer : 판매자 토큰 재발급.
 
 2. 고객 CRUD (sign-up-controller)
-  - /accounts/customer/signup : 고객 회원가입
-  - /accounts/customer/update : 고객 정보 수정
-  - /accounts/customer/verify/{email} : 고객 이메일 인증
+  - /accounts/customer/signup : 고객 회원가입.
+  - /accounts/customer/update : 고객 정보 수정.
+  - /accounts/customer/verify/{email} : 고객 이메일 인증.
 2. 판매자 CRUD (sign-up-controller)
 
-  - /accounts/seller/signup : 판매자 회원가입
-  - /accounts/seller/update : 판매자 정보 수정
-  - /accounts/seller/verify/{email} : 판매자 이메일 인증
+  - /accounts/seller/signup : 판매자 회원가입.
+  - /accounts/seller/update : 판매자 정보 수정.
+  - /accounts/seller/verify/{email} : 판매자 이메일 인증.
 
-3. 고객 정보
-- /accounts/customer: 고객 정보 조회
-- /accounts/seller: 판매자 정보 조회
+3. 고객 정보 (account-info-controller)
+- /accounts/customer: 고객 정보 조회.
+- /accounts/seller: 판매자 정보 조회.
 
-4. 고객 예치금
+4. 고객 예치금 (balance-controller)
 - /accounts/customer/balance: 고객 예치금 추가.
 - /acdcounts/customer/balance/check: 고객 예치금 확인.
 
