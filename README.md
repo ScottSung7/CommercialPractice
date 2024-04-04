@@ -2,7 +2,7 @@
 
 Monolithic한 프로젝트에서 점차 MSA 구조를 갖추어 가면서 각 파트에서 어떤 기능과 아키텍처가 필요할지 고민해보려고 합니다.
 
-www.scottcommerce.net/swagger-ui/index.html
+http://www.scottcommerce.net/swagger-ui/index.html
 <br> ** 현재 배포 오류가 있어 빠른 시일내에 정상화 하도록 하겠습니다. 
 <br><br> 유의사항 
 <br> 1. 비용 이슈로 한정적으로 오픈 하고 있습니다. (평일: 9am - 6pm)
