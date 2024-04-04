@@ -68,7 +68,7 @@ http://www.scottcommerce.net/swagger-ui/index.html
 
 4. 고객 예치금 (balance-controller)
 - /accounts/customer/balance: 고객 예치금 추가.
-- /acdcounts/customer/balance/check: 고객 예치금 확인.
+- /accounts/customer/balance/check: 고객 예치금 확인.
 
 ### Order-api
 - 상세 URI 추가 예정
