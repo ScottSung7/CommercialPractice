@@ -24,7 +24,7 @@ services:
         - "8080:8080"
     restart: on-failure
     depends_on:
-      - eureka
+      - eureka-service
       - db
   order-api:
     build:
@@ -34,19 +34,5 @@ services:
       - "8081:8081"
     restart: on-failure
     depends_on:
-      - eureka
+      - eureka-service
       - db
-#  swagger-ui:
-#    image: swaggerapi/swagger-ui
-#    container_name: swagger-ui
-#    ports:
-#      - "8082:8080"
-#    environment:
-#      - URLS_0_NAME=account-api
-#      - URLS_0_URL=http://account-api:8080/account-api/swagger-ui/index.html#/
-#      - URLS_1_NAME=order-api
-#      - URLS_1_URL=http://order-api:8081/swagger-ui/index.html#/
-#    restart: on-failure
-#    depends_on:
-#      - account-api
-#      - order-api
