@@ -4,19 +4,14 @@ import com.example.accountapi.application.service.CustomerBalanceService;
 import com.example.accountapi.domain.dto.CustomerBalanceDto;
 import com.example.accountapi.domain.model.CustomerBalanceHistory;
 import com.example.accountapi.web.validation.LoginCheck;
-import com.example.accountapi.web.validation.exception.AccountException;
 import com.example.accountapi.web.validation.form.ChangeBalanceForm;
-import com.example.accountapi.web.validation.exception.ErrorCode;
-import com.example.accountapi.config.SpringSecurity.customer.CustomerPrincipalDetails;
+import com.example.accountapi.config.SpringSecurity.id.customer.CustomerPrincipalDetails;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/accounts/customer")

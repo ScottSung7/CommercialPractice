@@ -5,9 +5,9 @@ import com.example.orderapi.domain.model.ProductItem;
 import com.example.orderapi.repository.ProductItemRepository;
 import com.example.orderapi.repository.ProductRepository;
 import com.example.orderapi.web.validation.exception.OrderException;
-import com.example.orderapi.web.validation.form.AddProductItemForm;
-import com.example.orderapi.web.validation.form.UpdateProductItemForm;
+import com.example.orderapi.web.validation.form.productItem.AddExtraProductItemForm;
 import com.example.orderapi.web.validation.exception.OrderErrorCode;
+import com.example.orderapi.web.validation.form.productItem.UpdateProductItemForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +19,7 @@ public class ProductItemService {
     private final ProductItemRepository productItemRepository;
 
     @Transactional
-    public Product addProductItem(Long sellerId, AddProductItemForm form){
+    public Product addProductItem(Long sellerId, AddExtraProductItemForm form){
         Product product = productRepository.findBySellerIdAndId(sellerId, form.getProductId())
                 .orElseThrow(() -> new OrderException(OrderErrorCode.NOT_FOUND_PRODUCT));
 
@@ -35,8 +35,8 @@ public class ProductItemService {
 
     @Transactional
     public ProductItem updateProductItem(Long sellerId, UpdateProductItemForm form){
-        ProductItem productItem = productItemRepository.findById(form.getId())
-                .filter(pi -> !pi.getSellerId().equals(sellerId)).orElseThrow(
+        ProductItem productItem = productItemRepository.findById(form.getItemId())
+                .filter(pi -> pi.getSellerId().equals(sellerId)).orElseThrow(
                         () -> new OrderException(OrderErrorCode.NOT_FOUND_ITEM)
                 );
         productItem.setName(form.getName());

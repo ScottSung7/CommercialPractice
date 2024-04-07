@@ -1,4 +1,5 @@
-package com.example.accountapi.config.SpringSecurity.type.jwt;
+package com.example.orderapi.config.common.SpringSecurity.jwt;
+
 
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ public class JWTUtil {
 
     private SecretKey secretKey;
     private JWTUtil(@Value("${spring.jwt.secret}") String secret) {
+
         this.secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
     }
 
@@ -26,6 +28,7 @@ public class JWTUtil {
 
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("type", String.class);
     }
+
     public Long getId(String token) {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("id", Long.class);
     }
@@ -34,12 +37,11 @@ public class JWTUtil {
         Date to = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration();
         return to.before(new Date(System.currentTimeMillis()));
     }
-    public String createJwt(String email, String type,Long id, Long expiredMs) {
+    public String createJwt(String email, String type, Long expiredMs) {
 
         return Jwts.builder()
                 .claim("email", email)
                 .claim("type", type)
-                .claim("id", id)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiredMs))
                 .signWith(secretKey)

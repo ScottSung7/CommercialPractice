@@ -1,19 +1,18 @@
-package com.example.accountapi.config.SpringSecurity.customer;
+package com.example.orderapi.config.common.SpringSecurity.id;
 
 
-import com.example.accountapi.domain.model.Customer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class CustomerPrincipalDetails implements UserDetails {
+public class UserPrincipalDetails implements UserDetails {
 
-    private Customer customer;
+    private User user;
 
-    public CustomerPrincipalDetails(Customer customer){
-        this.customer = customer;
+    public UserPrincipalDetails(User user){
+        this.user = user;
     }
 
     @Override
@@ -22,7 +21,7 @@ public class CustomerPrincipalDetails implements UserDetails {
       collect.add(new GrantedAuthority() {
           @Override
           public String getAuthority() {
-              return customer.getRole();
+              return null;
           }
       });
       return collect;
@@ -30,12 +29,12 @@ public class CustomerPrincipalDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return customer.getPassword();
+        return null;
     }
 
     @Override
     public String getUsername() {
-        return customer.getName();
+        return null;
     }
 
     @Override
@@ -58,7 +57,9 @@ public class CustomerPrincipalDetails implements UserDetails {
         return true;
     }
 
-    public String getEmail() {return customer.getEmail();}
+    public String getEmail() {return user.getEmail();}
 
-    public String getType() {return "CUSTOMER";}
+    public String getType() {return user.getType();}
+
+    public Long getId() {return user.getId();}
 }

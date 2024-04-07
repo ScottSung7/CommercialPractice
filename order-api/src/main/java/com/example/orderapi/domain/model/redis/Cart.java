@@ -1,6 +1,8 @@
 package com.example.orderapi.domain.model.redis;
 
-import com.example.orderapi.web.validation.form.AddProductCartForm;
+import com.example.orderapi.domain.model.Product;
+import com.example.orderapi.domain.model.ProductItem;
+import com.example.orderapi.web.validation.form.cart.AddProductCartForm;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,45 +27,5 @@ public class Cart {
         messages.add(message);
     }
 
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Product{
-        private Long id;
-        private Long sellerId;
-        private String name;
-        private String description;
-        private List<ProductItem> items = new ArrayList<>();
 
-        public static Product from(AddProductCartForm form){
-            return Product.builder()
-                    .id(form.getId())
-                    .sellerId(form.getSellerId())
-                    .name(form.getName())
-                    .description(form.getDescription())
-                    .items(form.getItems().stream().map(Cart.ProductItem::from).collect(Collectors.toList()))
-                    .build();
-
-        }
-    }
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class ProductItem{
-        private Long id;
-        private String name;
-        private Integer count;
-        private Integer price;
-
-        public static ProductItem from(AddProductCartForm.ProductItem item) {
-            return ProductItem.builder()
-                    .id(item.getId())
-                    .name(item.getName())
-                    .count(item.getCount())
-                    .price(item.getPrice())
-                    .build();
-        }
-    }
 }

@@ -1,6 +1,7 @@
 package com.example.accountapi.web.controller.account;
 
 
+import com.example.accountapi.application.applications.AccountInfo.AccountInfoApplication;
 import com.example.accountapi.application.service.signUp.customer.SignUpCustomerService;
 import com.example.accountapi.application.service.signUp.seller.SignUpSellerService;
 import com.example.accountapi.config.SpringSecurity.type.jwt.JWTUtil;
@@ -32,6 +33,7 @@ public class ATesterController {
     private JWTUtil jwtUtil;
     private final SignUpCustomerService signUpCustomerService;
     private final SignUpSellerService signUpSellerService;
+    private final AccountInfoApplication accountInfoApplication;
     private final ObjectMapper mapper;
 
     private Customer customer;
@@ -89,7 +91,18 @@ public class ATesterController {
 
     private String makeKeyToJSON(String email, String type) throws JsonProcessingException {
         Map<String, String> map = new HashMap();
-        String key = jwtUtil.createJwt(email,type, 60 * 60 * 10 * 1000L);
+        Long id;
+        if(type.equals("CUSTOMER")){
+            Customer customer = accountInfoApplication.findCustomer(email);
+            id = customer.getId();
+        }else if(type.equals("SELLER")){
+            Seller seller = accountInfoApplication.findSeller(email);
+            id = seller.getId();
+        }else{
+            throw new AccountException(NOT_FOUND_USER);
+        }
+
+        String key = jwtUtil.createJwt(email,type, id, 60 * 60 * 10 * 1000L);
         map.put("key", key);
 
         return mapper.writeValueAsString(map);

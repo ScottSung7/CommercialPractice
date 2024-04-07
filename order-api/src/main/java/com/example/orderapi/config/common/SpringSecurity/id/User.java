@@ -1,4 +1,4 @@
-package com.example.orderapi.web.validation.form;
+package com.example.orderapi.config.common.SpringSecurity.id;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,12 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateProductItemForm {
+public class User {
 
     private Long id;
-    private Long productId;
-    private String name;
-    private Integer price;
-    private Integer count;
+    private String email;
+    private String type;
 
 }

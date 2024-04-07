@@ -1,11 +1,9 @@
-package com.example.accountapi.config.SpringSecurity.type.jwt;
+package com.example.orderapi.config.common.SpringSecurity.jwt;
 
-import com.example.accountapi.config.SpringSecurity.id.customer.CustomerPrincipalDetails;
-import com.example.accountapi.config.SpringSecurity.id.seller.SellerPrincipalDetails;
-import com.example.accountapi.domain.model.Customer;
-import com.example.accountapi.domain.model.Seller;
-import com.example.accountapi.web.validation.exception.AccountException;
-import com.example.accountapi.web.validation.exception.ErrorCode;
+
+import com.example.orderapi.config.common.SpringSecurity.id.User;
+import com.example.orderapi.config.common.SpringSecurity.id.UserPrincipalDetails;
+import com.example.orderapi.config.common.validation.accountException.AccountException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,6 +17,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+import static com.example.orderapi.config.common.validation.accountException.ErrorCode.TOKEN_EXPIRED;
+
 @RequiredArgsConstructor
 @Slf4j
 public class JWTFilter extends OncePerRequestFilter {
@@ -30,10 +30,9 @@ public class JWTFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String authorization = request.getHeader("Authorization");
-        System.out.println("필터");
+
         //토큰이 없는 경우
         if(authorization == null || !authorization.startsWith("Bearer ")){
-            System.out.println("토큰 없음");
             filterChain.doFilter(request, response);
             return;
         }
@@ -46,21 +45,13 @@ public class JWTFilter extends OncePerRequestFilter {
         //만료된 토큰
         if(jwtUtil.isExpired(token)){
             log.error(email + "의 토큰이 만료되었습니다.");
-            throw new AccountException(ErrorCode.TOKEN_EXPIRED);
+            throw new AccountException(TOKEN_EXPIRED);
             //filterChain.doFilter(request, response);
         }
 
         //Authentication
-        Authentication authToken = null;
-        if(type.equals("CUSTOMER")){
-            Customer customer = Customer.builder().email(email).id(id).build();
-            authToken = new UsernamePasswordAuthenticationToken(new CustomerPrincipalDetails(customer), null, new CustomerPrincipalDetails(customer).getAuthorities());
-        }else if(type.equals("SELLER")){
-            Seller seller = Seller.builder().email(email).id(id).build();
-            authToken = new UsernamePasswordAuthenticationToken(new SellerPrincipalDetails(seller), null, new SellerPrincipalDetails(seller).getAuthorities());
-        }else{
-            throw new AccountException(ErrorCode.LOGIN_TYPE_NOT_EXIST);
-        }
+        User user = User.builder().email(email).type(type).id(id).build();
+        Authentication authToken = new UsernamePasswordAuthenticationToken(new UserPrincipalDetails(user), null, new UserPrincipalDetails(user).getAuthorities());
 
         SecurityContextHolder.getContext().setAuthentication(authToken);
         filterChain.doFilter(request, response);

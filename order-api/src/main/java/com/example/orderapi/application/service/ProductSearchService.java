@@ -18,13 +18,21 @@ public class ProductSearchService {
 
     public Product getByProductId(Long productId){
         return productRepository.findWithProductItemById(productId)
-            .orElseThrow(() -> new OrderException(OrderErrorCode.NOT_FOUND_PRODUCT));
+            .orElseThrow(() -> new OrderException(OrderErrorCode.NOT_FOUND_ITEM));
     }
     public List<Product> getListByProductIds(List<Long> productIds){
-        return productRepository.findAllById(productIds);
+        List<Product> productList = productRepository.findAllById(productIds);
+        if(productList.isEmpty()){
+            throw new OrderException(OrderErrorCode.NOT_FOUND_PRODUCT);
+        }
+        return productList;
     }
 
     public List<Product> searchByName(String name) {
-        return productRepository.searchByName(name);
+        List<Product> productList = productRepository.searchByName(name);
+        if(productList.isEmpty()){
+            throw new OrderException(OrderErrorCode.NOT_FOUND_PRODUCT);
+        }
+        return productList;
     }
 }
