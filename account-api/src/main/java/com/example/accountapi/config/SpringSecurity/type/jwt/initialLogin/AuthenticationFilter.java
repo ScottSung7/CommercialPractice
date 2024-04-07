@@ -1,7 +1,7 @@
-package com.example.accountapi.config.SpringSecurity.type.jwt;
+package com.example.accountapi.config.SpringSecurity.type.jwt.initialLogin;
 
-import com.example.accountapi.config.SpringSecurity.customer.CustomerPrincipalDetails;
-import com.example.accountapi.config.SpringSecurity.seller.SellerPrincipalDetails;
+import com.example.accountapi.config.SpringSecurity.id.customer.CustomerPrincipalDetails;
+import com.example.accountapi.config.SpringSecurity.id.seller.SellerPrincipalDetails;
 import com.example.accountapi.config.SpringSecurity.type.jwt.JWTUtil;
 import com.example.accountapi.web.validation.exception.AccountException;
 import com.example.accountapi.web.validation.form.LogInForm;
@@ -74,13 +74,15 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         //TODO:이메일 인증과 토큰 엮기.
         String type = request.getParameter("type");
         String email;
-
+        Long id;
         if(type.equals("CUSTOMER")) {
             CustomerPrincipalDetails customUserDetails = (CustomerPrincipalDetails) authentication.getPrincipal();
             email = customUserDetails.getEmail();
+            id = customUserDetails.getId();
         }else if(type.equals("SELLER")) {
             SellerPrincipalDetails sellerUserDetails = (SellerPrincipalDetails) authentication.getPrincipal();
             email = sellerUserDetails.getEmail();
+            id = sellerUserDetails.getId();
         }else{
             throw new AccountException(LOGIN_TYPE_NOT_EXIST);
         }
@@ -91,7 +93,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 //
 //        String role = auth.getAuthority();
 
-        String token = jwtUtil.createJwt(email, type, 60*60*10*1000L);
+        String token = jwtUtil.createJwt(email, type, id, 60*60*10*1000L);
 
         response.addHeader("Authorization", "Bearer " + token);
     }

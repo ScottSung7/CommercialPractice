@@ -1,4 +1,4 @@
-package com.example.orderapi.config;
+package com.example.orderapi.config.QueryDsl;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 

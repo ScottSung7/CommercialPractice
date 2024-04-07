@@ -1,4 +1,4 @@
-package com.example.accountapi.config.SpringSecurity.seller;
+package com.example.accountapi.config.SpringSecurity.id.seller;
 
 
 import com.example.accountapi.domain.model.Seller;
@@ -39,7 +39,6 @@ public class SellerPrincipalDetails implements UserDetails {
         return seller.getName();
     }
 
-    public String getEmail() {return seller.getEmail();}
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -60,6 +59,7 @@ public class SellerPrincipalDetails implements UserDetails {
         return true;
     }
 
+    public String getEmail() {return seller.getEmail();}
     public String getType() {return "SELLER";}
-
+    public Long getId() {return seller.getId();}
 }

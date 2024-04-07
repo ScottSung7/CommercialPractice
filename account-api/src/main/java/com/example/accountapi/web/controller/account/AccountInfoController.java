@@ -7,18 +7,14 @@ import com.example.accountapi.domain.dto.SellerDto;
 import com.example.accountapi.domain.model.Customer;
 import com.example.accountapi.domain.model.Seller;
 import com.example.accountapi.web.validation.LoginCheck;
-import com.example.accountapi.web.validation.exception.AccountException;
-import com.example.accountapi.web.validation.exception.ErrorCode;
-import com.example.accountapi.config.SpringSecurity.customer.CustomerPrincipalDetails;
-import com.example.accountapi.config.SpringSecurity.seller.SellerPrincipalDetails;
+import com.example.accountapi.config.SpringSecurity.id.customer.CustomerPrincipalDetails;
+import com.example.accountapi.config.SpringSecurity.id.seller.SellerPrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Optional;
 
 import static com.example.accountapi.web.controller.account.AccountAPIControllerProperties.ACCOUNT_COMMON_URL;
 

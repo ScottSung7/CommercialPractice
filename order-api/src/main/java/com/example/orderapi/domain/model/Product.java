@@ -1,6 +1,8 @@
 package com.example.orderapi.domain.model;
 
-import com.example.orderapi.web.validation.form.AddProductForm;
+import com.example.orderapi.web.validation.form.cart.AddProductCartForm;
+import com.example.orderapi.web.validation.form.product.AddProductForm;
+import com.example.orderapi.web.validation.form.productItem.AddProductItemForm;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.AuditOverride;
@@ -33,12 +35,26 @@ public class Product extends BaseEntity{
     private List<ProductItem> productItems = new ArrayList<>();
 
     public static Product of(Long sellerId, AddProductForm addProductForm){
+        AddProductItemForm forms = addProductForm.getAddProductItemForms().get(0);
+        System.out.println(forms.getName());
+
         return Product.builder()
                 .sellerId(sellerId)
                 .name(addProductForm.getName())
                 .description(addProductForm.getDescription())
-                .productItems(addProductForm.getAddProductItemFormList().stream()
+                .productItems(addProductForm.getAddProductItemForms().stream()
                         .map(addProductItemForm -> ProductItem.of(sellerId, addProductItemForm)).collect(Collectors.toList()))
                 .build();
+    }
+
+    public static Product from(AddProductCartForm form){
+        return Product.builder()
+                .id(form.getId())
+                .name(form.getName())
+                .description(form.getDescription())
+                .productItems(form.getAddCartProductItemForms().stream()
+                        .map(ProductItem::from).collect(Collectors.toList()))
+                .build();
+
     }
 }

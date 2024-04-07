@@ -1,14 +1,11 @@
 package com.example.accountapi.web.validation;
 
-import com.example.accountapi.application.tools.crpto.AESCryptoUtil;
-import com.example.accountapi.config.SpringSecurity.customer.CustomerPrincipalDetails;
-import com.example.accountapi.config.SpringSecurity.seller.SellerPrincipalDetails;
+import com.example.accountapi.config.SpringSecurity.id.customer.CustomerPrincipalDetails;
+import com.example.accountapi.config.SpringSecurity.id.seller.SellerPrincipalDetails;
 import com.example.accountapi.web.validation.exception.AccountException;
 import com.example.accountapi.web.validation.exception.ErrorCode;
 import org.springframework.security.core.Authentication;
 
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
 import java.util.Optional;
 
 import static com.example.accountapi.web.validation.exception.ErrorCode.NO_LOGIN_PLEASE;

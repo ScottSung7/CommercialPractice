@@ -1,15 +1,14 @@
 package com.example.accountapi.config.SpringSecurity.type.jwt;
 
 
-import com.example.accountapi.config.SpringSecurity.CorsConfig;
-import com.example.accountapi.config.SpringSecurity.customer.CustomerLogInService_SpringSecurity;
-import com.example.accountapi.config.SpringSecurity.seller.SellerLogInService_SpringSecurity;
+import com.example.accountapi.config.SpringSecurity.CorsConfig_SpringSecurity;
+import com.example.accountapi.config.SpringSecurity.id.customer.CustomerLogInService_SpringSecurity;
+import com.example.accountapi.config.SpringSecurity.id.seller.SellerLogInService_SpringSecurity;
+import com.example.accountapi.config.SpringSecurity.type.jwt.initialLogin.AuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -25,7 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class JWTSecurityConfig {
 
     private final JWTUtil jwtUtil;
-    private final CorsConfig corsConfig;
+    private final CorsConfig_SpringSecurity corsConfigSpringSecurity;
     @Bean
     public PasswordEncoder customerPasswordEncoder(){
         return new BCryptPasswordEncoder();
@@ -71,7 +70,7 @@ public class JWTSecurityConfig {
                 )
                 .exceptionHandling((exceptionHandling) ->
                         exceptionHandling.authenticationEntryPoint(new CustomAuthenticationEntryPoint()))
-                .addFilter(corsConfig.corsFilter())
+                .addFilter(corsConfigSpringSecurity.corsFilter())
                 .addFilterBefore(new JWTFilter(jwtUtil), AuthenticationFilter.class)
                 .addFilterAt(new AuthenticationFilter(customerAuthenticationProvider(), sellerAuthenticationProvider(), jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests((authorizeRequests) -> authorizeRequests
