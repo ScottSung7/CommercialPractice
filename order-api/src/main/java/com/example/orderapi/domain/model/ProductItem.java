@@ -1,6 +1,9 @@
 package com.example.orderapi.domain.model;
 
-import com.example.orderapi.web.validation.form.AddProductItemForm;
+import com.example.orderapi.domain.model.redis.Cart;
+import com.example.orderapi.web.validation.form.cart.AddCartProductItemForm;
+import com.example.orderapi.web.validation.form.cart.AddProductCartForm;
+import com.example.orderapi.web.validation.form.productItem.AddProductItemForm;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.AuditOverride;
@@ -35,6 +38,15 @@ public class ProductItem extends BaseEntity{
                 .name(form.getName())
                 .price(form.getPrice())
                 .count(form.getCount())
+                .build();
+    }
+
+    public static ProductItem from(AddCartProductItemForm item) {
+        return ProductItem.builder()
+                .id(item.getProductId())
+                .name(item.getName())
+                .count(item.getCount())
+                .price(item.getPrice())
                 .build();
     }
 

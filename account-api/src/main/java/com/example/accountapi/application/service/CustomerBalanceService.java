@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CustomerBalanceService {
 
-    private final CustomerBalanceHistoryRepository customerBalanceHIstoryRepository;
+    private final CustomerBalanceHistoryRepository customerBalanceHistoryRepository;
     private final CustomerRepository customerRepository;
 
     @Transactional(noRollbackFor = {AccountException.class})
@@ -40,7 +40,7 @@ public class CustomerBalanceService {
                 .build();
         customerBalanceHistory.getCustomer().setBalance(customerBalanceHistory.getChangedMoney());
 
-        return customerBalanceHIstoryRepository.save(customerBalanceHistory);
+        return customerBalanceHistoryRepository.save(customerBalanceHistory);
 
     }
     public CustomerBalanceHistory checkBalance(String email) throws AccountException{
@@ -50,7 +50,7 @@ public class CustomerBalanceService {
     }
 
     private CustomerBalanceHistory getCurrentStatus(Customer customer){
-        return customerBalanceHIstoryRepository.findFirstByCustomer_IdOrderByIdDesc(customer.getId())
+        return customerBalanceHistoryRepository.findFirstByCustomer_IdOrderByIdDesc(customer.getId())
                         .orElse(CustomerBalanceHistory.builder()
                                 .changedMoney(0)
                                 .currentMoney(0)

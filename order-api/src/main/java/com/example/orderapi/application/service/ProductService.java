@@ -5,12 +5,14 @@ import com.example.orderapi.domain.model.ProductItem;
 import com.example.orderapi.repository.ProductRepository;
 import com.example.orderapi.web.validation.exception.OrderErrorCode;
 import com.example.orderapi.web.validation.exception.OrderException;
-import com.example.orderapi.web.validation.form.AddProductForm;
-import com.example.orderapi.web.validation.form.UpdateProductForm;
-import com.example.orderapi.web.validation.form.UpdateProductItemForm;
+import com.example.orderapi.web.validation.form.product.AddProductForm;
+import com.example.orderapi.web.validation.form.product.UpdateProductForm;
+import com.example.orderapi.web.validation.form.productItem.UpdateProductItemForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,9 +31,9 @@ public class ProductService {
         product.setName(form.getName());
         product.setDescription(form.getDescription());
 
-        for(UpdateProductItemForm itemForm : form.getItems()){
+        for(UpdateProductItemForm itemForm : form.getUpdateProductItemForms()){
             ProductItem item = product.getProductItems().stream()
-                    .filter(pi -> pi.getId().equals(itemForm.getId()))
+                    .filter(pi -> pi.getId().equals(itemForm.getItemId()))
                     .findFirst().orElseThrow(() -> new OrderException(OrderErrorCode.NOT_FOUND_ITEM));
             item.setName(itemForm.getName());
             item.setPrice(itemForm.getPrice());
@@ -40,6 +42,7 @@ public class ProductService {
         return product;
     }
 
+    @Transactional
     public void deleteProduct(Long sellerId, Long productId){
         Product product = productRepository.findBySellerIdAndId(sellerId, productId)
                 .orElseThrow(() -> new OrderException(OrderErrorCode.NOT_FOUND_PRODUCT));
@@ -48,4 +51,12 @@ public class ProductService {
 
     }
 
+    public List<Product> getMyProducts(Long sellerId) {
+        List<Product> productList = productRepository.findBySellerId(sellerId);
+
+        if(productList.isEmpty()){
+            throw new OrderException(OrderErrorCode.NO_PRODUCT);
+        }
+        return productList;
+    }
 }
