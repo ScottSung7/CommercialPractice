@@ -31,13 +31,14 @@ http://www.scottcommerce.net/swagger-ui/index.html
   - ECS를 통하여 배포하며 **AutoScaling**을 통해 유연하게 트래픽에 대응할 수 있도록 하였습니다.
 #### B. 배포:
  - 편의를 위해 각 API마다 **도커 컨테이너**로 만들어서 ECS를 통해 배포하였습니다. <br>
- - 아직은 크기가 크지 않으므로 **하나의 EC2에 다른 포트번호**로 배포를 하여 **Open Feign**을 통해 내부 HTTP 통신을 합니다. 
+ - 아직은 크기가 크지 않으므로 ECS의 **각각의 EC2에 각자 할당받은 포트번호**로 배포를 하여 필요시 전체 크기를 넓혀가며 Auto-Scaling을 하고 각 EC2로 Load Balancing을 받습니다.
+ - **Open Feign**을 통해 내부 HTTP 통신을 합니다. 
 #### C. 보안:
  - ECS Instance들을 private subnet에 두는 것을 넘어서 **WAF**를 통해서 특정 지역이나 IP가 접속하지 못하도록 막고 있고 기본으로 제공되는 **Shield**를 통해 DDOS공격에 대비하고 있습니다.
 #### D. 사용 편의성: 
  - **Multi-Module**구조로 만들어서 하나의 큰 Monlithic프로젝트가 아니라 하나의 API로 관리를 할수 있도록 하였습니다.<br>
  - **ECS**를 이용하여 배포를 하여서 컨테이너 관리를 손쉽게 할수 있습니다.<br>
- - Code Commit과 Code Build를 통한 **CI를 자동화** 시키고 ECR을 통해서 손쉽게 배포하도록 구성하였습니다.
+ - Code Commit과 Code Build를 통한 **CI/CD를 자동화** 시키고 ECR을 통해서 손쉽게 배포하도록 구성하였습니다.
 
 ![multi-module drawio](https://github.com/ScottSung7/CommercialPractice/assets/98432596/a6ae1da5-9697-421f-85ce-0ce5cad70134)
 
