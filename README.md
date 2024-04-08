@@ -9,7 +9,7 @@ http://www.scottcommerce.net/swagger-ui/index.html
 <br> 1. 비용 이슈로 한정적으로 오픈 하고 있습니다. (평일: 9am - 6pm)
 <br> 2. 해외 IP에서는 접근이 불가합니다. 
 <br> 3. a-test-controller에서 jwt토큰을 받아서 Authorize 버튼 클릭해 등록 후 확인 가능합니다. (sign-up에서만 요구하지 않음.)
-<br> 4. 현재는 비용 이슈로 EC2에 docker-compose를 이용해 띄워져 있으며 필요시 각 단계별 구성을 포트폴리오 제출 또는 현장시연 가능합니다.
+
 
 ## 1. Monolithic (Developer Monolithic Branch)
 빠른 배포를 목표로 한 Monolithic한 구조로 AWS EC2하나에 배포하였습니다.
