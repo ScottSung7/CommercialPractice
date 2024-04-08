@@ -45,10 +45,8 @@ http://www.scottcommerce.net/swagger-ui/index.html
 <br>
 
 ## 3. Micro Service Architecture (Developer Micro-Service Branch)
-서비스가 커져 감에 따라 하나의 거대한 Multi-Module 또는 Monolithic 구조에서 서비스 하나하나 별로 관리하며 내부 통신을 효율적으로 하는 방법으로 변화되어 가게 됩니다. 다만, MSA의 도입을 하게 되면서
+서비스가 커져 감에 따라 하나의 거대한 Multi-Module 또는 Monolithic 구조에서 서비스 하나하나 별로 관리하며 내부 통신을 효율적으로 하는 방법으로 변화되어 가게 됩니다. 다만, MSA 적용시 내부 통신이 복잡해지고 새로운 구조에 알맞는 기술들을 배우는 등의 비용도 고려하여 도입을 결정하여야 한다. 
 
-빠른 배포를 목표로 한 Monolithic한 구조로 AWS EC2하나에 배포하였습니다.
-기능은 간단한 쇼핑몰로서 회원가입, 크레딧 충전, 결제, 상품등록같이 간단한 기능만 가질 예정 입니다. <br>
 #### A. 유연성:
 - 각 서비스별로 Auto-scaling하여 운영되어서 Multi-Module의 경우처럼 요청이 늘어 났을때 서비스 전체를 키워야 하지 않아서 **각 서비스별로 유연하게 증감** 시킬 수 있습니다. 
 - 서비스 별로 나누어 관리를 하게 되어 추상화된 인터페이스처럼 필요시 서비스별로 추가 제거가 쉽다.
