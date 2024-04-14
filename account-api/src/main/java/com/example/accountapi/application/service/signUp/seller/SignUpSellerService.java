@@ -13,7 +13,7 @@ public interface SignUpSellerService {
 
     public boolean isEmailExist(String email);
 
-    public Seller changeSellerValidateEmail(Seller SignUpSeller);
+    public Seller addExpirationDate(Seller SignUpSeller, int num);
 
-    public void sellerVerify(String email);
+    public boolean sellerVerify(String email);
 }

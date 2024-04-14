@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,15 +42,14 @@ public class ATesterController {
     @PostMapping("test/create/customer")
     @Operation(summary = "구매자 \"test@test.com\" 유저를 등록하고 테스트에 필요한 JWT 토큰을 생성합니다.")
     public ResponseEntity<String> jtokenCustomer() throws JsonProcessingException {
-        CustomerSignUpForm customerSignUpForm = CustomerSignUpForm.builder()
-                .email("tester@test.com")
-                .name("tester")
-                .phone("01000000000")
-                .birth(LocalDate.of(1990, 1, 1))
-                .password("1234")
-                .build();
+
+        CustomerSignUpForm customerSignUpForm = CustomerSignUpForm.testSignUpForm();
 
         customer = signUpCustomerService.signUp(customerSignUpForm);
+
+        System.out.println(LocalDateTime.now());
+
+
 
         return ResponseEntity.ok(makeKeyToJSON(customer.getEmail(), "CUSTOMER"));
     }
@@ -57,7 +57,8 @@ public class ATesterController {
     @PostMapping("test/login/customer")
     @Operation(summary = "구매자 등록 후 토큰을 다시 받기 위해 요청합니다.")
     public ResponseEntity<String> jtokenLoginCustomer() throws JsonProcessingException {
-        if(customer == null) {
+        String email = "tester@test.com";
+        if(accountInfoApplication.findCustomer(email) == null) {  // customer가 null이면
             throw new AccountException(NO_REGISTERED_TEST_CUSTOMER);
         }
 
@@ -67,14 +68,7 @@ public class ATesterController {
     @PostMapping("test/create/seller")
     @Operation(summary = "판매자 \"test@test.com\" 유저를 등록하고 테스트에 필요한 JWT 토큰을 생성합니다.")
     public ResponseEntity<String> jtokenSeller() throws JsonProcessingException {
-        SellerSignUpForm sellerSignUpForm = SellerSignUpForm.builder()
-                .email("tester@test.com")
-                .name("tester")
-                .phone("010-0000-0000")
-                .birth(LocalDate.of(1990, 1, 1))
-                .password("1234")
-                .companyRegistrationNumber("33055")
-                .build();
+        SellerSignUpForm sellerSignUpForm = SellerSignUpForm.testSignUpForm();
         seller = signUpSellerService.signUp(sellerSignUpForm);
 
         return ResponseEntity.ok(makeKeyToJSON(seller.getEmail(), "SELLER"));
@@ -83,7 +77,8 @@ public class ATesterController {
     @PostMapping("test/login/seller")
     @Operation(summary = "판매자 등록 후 토큰을 다시 받기 위해 요청합니다.")
     public ResponseEntity<String> jtokenLoginSeller() throws JsonProcessingException {
-        if(seller == null) {
+        String email = "tester@test.com";
+        if(accountInfoApplication.findSeller(email) == null) {
             throw new AccountException(NO_REGISTERED_TEST_SELLER);
         }
         return ResponseEntity.ok(makeKeyToJSON(seller.getEmail(), "SELLER"));

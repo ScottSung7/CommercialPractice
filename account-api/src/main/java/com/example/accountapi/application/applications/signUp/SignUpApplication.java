@@ -17,8 +17,9 @@ public interface SignUpApplication {
 
     public Seller sellerUpdate(SellerUpdateForm sellerUpdateForm);
 
-    public void customerVerify(String email);
+    public boolean customerVerify(String email);
 
-    public void sellerVerify(String email);
+    public boolean sellerVerify(String email);
+
 }
 

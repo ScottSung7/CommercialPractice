@@ -15,7 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/customer/cart")
 @RequiredArgsConstructor
 public class CustomerCartController {
@@ -33,9 +33,7 @@ public class CustomerCartController {
     @GetMapping
     public ResponseEntity<Cart> showCart(Authentication authentication) {
         UserPrincipalDetails customer = LoginCheckMSA.customerCheck(authentication);
-        System.out.println("checking");
         return ResponseEntity.ok(cartApplication.getCart(customer.getId()));
-
     }
 
     @PutMapping

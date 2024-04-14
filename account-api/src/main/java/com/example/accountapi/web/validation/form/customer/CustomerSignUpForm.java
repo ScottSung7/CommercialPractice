@@ -7,19 +7,13 @@ import jakarta.validation.Constraint;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Getter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class CustomerSignUpForm {
-
 
     @Email(message = "이메일 형식에 맞게 입력해주세요")
     @NotBlank(message = "이메일을 입력해주세요")
@@ -42,4 +36,22 @@ public class CustomerSignUpForm {
     @Tel(message = "-을 빼고 번호만 넣어 주세요")
     @Schema(description = "휴대폰 번호", example = "01012345678")
     private String phone;
+
+    @Builder(access=AccessLevel.PRIVATE)
+    private CustomerSignUpForm(String email, String name, String password, LocalDate birth, String phone) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+        this.birth = birth;
+        this.phone = phone;
+    }
+    public static CustomerSignUpForm testSignUpForm(){
+        return CustomerSignUpForm.builder()
+                .email("tester@test.com")
+                .name("tester")
+                .phone("01000000000")
+                .birth(LocalDate.of(1990, 1, 1))
+                .password("1234")
+                .build();
+    }
 }

@@ -26,11 +26,8 @@ public class EmailVerificationProviderImpl_Google implements EmailVerificationPr
     @Value("${email.server}")
     private String serverAddress;
 
-
-
-
     @Override
-    public void sendVerificationEmail(Seller to) {
+    public boolean sendVerificationEmail(Seller to) {
 
         try {
             SendMailForm sendMailForm = SendMailForm.builder()
@@ -42,6 +39,7 @@ public class EmailVerificationProviderImpl_Google implements EmailVerificationPr
             boolean mailResult = createCertificationMail(sendMailForm.getTo(), sendMailForm.getSubject(), sendMailForm.getText());
             if(mailResult){
                 log.info("Send email result : "+ to.getEmail()+"(SUCCESS)");
+                return mailResult;
             }else{
                 log.info("Send email result : "+ to.getEmail()+"(FAIL)");
                 throw new AccountException(ErrorCode.VERIFICATION_EMAIL_ERROR);
@@ -51,8 +49,9 @@ public class EmailVerificationProviderImpl_Google implements EmailVerificationPr
         }
     }
 
+    @Override
+    public boolean sendVerificationEmail(Customer to){
 
-    public void sendVerificationEmail(Customer to){
         try {
             SendMailForm sendMailForm = SendMailForm.builder()
                     .from(ADMIN_EMAIL)
@@ -65,14 +64,14 @@ public class EmailVerificationProviderImpl_Google implements EmailVerificationPr
 
             if (mailResult) {
                 log.info("Send email result : " + to.getEmail() + "(SUCCESS)");
+                return mailResult;
             } else {
                 log.info("Send email result : " + to.getEmail() + "(FAIL)");
                 throw new AccountException(ErrorCode.VERIFICATION_EMAIL_ERROR);
             }
         }catch(Exception e){
-            System.out.println("email Creation");
+            log.error("Email Creation Failed");
             throw new AccountException(ErrorCode.VERIFICATION_EMAIL_ERROR);
-
         }
     }
     private boolean createCertificationMail(String to, String subject, String text){
@@ -104,15 +103,12 @@ public class EmailVerificationProviderImpl_Google implements EmailVerificationPr
 
             String verifyingaddress = serverAddress+ "/accounts/" + type + "/verify/" + encryptedEmail;
 
-//           String encryptedType = AESCryptoUtil.encrypt(AESCryptoUtil.specName, AESCryptoUtil.KEY, type);
-
             String link = "<a href='" + verifyingaddress +"'> 클릭하여 인증</a>";
             certificationMessage += "<h1 style='text-align:center;'>[인증메일]인증메일</h1>";
             certificationMessage += "<h3 style='text-align: center;'>인증링크: " + link + "</h3>";
 
             return certificationMessage;
         }catch (Exception e){
-            System.out.println("emailBody");
             throw new AccountException(ErrorCode.VERIFICATION_EMAIL_ERROR);
         }
     }

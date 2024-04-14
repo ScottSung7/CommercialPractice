@@ -53,6 +53,7 @@ public class JWTFilter extends OncePerRequestFilter {
         //Authentication
         Authentication authToken = null;
         if(type.equals("CUSTOMER")){
+
             Customer customer = Customer.builder().email(email).id(id).build();
             authToken = new UsernamePasswordAuthenticationToken(new CustomerPrincipalDetails(customer), null, new CustomerPrincipalDetails(customer).getAuthorities());
         }else if(type.equals("SELLER")){

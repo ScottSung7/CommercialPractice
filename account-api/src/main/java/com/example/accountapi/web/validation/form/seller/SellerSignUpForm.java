@@ -5,17 +5,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class SellerSignUpForm {
 
     @Email(message = "이메일 형식에 맞게 입력해주세요")
@@ -42,4 +36,26 @@ public class SellerSignUpForm {
 
     @Schema(description = "사업자 등록번호", example = "123-45-67890")
     private String companyRegistrationNumber;
+
+    @Builder(access= AccessLevel.PRIVATE)
+    private SellerSignUpForm(String email, String name, String password, LocalDate birth, String phone, String companyRegistrationNumber) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+        this.birth = birth;
+        this.phone = phone;
+        this.companyRegistrationNumber = companyRegistrationNumber;
+    }
+
+    public static SellerSignUpForm testSignUpForm() {
+        return SellerSignUpForm.builder()
+                .email("tester@test.com")
+                .name("tester")
+                .phone("01000000000")
+                .birth(LocalDate.of(1990, 1, 1))
+                .password("1234")
+                .companyRegistrationNumber("33055")
+                .build();
+    }
+
 }

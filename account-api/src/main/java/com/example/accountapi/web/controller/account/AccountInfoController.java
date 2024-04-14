@@ -6,7 +6,7 @@ import com.example.accountapi.domain.dto.CustomerDto;
 import com.example.accountapi.domain.dto.SellerDto;
 import com.example.accountapi.domain.model.Customer;
 import com.example.accountapi.domain.model.Seller;
-import com.example.accountapi.web.validation.LoginCheck;
+import com.example.accountapi.config.SpringSecurity.LoginCheck;
 import com.example.accountapi.config.SpringSecurity.id.customer.CustomerPrincipalDetails;
 import com.example.accountapi.config.SpringSecurity.id.seller.SellerPrincipalDetails;
 import lombok.RequiredArgsConstructor;

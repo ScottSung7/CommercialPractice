@@ -7,11 +7,11 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Setter
+
 @Getter
-@AllArgsConstructor
-@Builder
-@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SellerDto {
 
     @Schema(description = "판매자 ID", example = "1")

@@ -34,14 +34,17 @@ public class SignUpApplicationImpl implements SignUpApplication {
         };
         Customer signUpCustomer = signUpCustomerService.signUp(customerSignUpForm);
 
-        emailVerificationProvider.sendVerificationEmail(signUpCustomer);
-        signUpCustomerService.changeCustomerValidateEmail(signUpCustomer);
-
+        boolean mailSentCheck = emailVerificationProvider.sendVerificationEmail(signUpCustomer);
+        if(mailSentCheck) {
+            signUpCustomerService.addExpirationDate(signUpCustomer, 1);
+        }else{
+            throw new AccountException(ErrorCode.VERIFICATION_EMAIL_ERROR);
+        }
         return signUpCustomer;
     }
     @Override
-    public void customerVerify(String email){
-        signUpCustomerService.customerVerify(email);
+    public boolean customerVerify(String email){
+        return signUpCustomerService.customerVerify(email);
     }
     @Override
     public Customer customerUpdate(CustomerUpdateForm customerUpdateForm) {
@@ -57,7 +60,7 @@ public class SignUpApplicationImpl implements SignUpApplication {
         Seller signUpSeller = signUpSellerService.signUp(sellerSignUpForm);
 
         emailVerificationProvider.sendVerificationEmail(signUpSeller);
-        signUpSellerService.changeSellerValidateEmail(signUpSeller);
+        signUpSellerService.addExpirationDate(signUpSeller, 1);
 
         return signUpSeller;
     }
@@ -68,10 +71,9 @@ public class SignUpApplicationImpl implements SignUpApplication {
     }
 
     @Override
-    public void sellerVerify(String email){
-        signUpSellerService.sellerVerify(email);
+    public boolean sellerVerify(String email){
+        return signUpSellerService.sellerVerify(email);
     }
-
 
 
 }

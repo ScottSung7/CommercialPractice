@@ -54,13 +54,14 @@ public class CartApplication {
     public Cart getCart(Long customerId){
 
         Cart newcart = cartService.getCart(customerId);
-        System.out.println(newcart);
+     //   System.out.println(newcart);
         Cart cart = refreshCart(newcart);
-        cartService.putCart(cart.getCustomerId(),cart);
+        cartService.putCart(cart.getCustomerId(), cart);
         Cart returnCart = new Cart();
         returnCart.setCustomerId(customerId);
         returnCart.setProducts(cart.getProducts());
         returnCart.setMessages(cart.getMessages());
+
         cart.setMessages(new ArrayList<>());
         // 메세지 없는 것
         cartService.putCart(customerId,cart);
@@ -76,14 +77,13 @@ public class CartApplication {
     protected Cart refreshCart(Cart cart){
         // 1. 상품이나 상품의 아이템의 정보, 가격, 수량이 변경되었는지 체크하고
         // 그에 맞는 알람을 제공해준다.
-        // 2. 상품의 수량, 가격을 우리가 임의로 변경한다.
-
-
+        // 2. 상품의 수량, 가격을 우리가 임의로 변경한다
         Map<Long,Product> productMap = productSearchService.getListByProductIds(
                         cart.getProducts().stream().map(Product::getId).collect(Collectors.toList()))
                 .stream()
                 .collect(Collectors.toMap(Product::getId, product -> product));
 
+        //하나의 Product씩 확인
         for(int i= 0;i< cart.getProducts().size();i++){
 
             Product cartProduct = cart.getProducts().get(i);
@@ -96,6 +96,7 @@ public class CartApplication {
                 continue;
             }
 
+            //Product Item 관리
             Map<Long,ProductItem> productItemMap = p.getProductItems().stream()
                     .collect(Collectors.toMap(ProductItem::getId, productItem -> productItem));
 
@@ -112,15 +113,18 @@ public class CartApplication {
                     continue;
                 }
 
-                boolean isPriceChanged = false,isCountNotEnough=false;
+                boolean isPriceChanged = false, isCountNotEnough=false;
+                //가격 반영
                 if(!cartProductItem.getPrice().equals(pi.getPrice())){
                     isPriceChanged =true;
                     cartProductItem.setPrice(pi.getPrice());
                 }
+                //수량 반영
                 if(cartProductItem.getCount() > pi.getCount()) {
                     isCountNotEnough = true;
                     cartProductItem.setCount(pi.getCount());
                 }
+                //가격, 수량 변동시
                 if(isPriceChanged && isCountNotEnough){
                     tmpMessages.add(cartProductItem.getName()+" 가격변동, 수량이 부족하여 구매 가능한 최대치로 변경되었습니다.");
                 }else if(isPriceChanged){

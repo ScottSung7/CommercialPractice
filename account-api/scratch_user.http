@@ -1,0 +1,13 @@
+### 로그인 (고객)
+POST http://localhost:8080/login
+Content-Type: application/x-www-form-urlencoded
+
+email=tester@test.com&password=1234&type=CUSTOMER
+
+
+### 회원정보
+POST http://localhost:8080/accounts/customer
+Content-Type:application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RlckB0ZXN0LmNvbSIsInR5cGUiOiJDVVNUT01FUiIsImlkIjoxLCJpYXQiOjE3MTI3ODcyNzksImV4cCI6MTcxMjgyMzI3OX0.oKMtqP6Y4QaG7Bxiv0AyL_YgiVhuYyebS_QgrehouUo
+
+
