@@ -85,6 +85,8 @@ public class JWTSecurityConfig {
                                         "/swagger-resources/**", "/api-docs/**"  ).permitAll()
                         //a-tester-controller
                         .requestMatchers("/test/**").permitAll()
+                        //test
+                        .requestMatchers("/accountChecking").permitAll()
                         .anyRequest().authenticated()
                 );
 

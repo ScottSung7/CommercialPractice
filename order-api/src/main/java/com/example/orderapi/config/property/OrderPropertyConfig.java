@@ -1,4 +1,4 @@
-package com.example.orderapi.config;
+package com.example.orderapi.config.property;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;

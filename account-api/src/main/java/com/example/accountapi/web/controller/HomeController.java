@@ -3,6 +3,7 @@ package com.example.accountapi.web.controller;
 import com.example.accountapi.application.tools.client.OrderServiceClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +40,16 @@ public class HomeController {
         public String test(){
         return "checking";
     }
+    @PostMapping("/accountChecking")
+    public ResponseEntity<String> accountTest(){
+        return ResponseEntity.ok("checkingAccount");
+    }
+    
+    @Autowired
+    private OrderServiceClient orderServiceClient;
+
+
+    
 
 
 

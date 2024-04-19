@@ -12,14 +12,15 @@ group = 'com.example'
 java {
     sourceCompatibility = '17'
 }
-jacoco {
-    toolVersion = "0.8.7"
-    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
-}
+
 repositories {
     mavenCentral()
 }
-
+//bootJar
+tasks.getByName('bootJar'){
+    enabled = true
+}
+//cloud
 dependencyManagement {
 
     imports {
@@ -27,9 +28,7 @@ dependencyManagement {
     }
 
 }
-tasks.getByName('bootJar'){
-    enabled = true
-}
+//protobuf
 protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:3.25.1"
@@ -52,6 +51,11 @@ sourceSets {
             srcDirs 'build/generated/source/proto/main/java'
         }
     }
+}
+//jacoco
+jacoco {
+    toolVersion = "0.8.7"
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
 }
 test {
     finalizedBy jacocoTestReport
@@ -99,14 +103,15 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.data:spring-data-envers'
 
-    //annotation
+    //Lombok - annotation
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.projectlombok:lombok:1.18.26'
 
-    //spring security
+    //spring security & JWT
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation group: 'org.springframework.security', name: 'spring-security-messaging', version: '5.6.2'
+    implementation 'io.jsonwebtoken:jjwt:0.12.3'
+    //implementation 'com.auth0:java-jwt:4.4.0'
 
     //mail
     implementation 'org.springframework.boot:spring-boot-starter-mail'
@@ -114,9 +119,6 @@ dependencies {
     //Front
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
-    //jwt
-    implementation 'io.jsonwebtoken:jjwt:0.12.3'
-    //implementation 'com.auth0:java-jwt:4.4.0'
 
     //random string
     //implementation 'org.apache.commons:commons-lang3:3.12.0'
@@ -124,7 +126,7 @@ dependencies {
     //swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 
-    //spring cloud
+    //spring cloud - Cloud Dependency Management needed
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
@@ -140,6 +142,7 @@ dependencies {
 
     //test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.projectlombok:lombok:1.18.26'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.assertj:assertj-core:3.23.1'
 

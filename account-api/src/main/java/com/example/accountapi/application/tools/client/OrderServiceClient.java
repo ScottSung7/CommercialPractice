@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @FeignClient(name = "order-api")
 public interface OrderServiceClient {
-//    @PostMapping("/orderFeignTesting")
-//    ResponseEntity<String> orderTesting();
+    @PostMapping("/orderFeignTesting")
+    ResponseEntity<String> orderTesting();
 }

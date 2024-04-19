@@ -4,6 +4,7 @@ rootProject.name = 'invite'
 include 'account-api'
 include ':order-api'
 include ':protoProject'
+include ':chat-api'
 
 
 
