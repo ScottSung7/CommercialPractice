@@ -1,9 +1,7 @@
 package com.example.chatapi.web;
 
-import com.example.chatapi.model.room.Users;
+import com.example.chatapi.model.entity.Users;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class RoomSaveFormTest {
 

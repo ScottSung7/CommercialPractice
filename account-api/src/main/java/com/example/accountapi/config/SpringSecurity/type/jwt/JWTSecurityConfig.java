@@ -86,7 +86,7 @@ public class JWTSecurityConfig {
                         //a-tester-controller
                         .requestMatchers("/test/**").permitAll()
                         //test
-                        .requestMatchers("/accountChecking").permitAll()
+                        //.requestMatchers("/accountChecking").permitAll()
                         .anyRequest().authenticated()
                 );
 

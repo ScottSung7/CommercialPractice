@@ -67,3 +67,53 @@ body {
 .chat-input button:hover {
     background-color: #405D9C;
 }
+
+/* UUID 입력 상자 스타일 */
+#uuid {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+#uuid input[type="text"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #1a1a1d; /* 검정색 배경 */
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+#uuid input[type="text"]:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* 포커스 시 그림자 */
+}
+
+/* RoomID 입력 상자 스타일 */
+#roomId {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+#roomId input[type="text"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #1a1a1d; /* 검정색 배경 */
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+#roomId input[type="text"]:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* 포커스 시 그림자 */
+}
