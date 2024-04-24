@@ -29,21 +29,21 @@ dependencyManagement {
 
 }
 //protobuf
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:3.25.1"
-    }
-    plugins {
-        grpc {
-            artifact = 'io.grpc:protoc-gen-grpc-java:1.62.2'
-        }
-    }
-    generateProtoTasks {
-        all()*.plugins {
-            grpc {}
-        }
-    }
-}
+//protobuf {
+//    protoc {
+//        artifact = "com.google.protobuf:protoc:3.25.1"
+//    }
+//    plugins {
+//        grpc {
+//            artifact = 'io.grpc:protoc-gen-grpc-java:1.62.2'
+//        }
+//    }
+//    generateProtoTasks {
+//        all()*.plugins {
+//            grpc {}
+//        }
+//    }
+//}
 sourceSets {
     main{
         java{
@@ -140,6 +140,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
+    //aws-secrets manager
+    dependencies {
+        implementation platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.1.0")
+        implementation 'io.awspring.cloud:spring-cloud-aws-starter-parameter-store'
+    }
     //test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.projectlombok:lombok:1.18.26'

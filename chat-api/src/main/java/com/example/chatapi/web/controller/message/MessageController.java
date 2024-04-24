@@ -7,7 +7,7 @@ import com.example.chatapi.applications.service.UsersService;
 import com.example.chatapi.config.common.SpringSecurity.id.User;
 import com.example.chatapi.config.common.SpringSecurity.jwt.JWTUtil;
 import com.example.chatapi.config.common.validation.securityException.BasicException;
-import com.example.chatapi.model.basics.Greeting;
+
 import com.example.chatapi.model.dto.message.MessageDTO;
 import com.example.chatapi.model.entity.roomAndUser.Room;
 import com.example.chatapi.model.entity.roomAndUser.Users;

@@ -41,6 +41,15 @@ public class AccountInfoController {
 
         return ResponseEntity.ok(CustomerDto.from(customer));
     }
+    @PostMapping("/seller")
+    public ResponseEntity<SellerDto> getSellerInfo(Authentication authentication) {
+
+        SellerPrincipalDetails sellerPrincipalDetails = LoginCheck.sellerCheck(authentication);
+        Seller seller = accountInfoApplication.findSeller(sellerPrincipalDetails.getEmail());
+
+        return ResponseEntity.ok(SellerDto.from(seller));
+    }
+
     @PostMapping("/customer/info")
     public ResponseEntity<CustomerDto> getCustomerInfo(@RequestParam("email") String email) {
         Customer customer = accountInfoApplication.findCustomer(email);
