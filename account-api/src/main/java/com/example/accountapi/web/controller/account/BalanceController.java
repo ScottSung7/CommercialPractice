@@ -1,9 +1,9 @@
 package com.example.accountapi.web.controller.account;
 
-import com.example.accountapi.application.service.CustomerBalanceService;
+import com.example.accountapi.application.service.balance.CustomerBalanceService;
 import com.example.accountapi.domain.dto.CustomerBalanceDto;
 import com.example.accountapi.domain.model.CustomerBalanceHistory;
-import com.example.accountapi.web.validation.LoginCheck;
+import com.example.accountapi.config.SpringSecurity.LoginCheck;
 import com.example.accountapi.web.validation.form.ChangeBalanceForm;
 import com.example.accountapi.config.SpringSecurity.id.customer.CustomerPrincipalDetails;
 import io.swagger.v3.oas.annotations.media.Schema;

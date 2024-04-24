@@ -1,5 +1,8 @@
 server:
   port: 8080
+logging:
+  level:
+    root: debug
 spring:
   application:
     name: account-api
@@ -55,6 +58,12 @@ springdoc:
     urls[1]:
       name: order-api
       url: http://localhost:8081/api-docs
+    urls[2]:
+      name: chat-api
+      url: http://localhost:8085/api-docs
+    urls[3]:
+      name: test-api
+      url: http://localhost:8086/api-docs
   cache:
     disabled: true
   override-with-generic-response: false

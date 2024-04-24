@@ -23,7 +23,7 @@ public class SellerPrincipalDetails implements UserDetails {
         collect.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                return seller.getRole();
+                return "SELLER";
             }
         });
         return collect;

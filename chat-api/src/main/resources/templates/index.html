@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+    <script src="/app.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="sidebar">
+        <h2 class="members-header">Members</h2>
+        <div class="members">
+            <div class="form-group">
+                <label for="uuid">Token, RoomId </label><br>
+                <input type="text" id="uuid" style="width:200px; height: 20px;" class="form-control" placeholder="Your token here..."><br>
+                <input type="text" id="roomId" style="width:200px; height: 20px;" class="form-control" placeholder="Your roomid here...">
+            </div>
+            <!-- Member list here -->
+        </div>
+    </div>
+    <div class="content">
+        <h1 class="chat-title">Chat Page</h1>
+        <div class="chat-messages" id="greetings">
+            <!-- Chat messages here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="message" placeholder="Type your message...">
+            <button id="send">Send</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

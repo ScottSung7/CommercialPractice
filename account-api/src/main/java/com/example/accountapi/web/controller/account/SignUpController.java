@@ -6,7 +6,7 @@ import com.example.accountapi.domain.dto.CustomerDto;
 import com.example.accountapi.domain.dto.SellerDto;
 import com.example.accountapi.domain.model.Customer;
 import com.example.accountapi.domain.model.Seller;
-import com.example.accountapi.web.validation.LoginCheck;
+import com.example.accountapi.config.SpringSecurity.LoginCheck;
 import com.example.accountapi.web.validation.exception.AccountException;
 import com.example.accountapi.web.validation.form.customer.CustomerSignUpForm;
 import com.example.accountapi.web.validation.form.customer.CustomerUpdateForm;
@@ -71,12 +71,8 @@ public class SignUpController {
             , description = "받으신 이메일의 링크 클릭으로도 인증이 가능합니다.")
     public ResponseEntity<String> verifyCustomer(@PathVariable("email") String email){
 
-      //  String decrptedType = decript(type);
-      //  LoginCheck.customerCheck(decrptedType);
-
         String decrptedEmail = decript(email);
-        signUpApplication.customerVerify(decrptedEmail);
-        return ResponseEntity.ok("인증이 완료되었습니다.");
+        return signUpApplication.customerVerify(decrptedEmail) ? ResponseEntity.ok("인증이 완료되었습니다.") : ResponseEntity.ok("인증에 실패하였습니다.");
     }
 
     @GetMapping(AccountAPIControllerProperties.SELLER_VERIFY + "/{email}")
@@ -84,12 +80,8 @@ public class SignUpController {
             , description = "받으신 이메일의 링크 클릭으로도 인증이 가능합니다.")
     public ResponseEntity<String> verifySeller(@PathVariable("email") String email) {
 
-      //  String decrptedType = decript(type);
-     //   LoginCheck.sellerCheck(decrptedType);
-
         String decrptedEmail = decript(email);
-        signUpApplication.sellerVerify(decrptedEmail);
-        return ResponseEntity.ok("인증이 완료되었습니다.");
+        return signUpApplication.sellerVerify(decrptedEmail) ? ResponseEntity.ok("인증이 완료되었습니다.") : ResponseEntity.ok("인증에 실패하였습니다.");
     }
 
     private String decript(String value) {
