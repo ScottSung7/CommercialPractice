@@ -1,10 +1,12 @@
 package com.example.accountapi.domain.model;
 
 
+import com.example.accountapi.web.validation.form.customer.CustomerUpdateForm;
 import com.example.accountapi.web.validation.form.seller.SellerSignUpForm;
 import com.example.accountapi.web.validation.form.seller.SellerUpdateForm;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.envers.AuditOverride;
 
 import java.time.LocalDate;
@@ -13,10 +15,8 @@ import java.util.Locale;
 
 @Entity
 @Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Setter(AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AuditOverride(forClass = BaseEntity.class)
 public class Seller extends BaseEntity{
 
@@ -24,8 +24,6 @@ public class Seller extends BaseEntity{
     @Column(name="seller_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String companyRegistrationNumber;
     @Column(name="seller_email", unique = true)
     private String email;
     private String name;
@@ -34,9 +32,24 @@ public class Seller extends BaseEntity{
     private LocalDate birth;
 
     private LocalDateTime verificationExpiredAt;
-    private String verificationCode;
+    @ColumnDefault(value = "false")
     private boolean verified;
 
+    private String companyRegistrationNumber;
+    @Builder
+    public Seller(String email, String password, String name, LocalDate birth, String phone, LocalDateTime verificationExpiredAt, String companyRegistrationNumber, Long id) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.birth = birth;
+        this.phone = phone;
+        this.verificationExpiredAt = verificationExpiredAt;
+
+        //optional
+        this.companyRegistrationNumber = companyRegistrationNumber;
+        //In need
+        this.id = id;
+    }
 
     public static Seller from(SellerSignUpForm form){
         return Seller.builder()
@@ -45,7 +58,7 @@ public class Seller extends BaseEntity{
                 .name(form.getName())
                 .birth(form.getBirth())
                 .phone(form.getPhone())
-                .verified(false)
+                .verificationExpiredAt(LocalDateTime.now())
                 .build();
     }
 
@@ -55,5 +68,17 @@ public class Seller extends BaseEntity{
         seller.setPhone(form.getPhone());
         seller.setCompanyRegistrationNumber(form.getCompanyRegistrationNumber());
         return seller;
+    }
+
+    //Additional Method
+    public void encodePassword(String encodedPassword){
+        this.password = encodedPassword;
+    }
+    public void addVerificationExpirationDate(LocalDateTime expirationDate) {
+        this.verificationExpiredAt = expirationDate;
+    }
+    public boolean verifySeller(boolean verified) {
+        this.verified = verified;
+        return this.verified;
     }
 }

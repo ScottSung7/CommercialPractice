@@ -16,6 +16,8 @@ public class CorsConfig_SpringSecurity {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://localhost:8080"); // e.g. http://domain1.com
+        config.addAllowedOrigin("http://www.scottcommerce.net");
+        config.addAllowedOrigin("http://3.38.15.59:8080");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);

@@ -13,9 +13,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class SellerUpdateForm {
 
     @NotBlank(message = "이메일을 입력해주세요")

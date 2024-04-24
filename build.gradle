@@ -31,7 +31,7 @@ dependencyManagement {
     }
 }
 dependencies {
-
+    implementation project(":chat-api")
     implementation project(":account-api")
     implementation project(":order-api")
     implementation project(':protoProject')

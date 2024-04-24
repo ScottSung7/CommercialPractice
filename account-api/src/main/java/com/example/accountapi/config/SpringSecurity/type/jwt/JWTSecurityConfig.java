@@ -26,11 +26,8 @@ public class JWTSecurityConfig {
     private final JWTUtil jwtUtil;
     private final CorsConfig_SpringSecurity corsConfigSpringSecurity;
     @Bean
-    public PasswordEncoder customerPasswordEncoder(){
+    public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
-    }
-    @Bean
-    public PasswordEncoder sellerPasswordEncoder(){ return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -41,7 +38,7 @@ public class JWTSecurityConfig {
     public DaoAuthenticationProvider customerAuthenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(customerDetailService());
-        provider.setPasswordEncoder(customerPasswordEncoder());
+        provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
     @Bean
@@ -50,7 +47,7 @@ public class JWTSecurityConfig {
     public DaoAuthenticationProvider sellerAuthenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(sellerDetailService());
-        provider.setPasswordEncoder(sellerPasswordEncoder());
+        provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
 //    @Bean
@@ -88,6 +85,8 @@ public class JWTSecurityConfig {
                                         "/swagger-resources/**", "/api-docs/**"  ).permitAll()
                         //a-tester-controller
                         .requestMatchers("/test/**").permitAll()
+                        //test
+                        //.requestMatchers("/accountChecking").permitAll()
                         .anyRequest().authenticated()
                 );
 

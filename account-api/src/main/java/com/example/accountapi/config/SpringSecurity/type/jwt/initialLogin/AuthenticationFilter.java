@@ -50,6 +50,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                         .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue()[0]));
                 String formDataString = mapper.writeValueAsString(formData);
                 creds = mapper.readValue(formDataString, LogInForm.class);
+                System.out.println(creds.getEmail());
             }
 
             //로그인

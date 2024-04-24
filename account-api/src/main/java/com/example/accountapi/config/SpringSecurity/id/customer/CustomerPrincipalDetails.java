@@ -22,7 +22,8 @@ public class CustomerPrincipalDetails implements UserDetails {
       collect.add(new GrantedAuthority() {
           @Override
           public String getAuthority() {
-              return customer.getRole();
+              return "CUSTOMER";
+
           }
       });
       return collect;

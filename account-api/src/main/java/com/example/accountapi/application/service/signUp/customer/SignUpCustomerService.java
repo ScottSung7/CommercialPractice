@@ -10,9 +10,10 @@ public interface SignUpCustomerService {
 
     public boolean isEmailExist(String email);
 
-    public Customer changeCustomerValidateEmail(Customer SignUpCustomer);
+    public Customer addExpirationDate(Customer SignUpCustomer, int num);
 
     public Customer update(CustomerUpdateForm customerUpdateForm);
 
-    public void customerVerify(String email);
+    public boolean customerVerify(String email);
+
 }

@@ -5,8 +5,8 @@ import com.example.accountapi.domain.model.Seller;
 
 public interface EmailVerificationProvider {
 
-     public void sendVerificationEmail(Customer to);
+     public boolean sendVerificationEmail(Customer to);
 
-     public void sendVerificationEmail(Seller to);
+     public boolean sendVerificationEmail(Seller to);
 
 }

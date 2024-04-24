@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '3.2.3'
     id 'io.spring.dependency-management' version '1.1.4'
     id 'com.google.protobuf' version '0.9.4'
+    id 'jacoco'
 }
 
 group = 'com.example'
@@ -15,7 +16,11 @@ java {
 repositories {
     mavenCentral()
 }
-
+//bootJar
+tasks.getByName('bootJar'){
+    enabled = true
+}
+//cloud
 dependencyManagement {
 
     imports {
@@ -23,24 +28,22 @@ dependencyManagement {
     }
 
 }
-tasks.getByName('bootJar'){
-    enabled = true
-}
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:3.25.1"
-    }
-    plugins {
-        grpc {
-            artifact = 'io.grpc:protoc-gen-grpc-java:1.62.2'
-        }
-    }
-    generateProtoTasks {
-        all()*.plugins {
-            grpc {}
-        }
-    }
-}
+//protobuf
+//protobuf {
+//    protoc {
+//        artifact = "com.google.protobuf:protoc:3.25.1"
+//    }
+//    plugins {
+//        grpc {
+//            artifact = 'io.grpc:protoc-gen-grpc-java:1.62.2'
+//        }
+//    }
+//    generateProtoTasks {
+//        all()*.plugins {
+//            grpc {}
+//        }
+//    }
+//}
 sourceSets {
     main{
         java{
@@ -49,22 +52,66 @@ sourceSets {
         }
     }
 }
+//jacoco
+jacoco {
+    toolVersion = "0.8.7"
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+test {
+    finalizedBy jacocoTestReport
+}
+jacocoTestReport {
+    dependsOn test
+}
+jacocoTestReport {
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+}
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.5
+            }
+        }
+
+        rule {
+            enabled = false
+            element = 'CLASS'
+            includes = ['org.gradle.*']
+
+            limit {
+                counter = 'LINE'
+                value = 'TOTALCOUNT'
+                maximum = 0.3
+            }
+        }
+    }
+}
+
 dependencies {
 
-    //basic(common)
+    //basic(common - web)
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    //DB
+    runtimeOnly 'mysql:mysql-connector-java:8.0.21'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    testImplementation 'org.projectlombok:lombok:1.18.26'
+    implementation 'org.springframework.data:spring-data-envers'
+
+    //Lombok - annotation
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    //data advanced
-    implementation 'org.springframework.data:spring-data-envers'
-
-    //spring security
+    //spring security & JWT
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation group: 'org.springframework.security', name: 'spring-security-messaging', version: '5.6.2'
+    implementation 'io.jsonwebtoken:jjwt:0.12.3'
+    //implementation 'com.auth0:java-jwt:4.4.0'
 
     //mail
     implementation 'org.springframework.boot:spring-boot-starter-mail'
@@ -72,13 +119,6 @@ dependencies {
     //Front
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
-    //DB
-    runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'mysql:mysql-connector-java:8.0.21'
-
-    //jwt
-    implementation 'io.jsonwebtoken:jjwt:0.12.3'
-    //implementation 'com.auth0:java-jwt:4.4.0'
 
     //random string
     //implementation 'org.apache.commons:commons-lang3:3.12.0'
@@ -86,7 +126,7 @@ dependencies {
     //swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 
-    //spring cloud
+    //spring cloud - Cloud Dependency Management needed
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
@@ -100,10 +140,18 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
+    //aws-secrets manager
+    dependencies {
+        implementation platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.1.0")
+        implementation 'io.awspring.cloud:spring-cloud-aws-starter-parameter-store'
+    }
     //test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.projectlombok:lombok:1.18.26'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.assertj:assertj-core:3.23.1'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    testRuntimeOnly 'com.h2database:h2'
 
 
 
