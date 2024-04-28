@@ -1,13 +1,31 @@
+config:
+  type: aws-parameterstore:/config/
+
 spring:
   config:
     activate:
       on-profile: prod
+    import: ${config.type}
   datasource:
-    url: ${db.url}
-    driver-class-name: ${db.driver}
-    username: ${db.id}
-    password: ${db.pw}
+    url: ${cloud.db.url}
+    driver-class-name: ${cloud.db.driver}
+    username: ${cloud.db.id}
+    password: ${cloud.db.pw}
+  jwt:
+    secret: ${cloud.jwt.secret}
+  mail:
+    host: ${cloud.google.mail.host}
+    port: ${cloud.google.mail.port}
+    username: ${cloud.google.mail.id}
+    password: ${cloud.google.mail.pw}
 eureka:
   client:
     service-url:
-      defaultZone: ${eureka.url}
+      defaultZone: ${cloud.eureka.url}
+#  data:
+#    redis:
+#      host: localhost
+#      port: 6379
+
+
+

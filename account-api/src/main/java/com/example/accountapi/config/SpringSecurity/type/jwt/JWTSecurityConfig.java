@@ -87,7 +87,7 @@ public class JWTSecurityConfig {
                         .requestMatchers("/test/**").permitAll()
                         //test
                         //.requestMatchers("/accountChecking").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 );
 
         return http.build();

@@ -1,13 +1,11 @@
 package com.example.accountapi.config.swagger;
 
 
-
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,8 +17,8 @@ import java.util.Arrays;
 
 @Configuration
 @RequiredArgsConstructor
-@Profile("default")
-public class SwaggerConfiguration {
+@Profile("prod")
+public class SwaggerConfiguration_Prod {
 //    @Bean
 //    public GroupedOpenApi group1(){
 //        String[] paths = {"/**"};
@@ -30,6 +28,9 @@ public class SwaggerConfiguration {
 //                .pathsToMatch(paths)
 //                .build();
 //    }
+
+    @Value("${cloud.account-api.url}")
+    private String urlname;
 
 
     @Bean
@@ -46,6 +47,7 @@ public class SwaggerConfiguration {
                         .title("Account API")
                         .description("testing")
                         .version("v0.1"))
+                        .addServersItem(new Server().url(urlname))
                         .components(new Components().addSecuritySchemes("bearerAuth", securityScheme))
                         .security(Arrays.asList(securityRequirement));
 
