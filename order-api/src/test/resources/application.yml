@@ -1,8 +1,5 @@
 server:
-  port: 8081
-logging:
-    level:
-        root: info
+  port: 8080
 spring:
   application:
     name: order-api
@@ -20,27 +17,24 @@ spring:
           auth: true
           starttls:
             enable: true
+  datasource:
+    url: ${test.db.url}
+    driver-class-name: ${test.db.driver}
+    username: ${test.db.id}
+    password: ${test.db.pw}
   jwt:
     secret: ${jwt.secret}
-
-  datasource:
-    url: ${local.db.url}
-    driver-class-name: ${local.db.driver}
-    username: ${local.db.id}
-    password: ${local.db.pw}
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
-    database-platform: org.hibernate.dialect.MySQLDialect
+      ddl-auto: ${test.jpa.type}
+    database-platform: ${test.jpa.platform}
     generate-ddl: true
-#  data:
-#    redis:
-#      host: localhost
-#      port: 6379
+
 feign:
   okhttp:
     enabled: true
+
 
 springdoc:
   api-docs:
@@ -55,6 +49,12 @@ springdoc:
     operations-sorter: alpha
     display-request-duration: true
     doc-expansion: none
+    urls[0]:
+      name: account-api
+      url: http://localhost:8080/api-docs
+    urls[1]:
+      name: order-api
+      url: http://localhost:8081/api-docs
   cache:
     disabled: true
   override-with-generic-response: false
@@ -66,11 +66,20 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://127.0.0.1:8761/eureka/
+      defaultZone: ${local.eureka.url}
+    eureka-server-d-n-s-name: account-api
   instance:
     prefer-ip-address: true
+email:
+  server: http://localhost:8080
 #grpc:
-#  client:
-#    user-service:
-#      address: static://localhost:6565
-#      negotiation-type: plaintext
+#  server:
+#    port: 6565
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#  endpoint:
+#    health:
+#      show-details: always

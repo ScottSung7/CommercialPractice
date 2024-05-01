@@ -134,7 +134,7 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'org.springframework.cloud:spring-cloud-gateway-mvc'
 
-//    //grpc
+//    //grpcenv-account-api.properties
 //    implementation project(':protoProject')
 //    implementation 'net.devh:grpc-server-spring-boot-starter:3.0.0.RELEASE'
 //    implementation 'net.devh:grpc-client-spring-boot-starter:3.0.0.RELEASE'

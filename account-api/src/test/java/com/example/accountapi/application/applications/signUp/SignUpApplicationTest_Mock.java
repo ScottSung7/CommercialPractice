@@ -30,6 +30,7 @@ import java.util.Optional;
 import static com.example.accountapi.web.validation.exception.ErrorCode.ALREADY_REGISTER_USER;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
@@ -68,7 +69,7 @@ class SignUpApplicationTest_Mock {
                 .phone(signUpPhone)
                 .birth(signUpBirth).build();
         //when
-        given(emailVerificationProvider.sendVerificationEmail(any(Customer.class))).willReturn(true); //mail은 mocking처리 되어 있음.
+        given(emailVerificationProvider.sendVerificationEmail(anyString(), anyString(), anyString())).willReturn(true); //mail은 mocking처리 되어 있음.
         when(signUpCustomerService.isEmailExist(signUpEmail)).thenReturn(false);
         when(signUpCustomerService.signUp(customerSignUpForm)).thenReturn(customer);
         Customer customerReturned = signUpApplication.customerSignUp(customerSignUpForm);
@@ -136,7 +137,7 @@ class SignUpApplicationTest_Mock {
                 .companyRegistrationNumber(updatedCompanyRegistrationNumber)
                 .build();
         //when
-        given(emailVerificationProvider.sendVerificationEmail(any(Customer.class))).willReturn(true); //mail은 mocking처리 되어 있음.
+        given(emailVerificationProvider.sendVerificationEmail(anyString(), anyString(), anyString())).willReturn(true); //mail은 mocking처리 되어 있음.
         when(signUpSellerService.signUp(sellerSignUpForm)).thenReturn(seller);
         Seller sellerReturned = signUpApplication.sellerSignUp(sellerSignUpForm);
         //then

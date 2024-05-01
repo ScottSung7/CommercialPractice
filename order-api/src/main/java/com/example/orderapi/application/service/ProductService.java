@@ -21,6 +21,10 @@ public class ProductService {
 
     @Transactional
     public Product addProduct(Long sellerId, AddProductForm form){
+        productRepository.findByNameAndSellerId(form.getName(), sellerId)
+                .ifPresent(product -> {
+                    throw new OrderException(OrderErrorCode.SAME_PRODUCT_NAME);
+                });
         return productRepository.save(Product.of(sellerId, form));
     }
 
@@ -28,32 +32,19 @@ public class ProductService {
     public Product updateProduct(Long sellerId, UpdateProductForm form){
         Product product = productRepository.findBySellerIdAndId(sellerId, form.getId())
                 .orElseThrow(() -> new OrderException(OrderErrorCode.NOT_FOUND_PRODUCT));
-        product.setName(form.getName());
-        product.setDescription(form.getDescription());
 
-        for(UpdateProductItemForm itemForm : form.getUpdateProductItemForms()){
-            ProductItem item = product.getProductItems().stream()
-                    .filter(pi -> pi.getId().equals(itemForm.getItemId()))
-                    .findFirst().orElseThrow(() -> new OrderException(OrderErrorCode.NOT_FOUND_ITEM));
-            item.setName(itemForm.getName());
-            item.setPrice(itemForm.getPrice());
-            item.setCount(item.getCount());
-        }
-        return product;
+        return product.updateProduct(form, product);
     }
 
     @Transactional
     public void deleteProduct(Long sellerId, Long productId){
         Product product = productRepository.findBySellerIdAndId(sellerId, productId)
                 .orElseThrow(() -> new OrderException(OrderErrorCode.NOT_FOUND_PRODUCT));
-
         productRepository.delete(product);
-
     }
 
     public List<Product> getMyProducts(Long sellerId) {
         List<Product> productList = productRepository.findBySellerId(sellerId);
-
         if(productList.isEmpty()){
             throw new OrderException(OrderErrorCode.NO_PRODUCT);
         }

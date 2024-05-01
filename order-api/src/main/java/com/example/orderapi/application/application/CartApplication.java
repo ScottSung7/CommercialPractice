@@ -117,12 +117,12 @@ public class CartApplication {
                 //가격 반영
                 if(!cartProductItem.getPrice().equals(pi.getPrice())){
                     isPriceChanged =true;
-                    cartProductItem.setPrice(pi.getPrice());
+                    cartProductItem.changePrice(pi.getPrice());
                 }
                 //수량 반영
                 if(cartProductItem.getCount() > pi.getCount()) {
                     isCountNotEnough = true;
-                    cartProductItem.setCount(pi.getCount());
+                    cartProductItem.changeCount(pi.getCount());
                 }
                 //가격, 수량 변동시
                 if(isPriceChanged && isCountNotEnough){

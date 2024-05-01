@@ -23,9 +23,7 @@ public class CartService {
     public Cart getCart(Long customerId){
     Cart cart = redisClient.get(customerId,Cart.class);
         return cart!=null?cart:new Cart();
-
     }
-
     public Cart putCart(Long customerId,Cart cart){
         redisClient.put(customerId,cart);
         return cart;
@@ -33,46 +31,61 @@ public class CartService {
 
     public Cart addCart(Long customerId, AddProductCartForm form){
         Cart cart = redisClient.get(customerId, Cart.class);
+        checkCartIsNull(cart, customerId);
+
+        Optional<Product> productOptional = checkProductAlreadyInCart(cart, form);
+        addProductToCart(cart, productOptional, form);
+
+        redisClient.put(customerId, cart);
+        return cart;
+    }
+    private void checkCartIsNull(Cart cart, Long customerId) {
         if (cart == null) {
             cart = new Cart();
             cart.setCustomerId(customerId);
         }
-        //이전에 같은 상품이 있는지 확인
-        Optional<Product> productOptional = cart.getProducts().stream()
+    }
+    private Optional<Product> checkProductAlreadyInCart(Cart cart, AddProductCartForm form) {
+        return cart.getProducts().stream()
                 .filter(product -> product.getId().equals(form.getId()))
                 .findFirst();
+    }
+    private void addProductToCart(Cart cart, Optional<Product> productOptional, AddProductCartForm form) {
+        if (productOptional.isPresent()) {
 
-        //카트에 product있는지 확인
-        if (productOptional.isPresent()) {//있다면 수량 추가
             Product redisProduct = productOptional.get();
-            //req
             List<ProductItem> items = form.getAddCartProductItemForms().stream()
                     .map(ProductItem::from).collect(Collectors.toList());
             Map<Long, ProductItem> redisItemMap = redisProduct.getProductItems().stream()
                     .collect(Collectors.toMap(it -> it.getId(), it -> it));
-            //Map사용하여 검색 속도 증진.
-            if (!redisProduct.getName().equals(form.getName())) {
-                cart.addMessage(redisProduct.getName()+"의 정보가 변경되었습니다. 확인 부탁드립니다.");
-            }
 
-            for (ProductItem item : items) {
-                ProductItem redisItem = redisItemMap.get(item.getId());
-
-                if (redisItem == null) {//없는 상품이면 추가
-                    redisProduct.getProductItems().add(item);
-                }else{//있으면 수량 추가
-                    if(!redisItem.getPrice().equals(item.getPrice())){
-                        cart.addMessage(redisProduct.getName() + item.getName() +  "의 정보가 변경되었습니다. 확인 부탁 드립니다.");
-                    }
-                    redisItem.setCount(redisItem.getCount() + item.getCount());
-                }
-            }
-        }else{//Product없으면 product 추가
+            checkProductNameChanged(cart, redisProduct, form);
+            manageProductItemPriceAndCount(cart, redisProduct, items, redisItemMap);
+        }else{
             Product product = Product.from(form);
             cart.getProducts().add(product);
         }
-        redisClient.put(customerId, cart);
-        return cart;
     }
+
+    private void checkProductNameChanged(Cart cart, Product redisProduct, AddProductCartForm form) {
+        if (!redisProduct.getName().equals(form.getName())) {
+            cart.addMessage(redisProduct.getName()+"의 정보가 변경되었습니다. 확인 부탁드립니다.");
+        }
+    }
+    private void manageProductItemPriceAndCount(Cart cart, Product redisProduct, List<ProductItem> items, Map<Long, ProductItem> redisItemMap) {
+        for (ProductItem item : items) {
+            ProductItem redisItem = redisItemMap.get(item.getId());
+            if (redisItem == null) {
+                redisProduct.getProductItems().add(item);
+            }else{
+                if(!redisItem.getPrice().equals(item.getPrice())){
+                    cart.addMessage(redisProduct.getName() + item.getName() +  "의 정보가 변경되었습니다. 확인 부탁 드립니다.");
+                }
+                int changedCount = item.getCount() - redisItem.getCount();
+                redisItem.changeCount(changedCount);
+            }
+        }
+    }
+
 
 }

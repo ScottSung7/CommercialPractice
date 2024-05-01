@@ -27,46 +27,23 @@ public class EmailVerificationProviderImpl_Google implements EmailVerificationPr
     private String serverAddress;
 
     @Override
-    public boolean sendVerificationEmail(Seller to) {
+    public boolean sendVerificationEmail(String email, String name, String type){
 
         try {
             SendMailForm sendMailForm = SendMailForm.builder()
                     .from(ADMIN_EMAIL)
-                    .to(to.getEmail())
+                    .to(email)
                     .subject(SUBJECT)
-                    .text(getVerificationEmailBody(to.getEmail(), to.getName(), "seller"))
-                    .build();
-            boolean mailResult = createCertificationMail(sendMailForm.getTo(), sendMailForm.getSubject(), sendMailForm.getText());
-            if(mailResult){
-                log.info("Send email result : "+ to.getEmail()+"(SUCCESS)");
-                return mailResult;
-            }else{
-                log.info("Send email result : "+ to.getEmail()+"(FAIL)");
-                throw new AccountException(ErrorCode.VERIFICATION_EMAIL_ERROR);
-            }
-        }catch(Exception e){
-            throw new AccountException(ErrorCode.VERIFICATION_EMAIL_ERROR);
-        }
-    }
-
-    @Override
-    public boolean sendVerificationEmail(Customer to){
-
-        try {
-            SendMailForm sendMailForm = SendMailForm.builder()
-                    .from(ADMIN_EMAIL)
-                    .to(to.getEmail())
-                    .subject(SUBJECT)
-                    .text(getVerificationEmailBody(to.getEmail(), to.getName(), "customer"))
+                    .text(getVerificationEmailBody(email, name, type))
                     .build();
 
             boolean mailResult = createCertificationMail(sendMailForm.getTo(), sendMailForm.getSubject(), sendMailForm.getText());
 
             if (mailResult) {
-                log.info("Send email result : " + to.getEmail() + "(SUCCESS)");
+                log.info("Send email result : " + email + "(SUCCESS)");
                 return mailResult;
             } else {
-                log.info("Send email result : " + to.getEmail() + "(FAIL)");
+                log.info("Send email result : " + email + "(FAIL)");
                 throw new AccountException(ErrorCode.VERIFICATION_EMAIL_ERROR);
             }
         }catch(Exception e){
