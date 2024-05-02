@@ -35,7 +35,7 @@ public class Product extends BaseEntity{
     private String name;
     private String description; //이미지등 추가 필요
 
-    @OneToMany(mappedBy="product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     @Builder.Default
     private List<ProductItem> productItems = new ArrayList<>();
 
@@ -47,12 +47,12 @@ public class Product extends BaseEntity{
                  .build();
 
          addProductForm.getAddProductItemForms().stream()
-                 .forEach(addProductItemForm -> addProductItem(product, sellerId, addProductItemForm));
+                 .forEach(addProductItemForm -> product.addProductItem(product, sellerId, addProductItemForm));
 
          return product;
     }
 
-    public static ProductItem addProductItem(Product product, Long sellerId, AddProductItemForm form) {
+    public ProductItem addProductItem(Product product, Long sellerId, AddProductItemForm form) {
         if(product.getProductItems() != null && product.getProductItems().stream()
                 .anyMatch(item -> item.getName().equals(form.getName()))){
             throw new OrderException(OrderErrorCode.SAME_ITEM_NAME);

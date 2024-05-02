@@ -28,7 +28,6 @@ public class ProductItem extends BaseEntity{
     private Integer count;
 
     @ManyToOne(fetch=FetchType.LAZY) //cascade Option? delete
-    @JoinColumn(name = "product_id")
     private Product product;
 
 

@@ -1,30 +1,22 @@
 package com.example.orderapi.application.service;
 
 import com.example.orderapi.domain.model.Product;
-import com.example.orderapi.domain.model.ProductItem;
-import com.example.orderapi.repository.ProductRepository;
 import com.example.orderapi.web.validation.exception.OrderException;
 import com.example.orderapi.web.validation.form.product.AddProductForm;
 import com.example.orderapi.web.validation.form.product.UpdateProductForm;
 import com.example.orderapi.web.validation.form.productItem.AddProductItemForm;
 import com.example.orderapi.web.validation.form.productItem.UpdateProductItemForm;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.core.Ordered;
 import org.springframework.test.annotation.Commit;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.example.orderapi.web.validation.exception.OrderErrorCode.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -67,6 +59,7 @@ class ProductServiceTest {
     }
 
     @Test
+    @Commit
     void addProduct() {
         //given
         //@Before
@@ -177,6 +170,16 @@ class ProductServiceTest {
         OrderException exception
                 = assertThrows(OrderException.class, () -> productService.getMyProducts(sellerId));
         assertEquals(NO_PRODUCT, exception.getOrderErrorCode());
+    }
+    @Test
+    void deleteProduct_NOT_FOUND_PRODUCT(){
+        //given
+        Long productId = 0L;
+        //when
+        OrderException exception
+                = assertThrows(OrderException.class, () -> productService.deleteProduct(sellerId, productId));
+        //then
+        assertEquals(NOT_FOUND_PRODUCT, exception.getOrderErrorCode());
     }
 
 }

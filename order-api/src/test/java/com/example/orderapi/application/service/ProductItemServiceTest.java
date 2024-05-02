@@ -21,8 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.orderapi.web.validation.exception.OrderErrorCode.NOT_FOUND_PRODUCT;
-import static com.example.orderapi.web.validation.exception.OrderErrorCode.SAME_ITEM_NAME;
+import static com.example.orderapi.web.validation.exception.OrderErrorCode.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -118,7 +117,7 @@ class ProductItemServiceTest {
         given(updateProductItemForm.getCount()).willReturn(20);
 
         //when
-        ProductItem updatedItem = productItemService.updateProductItem(product.getProductItems().get(0).getId(), updateProductItemForm);
+        ProductItem updatedItem = productItemService.updateProductItem(sellerId, updateProductItemForm);
 
         //then
         assertEquals("updatedProductItem", updatedItem.getName());
@@ -129,17 +128,35 @@ class ProductItemServiceTest {
     void updateProductItem_NOT_FOUND_ITEM(){
         UpdateProductItemForm updateProductItemForm = mock(UpdateProductItemForm.class);
         //given
-
-        //given
         given(updateProductItemForm.getItemId()).willReturn(0L);
         //when
         OrderException exception = assertThrows(OrderException.class,
                 () -> productItemService.updateProductItem(sellerId, updateProductItemForm));
         //then
-        assertEquals(NOT_FOUND_PRODUCT, exception.getOrderErrorCode());
+        assertEquals(NOT_FOUND_ITEM, exception.getOrderErrorCode());
     }
 
     @Test
     void deleteProductItem() {
+        //given
+        Product product = productService.addProduct(sellerId, addProductForm);
+        Long productItemId = product.getProductItems().get(0).getId();
+        //when
+        productItemService.deleteProductItem(sellerId, productItemId);
+        //then
+        OrderException exception = assertThrows(OrderException.class,
+            () -> productItemService.deleteProductItem(sellerId, productItemId));
+        assertEquals(NOT_FOUND_ITEM, exception.getOrderErrorCode());
+    }
+
+    @Test
+    void deleteProductItem_NOT_FOUND_ITEM(){
+        //given
+        Long productItemId = 0L;
+        //when
+        OrderException exception = assertThrows(OrderException.class,
+                () -> productItemService.deleteProductItem(sellerId, productItemId));
+        //then
+        assertEquals(NOT_FOUND_ITEM, exception.getOrderErrorCode());
     }
 }

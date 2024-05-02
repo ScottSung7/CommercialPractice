@@ -22,6 +22,5 @@ public class ProductREpositoryImpl implements ProductRepositoryCustom{
         return queryFactory.selectFrom(product)
                 .where(product.name.like(search))
                 .fetch();
-
     }
 }
