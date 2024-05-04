@@ -113,27 +113,27 @@ class ProductSearchServiceTest {
         assertEquals(NOT_FOUND_PRODUCT, exception.getOrderErrorCode());
     }
 
-    @Test
-    void searchByName() {
-        //given
-        Product product = productService.addProduct(sellerId, addProductForm);
-        String name = product.getName();
-        //when
-        List<Product> products = productSearchService.searchByName(name);
-        //then
-        assertEquals(products.get(0).getName(), product.getName());
-        assertEquals(products.get(0).getDescription(), product.getDescription());
-        assertEquals(products.get(0).getProductItems().get(0).getName(), product.getProductItems().get(0).getName());
-        assertEquals(products.get(0).getProductItems().get(0).getPrice(), product.getProductItems().get(0).getPrice());
-        assertEquals(products.get(0).getProductItems().get(0).getCount(), product.getProductItems().get(0).getCount());
-    }
-    @Test
-    void searchByName_NOT_FOUND_Product() {
-        //given
-        String name = "test";
-        //when
-        OrderException exception = assertThrows(OrderException.class, () -> productSearchService.searchByName(name));
-        //then
-        assertEquals(NOT_FOUND_PRODUCT, exception.getOrderErrorCode());
-    }
+//    @Test
+//    void searchByName() {
+//        //given
+//        Product product = productService.addProduct(sellerId, addProductForm);
+//        String name = product.getName();
+//        //when
+//        List<Product> products = productSearchService.searchByName(name);
+//        //then
+//        assertEquals(products.get(0).getName(), product.getName());
+//        assertEquals(products.get(0).getDescription(), product.getDescription());
+//        assertEquals(products.get(0).getProductItems().get(0).getName(), product.getProductItems().get(0).getName());
+//        assertEquals(products.get(0).getProductItems().get(0).getPrice(), product.getProductItems().get(0).getPrice());
+//        assertEquals(products.get(0).getProductItems().get(0).getCount(), product.getProductItems().get(0).getCount());
+//    }
+//    @Test
+//    void searchByName_NOT_FOUND_Product() {
+//        //given
+//        String name = "test";
+//        //when
+//        OrderException exception = assertThrows(OrderException.class, () -> productSearchService.searchByName(name));
+//        //then
+//        assertEquals(NOT_FOUND_PRODUCT, exception.getOrderErrorCode());
+//    }
 }

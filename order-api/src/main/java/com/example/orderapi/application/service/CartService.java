@@ -21,29 +21,33 @@ public class CartService {
     private final RedisClient redisClient;
 
     public Cart getCart(Long customerId){
-    Cart cart = redisClient.get(customerId,Cart.class);
-        return cart!=null?cart:new Cart();
+        Cart cart = redisClient.get(customerId, Cart.class);
+        if (cart == null) {
+            return Cart.getEmptyCart(customerId);
+        }else{
+            return cart;
+        }
     }
-    public Cart putCart(Long customerId,Cart cart){
+    public void putCart(Long customerId,Cart cart){
         redisClient.put(customerId,cart);
-        return cart;
     }
 
     public Cart addCart(Long customerId, AddProductCartForm form){
         Cart cart = redisClient.get(customerId, Cart.class);
-        checkCartIsNull(cart, customerId);
+        cart = checkCartIsNull(cart, customerId);
 
         Optional<Product> productOptional = checkProductAlreadyInCart(cart, form);
         addProductToCart(cart, productOptional, form);
-
         redisClient.put(customerId, cart);
         return cart;
     }
-    private void checkCartIsNull(Cart cart, Long customerId) {
+
+    //Private Methods for addCart
+    private Cart checkCartIsNull(Cart cart, Long customerId) {
         if (cart == null) {
-            cart = new Cart();
-            cart.setCustomerId(customerId);
+            cart = Cart.getEmptyCart(customerId);
         }
+        return cart;
     }
     private Optional<Product> checkProductAlreadyInCart(Cart cart, AddProductCartForm form) {
         return cart.getProducts().stream()
@@ -52,29 +56,29 @@ public class CartService {
     }
     private void addProductToCart(Cart cart, Optional<Product> productOptional, AddProductCartForm form) {
         if (productOptional.isPresent()) {
-
             Product redisProduct = productOptional.get();
-            List<ProductItem> items = form.getAddCartProductItemForms().stream()
-                    .map(ProductItem::from).collect(Collectors.toList());
-            Map<Long, ProductItem> redisItemMap = redisProduct.getProductItems().stream()
-                    .collect(Collectors.toMap(it -> it.getId(), it -> it));
-
             checkProductNameChanged(cart, redisProduct, form);
-            manageProductItemPriceAndCount(cart, redisProduct, items, redisItemMap);
+            manageProductItem(cart, redisProduct, form);
         }else{
             Product product = Product.from(form);
             cart.getProducts().add(product);
         }
     }
-
+    private void manageProductItem(Cart cart, Product redisProduct, AddProductCartForm form) {
+        List<ProductItem> itemListToAdd = form.getAddCartProductItemForms().stream()
+                .map(ProductItem::from).collect(Collectors.toList());
+        Map<Long, ProductItem> itemMapFromRedis = redisProduct.getProductItems().stream()
+                .collect(Collectors.toMap(it -> it.getId(), it -> it));
+        manageProductItemPriceAndCount(cart, redisProduct, itemListToAdd, itemMapFromRedis);
+    }
     private void checkProductNameChanged(Cart cart, Product redisProduct, AddProductCartForm form) {
         if (!redisProduct.getName().equals(form.getName())) {
             cart.addMessage(redisProduct.getName()+"의 정보가 변경되었습니다. 확인 부탁드립니다.");
         }
     }
-    private void manageProductItemPriceAndCount(Cart cart, Product redisProduct, List<ProductItem> items, Map<Long, ProductItem> redisItemMap) {
-        for (ProductItem item : items) {
-            ProductItem redisItem = redisItemMap.get(item.getId());
+    private void manageProductItemPriceAndCount(Cart cart, Product redisProduct, List<ProductItem> itemListToAdd, Map<Long, ProductItem> itemMapFromRedis) {
+        for (ProductItem item : itemListToAdd) {
+            ProductItem redisItem = itemMapFromRedis.get(item.getId());
             if (redisItem == null) {
                 redisProduct.getProductItems().add(item);
             }else{
