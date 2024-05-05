@@ -7,6 +7,7 @@ import com.example.orderapi.web.validation.form.cart.AddCartProductItemForm;
 import com.example.orderapi.web.validation.form.cart.AddProductCartForm;
 import com.example.orderapi.web.validation.form.product.AddProductForm;
 import com.example.orderapi.web.validation.form.productItem.AddProductItemForm;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -32,56 +33,27 @@ import static org.mockito.Mockito.*;
 @Transactional
 class CartServiceTest {
 
-    @Mock
-    AddProductCartForm addProductCartForm;
-
-    @Mock
-    AddCartProductItemForm addProductCartItemForm;
 
     @Autowired
     CartService cartService;
 
-    @Mock
-    AddProductForm addProductForm;
-
-    @Mock
-    AddProductItemForm addProductItemForm;
-
-    private Long sellerId;
-    @BeforeEach
-    public void before(){
-        sellerId = 1L;
-
-        addProductForm = mock(AddProductForm.class, withSettings().lenient());
-        addProductItemForm = mock(AddProductItemForm.class, withSettings().lenient());
-
-        given(addProductForm.getName()).willReturn("testProduct");
-        given(addProductForm.getDescription()).willReturn("testDescription");
-
-        given(addProductItemForm.getName()).willReturn("testProductItem");
-        given(addProductItemForm.getPrice()).willReturn(1000);
-        given(addProductItemForm.getCount()).willReturn(10);
-
-        List<AddProductItemForm> itemForms = new ArrayList<>();
-        itemForms.add(addProductItemForm);
-        given(addProductForm.getAddProductItemForms()).willReturn(itemForms);
+    @AfterEach
+    public void after(){
+        cartService.putCart(1L, null);
     }
 
     @Test
     void getCart() {
-        //given - add Product
-        Product productReturned = productService.addProduct(sellerId, addProductForm);
-
         //given - add Cart
         Long customerId = 1L;
         AddProductCartForm addProductCartForm = mock(AddProductCartForm.class);
         AddCartProductItemForm addCartProductItemForm = mock(AddCartProductItemForm.class);
 
-        given(addProductCartForm.getId()).willReturn(productReturned.getId());
+        given(addProductCartForm.getId()).willReturn(1L);
         given(addProductCartForm.getName()).willReturn("testProduct");
         given(addProductCartForm.getDescription()).willReturn("testDescription");
         given(addProductCartForm.getAddCartProductItemForms()).willReturn(List.of(addCartProductItemForm));
-        given(addCartProductItemForm.getProductId()).willReturn(productReturned.getProductItems().get(0).getId());
+        given(addCartProductItemForm.getProductId()).willReturn(1L);
         given(addCartProductItemForm.getName()).willReturn("testProductItem");
         given(addCartProductItemForm.getPrice()).willReturn(1000);
         given(addCartProductItemForm.getCount()).willReturn(1);
@@ -93,18 +65,18 @@ class CartServiceTest {
 
         //then
         assertEquals(customerId, cartReturned.getCustomerId());
-        assertEquals(productReturned.getId(), cartReturned.getProducts().get(0).getId());
-        assertEquals(productReturned.getName(), cartReturned.getProducts().get(0).getName());
-        assertEquals(productReturned.getDescription(), cartReturned.getProducts().get(0).getDescription());
-        assertEquals(productReturned.getProductItems().get(0).getId(), cartReturned.getProducts().get(0).getProductItems().get(0).getId());
-        assertEquals(productReturned.getProductItems().get(0).getName(), cartAdded.getProducts().get(0).getProductItems().get(0).getName());
-        assertEquals(productReturned.getProductItems().get(0).getPrice(), cartAdded.getProducts().get(0).getProductItems().get(0).getPrice());
+        assertEquals(addProductCartForm.getId(), cartReturned.getProducts().get(0).getId());
+        assertEquals(addProductCartForm.getName(), cartReturned.getProducts().get(0).getName());
+        assertEquals(addProductCartForm.getDescription(), cartReturned.getProducts().get(0).getDescription());
+        assertEquals(addProductCartForm.getAddCartProductItemForms().get(0).getProductId(), cartReturned.getProducts().get(0).getProductItems().get(0).getId());
+        assertEquals(addProductCartForm.getAddCartProductItemForms().get(0).getName(), cartAdded.getProducts().get(0).getProductItems().get(0).getName());
+        assertEquals(addProductCartForm.getAddCartProductItemForms().get(0).getPrice(), cartAdded.getProducts().get(0).getProductItems().get(0).getPrice());
         assertEquals(1, cartAdded.getProducts().get(0).getProductItems().get(0).getCount());
     }
 
     @Test
     void putCart() {
-        Long customerId = 2L;
+        Long customerId = 1L;
         //given
         Cart cart = mock(Cart.class);
         given(cart.getCustomerId()).willReturn(customerId);
@@ -118,28 +90,19 @@ class CartServiceTest {
         assertEquals(customerId, cartReturned.getCustomerId());
 
     }
-
-
-
-    @Autowired
-    ProductService productService;
-
     @Test
     void addCart() {
 
-        //given - add Product
-        Product productReturned = productService.addProduct(sellerId, addProductForm);
-
         //given - add Cart
-        Long customerId = 3L;
+        Long customerId = 1L;
         AddProductCartForm addProductCartForm = mock(AddProductCartForm.class);
         AddCartProductItemForm addCartProductItemForm = mock(AddCartProductItemForm.class);
 
-        given(addProductCartForm.getId()).willReturn(productReturned.getId());
+        given(addProductCartForm.getId()).willReturn(1L);
         given(addProductCartForm.getName()).willReturn("testProduct");
         given(addProductCartForm.getDescription()).willReturn("testDescription");
         given(addProductCartForm.getAddCartProductItemForms()).willReturn(List.of(addCartProductItemForm));
-        given(addCartProductItemForm.getProductId()).willReturn(productReturned.getProductItems().get(0).getId());
+        given(addCartProductItemForm.getProductId()).willReturn(1L);
         given(addCartProductItemForm.getName()).willReturn("testProductItem");
         given(addCartProductItemForm.getPrice()).willReturn(1000);
         given(addCartProductItemForm.getCount()).willReturn(1);
@@ -148,12 +111,96 @@ class CartServiceTest {
         Cart cartAdded = cartService.addCart(customerId, addProductCartForm);
 
         assertEquals(customerId, cartAdded.getCustomerId());
-        assertEquals(productReturned.getId(), cartAdded.getProducts().get(0).getId());
-        assertEquals(productReturned.getName(), cartAdded.getProducts().get(0).getName());
-        assertEquals(productReturned.getDescription(), cartAdded.getProducts().get(0).getDescription());
-        assertEquals(productReturned.getProductItems().get(0).getId(), cartAdded.getProducts().get(0).getProductItems().get(0).getId());
-        assertEquals(productReturned.getProductItems().get(0).getName(), cartAdded.getProducts().get(0).getProductItems().get(0).getName());
-        assertEquals(productReturned.getProductItems().get(0).getPrice(), cartAdded.getProducts().get(0).getProductItems().get(0).getPrice());
+        assertEquals(addProductCartForm.getId(), cartAdded.getProducts().get(0).getId());
+        assertEquals(addProductCartForm.getName(), cartAdded.getProducts().get(0).getName());
+        assertEquals(addProductCartForm.getDescription(), cartAdded.getProducts().get(0).getDescription());
+        assertEquals(addProductCartForm.getAddCartProductItemForms().get(0).getProductId(), cartAdded.getProducts().get(0).getProductItems().get(0).getId());
+        assertEquals(addProductCartForm.getAddCartProductItemForms().get(0).getName(), cartAdded.getProducts().get(0).getProductItems().get(0).getName());
+        assertEquals(addProductCartForm.getAddCartProductItemForms().get(0).getPrice(), cartAdded.getProducts().get(0).getProductItems().get(0).getPrice());
         assertEquals(1, cartAdded.getProducts().get(0).getProductItems().get(0).getCount());
+
+
     }
+    @Test
+    void checkProductNameChanged() {
+
+        //given - add Cart
+        Long customerId = 1L;
+        AddProductCartForm addProductCartForm = mock(AddProductCartForm.class);
+        AddCartProductItemForm addCartProductItemForm = mock(AddCartProductItemForm.class);
+
+        given(addProductCartForm.getId()).willReturn(1L);
+        given(addProductCartForm.getName()).willReturn("testProduct");
+        given(addProductCartForm.getDescription()).willReturn("testDescription");
+        given(addProductCartForm.getAddCartProductItemForms()).willReturn(List.of(addCartProductItemForm));
+        given(addCartProductItemForm.getProductId()).willReturn(1L);
+        given(addCartProductItemForm.getName()).willReturn("testProductItem");
+        given(addCartProductItemForm.getPrice()).willReturn(1000);
+        given(addCartProductItemForm.getCount()).willReturn(1);
+        cartService.addCart(customerId, addProductCartForm);
+
+        // When
+        given(addProductCartForm.getName()).willReturn("NewProductName");
+        Cart cart = cartService.addCart(customerId, addProductCartForm);
+
+        // Then
+        assertEquals(1, cart.getMessages().size());
+        assertEquals("testProduct의 상품명이 변경되었습니다. 확인 부탁드립니다.", cart.getMessages().get(0));
+    }
+    @Test
+    void itemPriceChanged() {
+
+        //given - add Cart
+        Long customerId = 1L;
+        AddProductCartForm addProductCartForm = mock(AddProductCartForm.class);
+        AddCartProductItemForm addCartProductItemForm = mock(AddCartProductItemForm.class);
+
+        given(addProductCartForm.getId()).willReturn(1L);
+        given(addProductCartForm.getName()).willReturn("testProduct");
+        given(addProductCartForm.getDescription()).willReturn("testDescription");
+        given(addProductCartForm.getAddCartProductItemForms()).willReturn(List.of(addCartProductItemForm));
+        given(addCartProductItemForm.getProductId()).willReturn(1L);
+        given(addCartProductItemForm.getName()).willReturn("testProductItem");
+        given(addCartProductItemForm.getPrice()).willReturn(1000);
+        given(addCartProductItemForm.getCount()).willReturn(1);
+        cartService.addCart(customerId, addProductCartForm);
+
+        // When
+        given(addCartProductItemForm.getPrice()).willReturn(200);
+        given(addProductCartForm.getAddCartProductItemForms()).willReturn(List.of(addCartProductItemForm));
+
+        Cart cart = cartService.addCart(customerId, addProductCartForm);
+
+        // Then
+        assertEquals(1, cart.getMessages().size());
+        assertEquals("testProduct에서 testProductItem의 가격이 변경되었습니다. 확인 부탁 드립니다.", cart.getMessages().get(0));
+    }
+    @Test
+    void itemNameChanged() {
+
+        //given - add Cart
+        Long customerId = 1L;
+        AddProductCartForm addProductCartForm = mock(AddProductCartForm.class);
+        AddCartProductItemForm addCartProductItemForm = mock(AddCartProductItemForm.class);
+
+        given(addProductCartForm.getId()).willReturn(1L);
+        given(addProductCartForm.getName()).willReturn("testProduct");
+        given(addProductCartForm.getAddCartProductItemForms()).willReturn(List.of(addCartProductItemForm));
+        given(addCartProductItemForm.getProductId()).willReturn(1L);
+        given(addCartProductItemForm.getName()).willReturn("testProductItem");
+        given(addCartProductItemForm.getPrice()).willReturn(1000);
+        given(addCartProductItemForm.getCount()).willReturn(1);
+        cartService.addCart(customerId, addProductCartForm);
+
+        // When
+        given(addCartProductItemForm.getName()).willReturn("newName");
+        given(addProductCartForm.getAddCartProductItemForms()).willReturn(List.of(addCartProductItemForm));
+
+        Cart cart = cartService.addCart(customerId, addProductCartForm);
+
+        // Then
+        assertEquals(1, cart.getMessages().size());
+        assertEquals("testProduct에서 testProductItem의 아이템명이 변경되었습니다. 확인 부탁 드립니다.", cart.getMessages().get(0));
+    }
+
 }

@@ -86,7 +86,7 @@ public class Product extends BaseEntity{
             ProductItem item = product.getProductItems().stream()
                     .filter(pi -> pi.getId().equals(itemForm.getItemId()))
                     .findFirst().orElseThrow(() -> new OrderException(OrderErrorCode.NOT_FOUND_ITEM));
-            item.updateFromProduct(item, itemForm);
+            item.updateProductItem(itemForm);
         }
         return product;
     }

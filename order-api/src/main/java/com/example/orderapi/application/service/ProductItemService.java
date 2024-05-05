@@ -42,14 +42,16 @@ public class ProductItemService {
                 .filter(pi -> pi.getSellerId().equals(sellerId)).orElseThrow(
                         () -> new OrderException(OrderErrorCode.NOT_FOUND_ITEM)
                 );
-        return productItem.updateProductItem(productItem, form);
+        return productItem.updateProductItem(form);
     }
     @Transactional
     public void deleteProductItem(Long sellerId, Long productItemId){
+        System.out.println("deleting?");
         ProductItem productItem = productItemRepository.findById(productItemId)
                 .filter(pi -> pi.getSellerId().equals(sellerId))
                 .orElseThrow(()  -> new OrderException(OrderErrorCode.NOT_FOUND_ITEM));
         productItemRepository.delete(productItem);
+
     }
 
 }

@@ -35,12 +35,12 @@ public class CustomerCartController {
         UserPrincipalDetails customer = LoginCheckMSA.customerCheck(authentication);
         return ResponseEntity.ok(cartApplication.getCart(customer.getId()));
     }
-
-    @PutMapping
-    public ResponseEntity<Cart> updateCart(@RequestBody Cart cart, Authentication authentication) {
-        //TODO: Update 더 세분화.
+    @DeleteMapping
+    public ResponseEntity<String> clearCart(Authentication authentication) {
         UserPrincipalDetails customer = LoginCheckMSA.customerCheck(authentication);
-        throw new OrderException(OrderErrorCode.WORKING_ON);
-        //return ResponseEntity.ok(cartApplication.updateCart(customer.getId(),cart));
+        cartApplication.clearCart(customer.getId());
+        return ResponseEntity.ok("장바구니가 비워졌습니다.");
     }
+
+
 }

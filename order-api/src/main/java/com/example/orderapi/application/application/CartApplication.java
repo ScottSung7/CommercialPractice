@@ -26,29 +26,28 @@ public class CartApplication {
     private final CartService cartService;
 
     public Cart addCart(Long customerId, AddProductCartForm form){
-
         Product product = productSearchService.getByProductId(form.getId());
         if(product==null){
             throw new OrderException(NOT_FOUND_PRODUCT);
         }
         Cart cart = cartService.getCart(customerId);
-
         if(!addAble(cart,product,form)){
             throw new OrderException(ITEM_COUNT_NOT_ENOUGH);
         }
         return cartService.addCart(customerId,form);
     }
         //private methods - addCart
-        private boolean addAble(Cart cart,Product product,AddProductCartForm form){
-            Product cartProduct =  cart.getProducts().stream().filter(p -> p.getId().equals(form.getId()))
+        private boolean addAble(Cart cart,Product product,AddProductCartForm form) {
+            Product cartProduct = cart.getProducts().stream().filter(p -> p.getId().equals(form.getId()))
                     .findFirst().orElse(Product.builder().id(product.getId())
                             .productItems(Collections.emptyList()).build());
-
+            return checkAvailabilityOfProductItems(cartProduct, product, form);
+        }
+        private boolean checkAvailabilityOfProductItems(Product cartProduct, Product product, AddProductCartForm form) {
             Map<Long,Integer> cartItemCountMap = cartProduct.getProductItems().stream()
                     .collect(Collectors.toMap(ProductItem::getId,ProductItem::getCount));
             Map<Long,Integer> currentItemCountMap = product.getProductItems().stream()
                     .collect(Collectors.toMap(ProductItem::getId,ProductItem::getCount));
-
             return form.getAddCartProductItemForms().stream().noneMatch(
                     formItem -> {
                         Integer cartCount = cartItemCountMap.get(formItem.getProductId());
@@ -59,16 +58,9 @@ public class CartApplication {
                         return formItem.getCount() + cartCount > currentCount;
                     });
         }
-
-    public Cart updateCart(Long customerId, Cart cart){
-        cartService.putCart(customerId, cart);
-        return getCart(customerId); //?
-    }
     public Cart getCart(Long customerId){
         Cart newcart = cartService.getCart(customerId);
-        if(newcart.checkEmptyCart()){
-            return newcart;
-        }
+        if(newcart.checkEmptyCart()){return newcart;}
         Cart cart = refreshCart(newcart);
         Cart cartToReturn = updateRefreshedCart(customerId, cart);
         flushCartMessages(customerId, cart);
@@ -102,22 +94,24 @@ public class CartApplication {
             for(int i= 0; i < cart.getProducts().size(); i++){
                 Product cartProduct = cart.getProducts().get(i);
                 Product p = productMap.get(cartProduct.getId());
-
-                i = productNotExist(cart, i, cartProduct, p);
+                System.out.println(p.getProductItems().size());
+                if(productNotExist(cart, cartProduct, p)){
+                    i--;
+                    continue;
+                }
                 List<String> tmpMessages = collectIssuesFromProductItems(cart, cartProduct, p);
                 i = noOptionExistForProduct(cart, i, cartProduct);
                 cart = sumUpCartMessages(cart, cartProduct, tmpMessages);
             }
             return cart;
         }
-
-        private int productNotExist(Cart cart, int i, Product cartProduct, Product p) {
+        private boolean productNotExist(Cart cart, Product cartProduct, Product p) {
             if(p == null){
                 cart.getProducts().remove(cartProduct);
-                i--;
                 cart.addMessage(cartProduct.getName()+" 상품이 삭제되었습니다.");
+                return true;
             }
-            return i;
+            return false;
         }
         private int noOptionExistForProduct(Cart cart, int i, Product cartProduct) {
             if(cartProduct.getProductItems().size() == 0){
@@ -133,7 +127,6 @@ public class CartApplication {
                 builder.append(cartProduct.getName()+" 상품의 변동 사항 : ");
                 for(String message : tmpMessages){
                     builder.append(message);
-                    builder.append(", ");
                 }
                 cart.addMessage(builder.toString());
             }

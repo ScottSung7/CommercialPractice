@@ -52,18 +52,15 @@ public class ProductItem extends BaseEntity{
     }
 
     //Business Logic
-    public ProductItem updateProductItem(ProductItem productItem, UpdateProductItemForm form) {
-        productItem.setName(form.getName());
-        productItem.setCount(form.getCount());
-        productItem.setPrice(form.getPrice());
-        return productItem;
+    public ProductItem updateProductItem(UpdateProductItemForm form) {
+        System.out.println("Updating");
+        System.out.println(form.getCount());
+        this.name = form.getName();
+        this.price = form.getPrice();
+        this.count = form.getCount();
+        return this;
     }
 
-    public void updateFromProduct(ProductItem item, UpdateProductItemForm itemForm) {
-        item.setName(itemForm.getName());
-        item.setPrice(itemForm.getPrice());
-        item.setCount(item.getCount());
-    }
 
     public void changeCount(int changedCount) {
         this.count = changedCount;

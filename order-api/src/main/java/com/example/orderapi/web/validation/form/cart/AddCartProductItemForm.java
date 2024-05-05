@@ -11,9 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Getter
-@SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor
 public class AddCartProductItemForm extends AddProductItemForm {
 
     //AddExtraProductItemForm과 중복되지만 쓰임이 달라 생성.
