@@ -4,7 +4,6 @@ Monolithic한 프로젝트에서 점차 MSA 구조를 갖추어 가면서 각 �
 
 http://www.scottcommerce.net/swagger-ui/index.html
 <br> 상태: OFF
-<br>** account-api 작동중 (order-api 수정 중)
 <br><br> 유의사항 
 <br> 1. 비용 이슈로 한정적으로 오픈 하고 있습니다. (평일: 9am - 6pm)
 <br> 2. 해외 IP에서는 접근이 불가합니다. 
@@ -54,13 +53,14 @@ http://www.scottcommerce.net/swagger-ui/index.html
 #### B. 배포: 
 - MSA의 구제에 알맞게 각 서비스마다 ECS 클러스터를 붙여서 각 서비스 단위로 관리를 합니다.
 - **API Gateway**를 통해 외부에서 오는 요청을 각 서비스로 연결을 해줍니다.
-- 요청이 많아 질것을 대비하여 내부 통신의 속도와 효율을 높이기 위하여 데이터의 **동기화가 매우 중요한 경우  HTTP 보다 다 빠른 gRPC**를 사용하고 , 그 외의 경우에는 Kafka를 통해 **비동기적 브로커 방식으로 non-blocking**하게 처리한다.
-- 관리하는 환경파일이 많아지게 되어 AWS Secret Manger를 통해 환경 변수를 관리하거나 **데이터를 암호화하여 관리하는 S3**를 통해 외부에서 주입하여 빌드에 사용합니다.
+- 요청이 많아 질것을 대비하여 내부 통신의 속도와 효율을 높이기 위하여 ** 필요시  HTTP 보다 다 빠른 gRPC**를 사용합니다.
+- 채팅의 경우 Sticky Session 사용시 트래픽이 몰릴 수 있어 Kafaka를 사용하는 방법으로 변경 중입니다.
+- 관리하는 환경파일이 많아지게 되어 AWS Parameter Store를 통해 환경 변수를 관리합니다.
 #### C. 보안: 
 -  CDN를 이용하여 **AWS의 Edge 서버에서의 캐싱을 통해 향상된 속도와 함께 AWS의 보안 서비스**를 받습니다.
 - API Gateway를 두어 각 서비스별 연결 및 백엔드 자원에 대한 보호를 할 수 있으나 **병목지점**이 될 수 있습니다. 
 #### D. 사용 편의성:
-- 기본적으로 AWS의 서비스를 이용하지만 Jenkins, Kubernates를 이용하여 **추후 다른 클라우드 및 CI/CD 서비스와의 연계 또는 레거시한 프로젝트들과의 연계**도 쉽도록 한다. 
+- 기본적으로 AWS의 서비스를 이용하지만 Jenkins, Kubernates를 이용하여 **추후 다른 클라우드 및 CI/CD 서비스와의 연계 또는 레거시한 프로젝트들과의 연계**도 가능 합니다. 
 - 작은 단위로 관리가 되기에 유지보수가 쉬우며 빌드나 테스트의 속도도 빠르고 각 서비스별로 할 수 있어 덜 복잡합니다. <br>
 ![MSA drawio](https://github.com/ScottSung7/CommercialPractice/assets/98432596/dd5b7cd5-2b9f-4aa1-a8cc-884384afd93d)
 
@@ -106,8 +106,26 @@ http://www.scottcommerce.net/swagger-ui/index.html
 - (GET) /search/product/detail: 상품의 세부 아이템 조회 
 
 4. 장바구니 저장 (customer-cart-controller)
-- 상세 URI 추가 예정
+- (GET) /customer/cart : 카트 내역 가져오기
+- (POST) /customer/cart : 카트 내역 추가
+- (DELETE) /customer/cart : 카트 비우기
 
 ### Chat-api
-- 상세 URI 추가 예정
+1. 방 만들기 (room-controller)
+- (GET) /chat/{id} : 방 입장하기
+- (GET) /chat/{id}/userlist : 방의 참여 유저 리스트 가져오기
+- (POST) /chat/invite : 방 만들며 유저 초대하기
+- (POST) /chat/addParticipants : 유저 추가
+
+2. 유저 정보 가져오기 (user-info-controller)
+- (POST) /chat-info/myInfo : 나의 정보 가져오기
+- (POST) /chat-info/roomList: 내가 소속된 방 확인
+- (POST) /chat-info/userInfo : 유저 정보 가져오기 
+
+4. 유저 정보 검색 (user-search-controller) <내부 통신 - account-api>
+- (POST) /chat-search/customer : 구매자 검색
+- (POST) /chat-search/seller : 판매자 검색
+- (POST) /chat-search/user : 전체 유저 검색
+  
+  
 
