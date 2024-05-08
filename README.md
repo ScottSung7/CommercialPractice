@@ -61,7 +61,7 @@ http://www.scottcommerce.net/swagger-ui/index.html
 #### D. 사용 편의성:
 - 기본적으로 AWS의 서비스를 이용하지만 Jenkins, Kubernates를 이용하여 **추후 다른 클라우드 및 CI/CD 서비스와의 연계 또는 레거시한 프로젝트들과의 연계**도 쉽도록 한다. 
 - 작은 단위로 관리가 되기에 유지보수가 쉬우며 빌드나 테스트의 속도도 빠르고 각 서비스별로 할 수 있어 덜 복잡합니다. <br>
-![_MSA drawio](https://github.com/ScottSung7/CommercialPractice/assets/98432596/8ce821af-3c2e-4ebf-9bc9-85160dd07833)
+![MSA drawio](https://github.com/ScottSung7/CommercialPractice/assets/98432596/dd5b7cd5-2b9f-4aa1-a8cc-884384afd93d)
 
 ## API 명세
 
