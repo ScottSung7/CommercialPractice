@@ -40,7 +40,8 @@ http://www.scottcommerce.net/swagger-ui/index.html
  - **ECS**를 이용하여 배포를 하여서 컨테이너 관리를 손쉽게 할수 있습니다.<br>
  - Code Commit과 Code Build를 통한 **CI/CD를 자동화** 시키고 ECR을 통해서 손쉽게 배포하도록 구성하였습니다.
 
-![multi-module drawio](https://github.com/ScottSung7/CommercialPractice/assets/98432596/a6ae1da5-9697-421f-85ce-0ce5cad70134)
+![multi-module2 drawio drawio](https://github.com/ScottSung7/CommercialPractice/assets/98432596/52e13c35-0144-4b8c-b982-6c51e7d8a025)
+
 
 <br>
 
