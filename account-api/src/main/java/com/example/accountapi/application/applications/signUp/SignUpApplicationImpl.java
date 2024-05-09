@@ -23,7 +23,6 @@ public class SignUpApplicationImpl implements SignUpApplication {
 
     private final SignUpCustomerService signUpCustomerService;
     private final SignUpSellerService signUpSellerService;
-
     private final EmailVerificationProvider emailVerificationProvider;
 
 

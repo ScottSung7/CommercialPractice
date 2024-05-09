@@ -24,6 +24,11 @@ public class CustomerSignUpForm {
     @Schema(description = "이름", example = "tester")
     private String name;
 
+    @NotNull(message = "휴대폰 번호를 입력해주세요")
+    @Tel(message = "-을 빼고 번호만 넣어 주세요")
+    @Schema(description = "휴대폰 번호", example = "01012345678")
+    private String phone;
+
     @NotBlank(message = "비밀번호를 입력해주세요")
     @Schema(description = "비밀번호", example = "1234")
     private String password;
@@ -32,10 +37,7 @@ public class CustomerSignUpForm {
     @Schema(description = "생년월일", example = "1999-01-01")
     private LocalDate birth;
 
-    @NotNull(message = "휴대폰 번호를 입력해주세요")
-    @Tel(message = "-을 빼고 번호만 넣어 주세요")
-    @Schema(description = "휴대폰 번호", example = "01012345678")
-    private String phone;
+
 
     @Builder(access=AccessLevel.PRIVATE)
     private CustomerSignUpForm(String email, String name, String password, LocalDate birth, String phone) {

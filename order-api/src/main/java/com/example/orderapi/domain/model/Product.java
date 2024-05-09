@@ -14,16 +14,17 @@ import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
 @Getter
 @Setter(AccessLevel.PRIVATE)
-@Builder
+@Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Audited //변할때마다 변화 여기 저장
+@Audited
 @AuditOverride(forClass = BaseEntity.class)
 public class Product extends BaseEntity{
 
@@ -51,7 +52,29 @@ public class Product extends BaseEntity{
 
          return product;
     }
+    public static Product from(AddProductCartForm form){
+        return Product.builder()
+                .id(form.getId())
+                .name(form.getName())
+                .description(form.getDescription())
+                .productItems(form.getAddCartProductItemForms().stream()
+                        .map(ProductItem::from).collect(Collectors.toList()))
+                .build();
 
+    }
+    //Business Method
+    public Product updateProduct(UpdateProductForm form, Product product) {
+        product.setName(form.getName());
+        product.setDescription(form.getDescription());
+
+        for(UpdateProductItemForm itemForm : form.getUpdateProductItemForms()){
+            ProductItem item = product.getProductItems().stream()
+                    .filter(pi -> pi.getId().equals(itemForm.getItemId()))
+                    .findFirst().orElseThrow(() -> new OrderException(OrderErrorCode.NOT_FOUND_ITEM));
+            item.updateProductItem(itemForm);
+        }
+        return product;
+    }
     public ProductItem addProductItem(Product product, Long sellerId, AddProductItemForm form) {
         if(product.getProductItems() != null && product.getProductItems().stream()
                 .anyMatch(item -> item.getName().equals(form.getName()))){
@@ -64,43 +87,11 @@ public class Product extends BaseEntity{
 
         return productItem;
     }
-
-    public static Product from(AddProductCartForm form){
+    public static Product emptyProductWithId(Long id){
         return Product.builder()
-                .id(form.getId())
-                .name(form.getName())
-                .description(form.getDescription())
-                .productItems(form.getAddCartProductItemForms().stream()
-                        .map(ProductItem::from).collect(Collectors.toList()))
+                .id(id)
+                .productItems(Collections.emptyList())
                 .build();
-
     }
 
-    //Business Method
-    public Product updateProduct(UpdateProductForm form, Product product) {
-        product.setName(form.getName());
-        product.setDescription(form.getDescription());
-
-        System.out.println("in?");
-        for(UpdateProductItemForm itemForm : form.getUpdateProductItemForms()){
-            ProductItem item = product.getProductItems().stream()
-                    .filter(pi -> pi.getId().equals(itemForm.getItemId()))
-                    .findFirst().orElseThrow(() -> new OrderException(OrderErrorCode.NOT_FOUND_ITEM));
-            item.updateProductItem(itemForm);
-        }
-        return product;
-    }
-//    public Product addProductItem(Product product, Long sellerId, AddExtraProductItemForm form) {
-//
-//        if(product.getProductItems().stream()
-//                .anyMatch(item -> item.getName().equals(form.getName()))){
-//            throw new OrderException(OrderErrorCode.SAME_ITEM_NAME);
-//        }
-//        ProductItem productItem = ProductItem.of(sellerId, form);
-//        productItem.addProduct(product);
-//
-//        product.getProductItems().add(productItem);
-//        return product;
-//
-//    }
 }

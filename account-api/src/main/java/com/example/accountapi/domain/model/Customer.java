@@ -19,7 +19,6 @@ import static java.time.LocalDateTime.now;
 @Entity
 @Getter
 @Setter(AccessLevel.PRIVATE)
-@Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AuditOverride(forClass = BaseEntity.class)

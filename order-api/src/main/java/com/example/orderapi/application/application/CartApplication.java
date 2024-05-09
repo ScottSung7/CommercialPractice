@@ -39,8 +39,7 @@ public class CartApplication {
         //private methods - addCart
         private boolean addAble(Cart cart,Product product,AddProductCartForm form) {
             Product cartProduct = cart.getProducts().stream().filter(p -> p.getId().equals(form.getId()))
-                    .findFirst().orElse(Product.builder().id(product.getId())
-                            .productItems(Collections.emptyList()).build());
+                    .findFirst().orElse(Product.emptyProductWithId(product.getId()));
             return checkAvailabilityOfProductItems(cartProduct, product, form);
         }
         private boolean checkAvailabilityOfProductItems(Product cartProduct, Product product, AddProductCartForm form) {
