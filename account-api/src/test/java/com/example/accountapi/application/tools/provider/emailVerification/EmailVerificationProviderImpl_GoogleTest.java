@@ -35,7 +35,7 @@ class EmailVerificationProviderImpl_GoogleTest {
         MimeMessage mimeMessage = mock(MimeMessage.class);
         when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
 
-        boolean check = emailVerificationProvider.sendVerificationEmail(seller);
+        boolean check = emailVerificationProvider.sendVerificationEmail(seller.getEmail(), seller.getName(), "seller");
 
         verify(javaMailSender, times(1)).send(any(MimeMessage.class));
         assertTrue(check);
@@ -48,7 +48,7 @@ class EmailVerificationProviderImpl_GoogleTest {
         MimeMessage mimeMessage = mock(MimeMessage.class);
         when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
 
-        boolean check = emailVerificationProvider.sendVerificationEmail(customer);
+        boolean check = emailVerificationProvider.sendVerificationEmail(customer.getEmail(), customer.getName(), "customer");
 
         verify(javaMailSender, times(1)).send(any(MimeMessage.class));
         assertTrue(check);

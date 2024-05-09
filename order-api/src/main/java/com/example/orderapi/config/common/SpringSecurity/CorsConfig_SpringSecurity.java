@@ -14,10 +14,8 @@ public class CorsConfig_SpringSecurity {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:8080"); // e.g. http://domain1.com
-        config.addAllowedOrigin("http://www.scottcommerce.net");
-        config.addAllowedOrigin("http://3.38.15.59:8080");
+        config.setAllowCredentials(false);
+        config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);

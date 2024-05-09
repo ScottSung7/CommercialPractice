@@ -77,6 +77,22 @@ class AccountInfoControllerTest {
         //then
         response.andExpect(status().isOk());
     }
+    @Test
+    @WithMockUser
+    void searchCustomerInfo() throws Exception {
+        //given
+        Customer customer = mock(Customer.class);
+        when(accountInfoApplication.findCustomer(anyString())).thenReturn(customer);
+
+        //when
+        ResultActions response = movkcMvc.perform(post(ACCOUNT_COMMON_URL + "/customer/info")
+                        .param("email", "tester@test.com/*")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON));
+        //then
+        response.andExpect(status().isOk());
+    }
+
 
     @Test
     @WithMockUser
@@ -90,6 +106,40 @@ class AccountInfoControllerTest {
         when(LoginCheck.sellerCheck(any(Authentication.class))).thenReturn(sellerPrincipalDetails);
         when(accountInfoApplication.findSeller(anyString())).thenReturn(seller);
         ResultActions response = movkcMvc.perform(post(ACCOUNT_COMMON_URL + "/seller")
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON));
+        //then
+        response.andExpect(status().isOk());
+    }
+    @Test
+    @WithMockUser
+    void searchSellerInfo() throws Exception {
+        //given
+        Seller seller = mock(Seller.class);
+        when(accountInfoApplication.findSeller(anyString())).thenReturn(seller);
+
+        //when
+        ResultActions response = movkcMvc.perform(post(ACCOUNT_COMMON_URL + "/seller/info")
+                .param("email", "tester@test.com/*")
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON));
+        //then
+        response.andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser
+    void searchUserInfo() throws Exception {
+        //given
+        Customer customer = mock(Customer.class);
+        Seller seller = mock(Seller.class);
+        when(accountInfoApplication.findCustomer(anyString())).thenReturn(customer);
+        when(accountInfoApplication.findSeller(anyString())).thenReturn(seller);
+
+
+        //when
+        ResultActions response = movkcMvc.perform(post(ACCOUNT_COMMON_URL + "/user/info")
+                .param("email", "tester@test.com/*")
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON));
         //then

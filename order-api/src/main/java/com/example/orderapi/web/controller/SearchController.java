@@ -25,14 +25,14 @@ import static com.example.orderapi.web.validation.exception.OrderErrorCode.WORKI
 public class SearchController {
     private final ProductSearchService productSearchService;
 
-    @GetMapping
-    @Parameter(name = "name", description = "상품명", example = "Apple Macbook")
-    public ResponseEntity<List<ProductDto>> searchByName(@RequestParam String name){
-        return ResponseEntity.ok(
-                productSearchService.searchByName(name).stream()
-                        .map(ProductDto::withoutItemsfrom).collect(Collectors.toList())
-        );
-    }
+//    @GetMapping
+//    @Parameter(name = "name", description = "상품명", example = "Apple Macbook")
+//    public ResponseEntity<List<ProductDto>> searchByName(@RequestParam String name){
+//        return ResponseEntity.ok(
+//                productSearchService.searchByName(name).stream()
+//                        .map(ProductDto::withoutItemsfrom).collect(Collectors.toList())
+//        );
+//    }
 
     @GetMapping("/detail")
     @Parameter(name = "productId", description = "상품 ID", example = "1")

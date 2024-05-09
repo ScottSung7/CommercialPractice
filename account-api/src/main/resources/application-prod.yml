@@ -1,7 +1,11 @@
+config:
+  type: aws-parameterstore:/config/
+
 spring:
   config:
     activate:
       on-profile: prod
+    import: ${config.type}
   datasource:
     url: ${cloud.db.url}
     driver-class-name: ${cloud.db.driver}
@@ -18,6 +22,21 @@ eureka:
   client:
     service-url:
       defaultZone: ${cloud.eureka.url}
-
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    urls[0]:
+      name: account-api
+      url: ${cloud.account-api.doc}
+#    urls[1]:
+#      name: order-api
+#      url: http://localhost:8081/api-docs
+#    urls[2]:
+#      name: chat-api
+#      url: http://localhost:8085/api-docs
+#    urls[3]:
+#      name: test-api
+#      url: http://localhost:8086/api-docs
 
 

@@ -23,21 +23,16 @@ import java.util.Locale;
 public class SignUpCustomerServiceImpl implements SignUpCustomerService{
 
     private final CustomerRepository customerRepository;
-
-
     private final PasswordEncoder customerPasswordEncoder;
     @Override
     @Transactional
     public Customer signUp(CustomerSignUpForm form){
-
         Customer customer = Customer.from(form);
         customer.encodePassword(customerPasswordEncoder.encode(form.getPassword()));
         if(customerRepository.findByEmail(customer.getEmail().toLowerCase(Locale.ROOT)).isPresent()){
             throw new AccountException(ErrorCode.ALREADY_REGISTER_USER);
         };
-
         Customer returned = customerRepository.save(customer);
-
         return returned;
     }
     @Override

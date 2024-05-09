@@ -15,9 +15,6 @@ import org.springframework.validation.annotation.Validated;
 import java.util.List;
 
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor //원래는 Getter만 -> 테스트 코드는 Mocking으로
 public class AddProductForm {
 
     @NotBlank(message = "상품명을 입력해주세요.")

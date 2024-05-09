@@ -2,7 +2,7 @@ server:
   port: 8081
 logging:
     level:
-        root: debug
+        root: info
 spring:
   application:
     name: order-api
@@ -34,11 +34,10 @@ spring:
       ddl-auto: create-drop
     database-platform: org.hibernate.dialect.MySQLDialect
     generate-ddl: true
-#  data:
-#    redis:
-#      host: localhost
-#      port: 6379
-
+  data:
+    redis:
+      host: localhost
+      port: ${redis.port}
 feign:
   okhttp:
     enabled: true

@@ -2,41 +2,35 @@ package com.example.accountapi.config.swagger;
 
 
 
-import com.example.accountapi.config.SpringSecurity.type.jwt.JWTUtil;
-import io.jsonwebtoken.Jwts;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.servers.Servers;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.StringSchema;
-import io.swagger.v3.oas.models.parameters.HeaderParameter;
-import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.core.customizers.OpenApiCustomizer;
-import org.springdoc.core.customizers.OperationCustomizer;
-import org.springdoc.core.models.GroupedOpenApi;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 @Configuration
+@RequiredArgsConstructor
+@Profile("default")
 public class SwaggerConfiguration {
 //    @Bean
 //    public GroupedOpenApi group1(){
 //        String[] paths = {"/**"};
 //        return GroupedOpenApi.builder()
 //                .group("client")
+//                .group("admin")
 //                .pathsToMatch(paths)
 //                .build();
 //    }
+
 
     @Bean
     public OpenAPI springOpenApi(){
@@ -55,9 +49,9 @@ public class SwaggerConfiguration {
                         .components(new Components().addSecuritySchemes("bearerAuth", securityScheme))
                         .security(Arrays.asList(securityRequirement));
 
-
         return openAPI;
     }
+
 
 //    @Autowired
 //     JWTUtil jwtUtil;

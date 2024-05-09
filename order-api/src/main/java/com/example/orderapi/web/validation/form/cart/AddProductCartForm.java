@@ -16,19 +16,12 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class AddProductCartForm {
 
     @NotNull(message = "상품 ID를 넣어주세요.")
     @Schema(description = "상품 ID", example = "1")
     private Long id;
 
-//    @NotNull(message = "상품 수량을 넣어주세요.")
-//    @Schema(description = "상품 수량", example = "1")
-//    private Long sellerId;
-//
     @NotBlank(message = "상품 이름을 넣어주세요.")
     @Schema(description = "상품 이름", example = "Apple Macbook")
     private String name;

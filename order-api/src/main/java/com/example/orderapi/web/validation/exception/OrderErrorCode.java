@@ -19,7 +19,8 @@ public enum OrderErrorCode {
     CART_CHANGE_FAIL(HttpStatus.BAD_REQUEST, "장바구니에 추가할 수 없습니다."),
     ITEM_COUNT_NOT_ENOUGH(HttpStatus.BAD_REQUEST, "상품의 수량이 부족합니다"),
 
-    WORKING_ON(HttpStatus.BAD_REQUEST, "작업중입니다.");
+    WORKING_ON(HttpStatus.BAD_REQUEST, "작업중입니다."),
+    SAME_PRODUCT_NAME(HttpStatus.BAD_REQUEST, "같은 이름의 제품이 있습니다.");
 
 
 

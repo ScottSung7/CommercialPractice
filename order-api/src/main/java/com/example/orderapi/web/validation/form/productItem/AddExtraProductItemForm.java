@@ -11,9 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Getter
-@SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor
 public class AddExtraProductItemForm extends AddProductItemForm {
 
     @Schema(description = "상품 ID", example = "1")
