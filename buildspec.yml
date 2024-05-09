@@ -11,23 +11,43 @@ phases:
       - REPOSITORY_URI_ORDER=211327774117.dkr.ecr.ap-northeast-2.amazonaws.com/scott-commerce-order
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
-      - cd account-api
+      - echo parameter check ${google_check}
+      
+      
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
 
-      - cd eureka
-      - docker build -t $REPOSITORY_URI_EUREKA:latest .
-      - docker tag $REPOSITORY_URI_EUREKA:latest $REPOSITORY_URI_EUREKA:$IMAGE_TAG
-
-      - cd ../account-api
-      - docker build -t $REPOSITORY_URI_ACCOUNT:latest .
+      - cd account-api
+      - aws s3 cp s3://my-env-scott/env-account-api.properties ./src/main/resources/
+      - ls ./src/main/resources
+      
+      - chmod u+x gradlew
+      - ./gradlew clean build
+      - docker build --platform linux/amd64 -t $REPOSITORY_URI_ACCOUNT:latest .
       - docker tag $REPOSITORY_URI_ACCOUNT:latest $REPOSITORY_URI_ACCOUNT:$IMAGE_TAG
+      - rm ./src/main/resources/env-account-api.properties
+      - ls ./src/main/resources
 
       - cd ../order-api
-      - docker build -t $REPOSITORY_URI_ORDER:latest .
-      - docker tag $REPOSITORY_URI_ORDER:latest $REPOSITORY_URI_ACCOUNT:$IMAGE_TAG
+      - aws s3 cp s3://my-env-scott/env-order-api.properties ./src/main/resources/
+      - pwd
+      - ls ./src/main/resources
+      
+      
+      - chmod u+x gradlew
+      - ./gradlew clean build
+      - docker build --platform linux/amd64 -t $REPOSITORY_URI_ORDER:latest .
+      - docker tag $REPOSITORY_URI_ORDER:latest $REPOSITORY_URI_ORDER:$IMAGE_TAG
+      - rm ./src/main/resources/env-order-api.properties
+      - ls ./src/main/resources
+
+      - cd ../eureka
+      - chmod u+x gradlew
+      - ./gradlew clean build
+      - docker build --platform linux/amd64 -t $REPOSITORY_URI_EUREKA:latest .
+      - docker tag $REPOSITORY_URI_EUREKA:latest $REPOSITORY_URI_EUREKA:$IMAGE_TAG
 
   post_build:
     commands:

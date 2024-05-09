@@ -1,0 +1,9 @@
+version: 0.0
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: "arn:aws:ecs:ap-northeast-2:211327774117:task-definition/my-ecs-commerce:4"
+        LoadBalancerInfo:
+          ContainerName: "account-api"
+          ContainerPort: 8080
