@@ -19,9 +19,11 @@ import static java.time.LocalDateTime.now;
 @Entity
 @Getter
 @Setter(AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AuditOverride(forClass = BaseEntity.class)
-public class Customer extends BaseEntity{
+public class
+Customer extends BaseEntity{
 
     @Id
     @Column(name="customer_id", nullable = false)
@@ -80,8 +82,10 @@ public class Customer extends BaseEntity{
 
     //Additional Method
     public void encodePassword(String encodedPassword){
+
         this.password = encodedPassword;
     }
+
     public void addVerificationExpirationDate(LocalDateTime expirationDate) {
         this.verificationExpiredAt = expirationDate;
     }

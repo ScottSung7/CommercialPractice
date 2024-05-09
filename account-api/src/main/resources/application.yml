@@ -2,10 +2,17 @@ server:
   port: 8080
 logging:
   level:
-    root: debug
+    root: info
+
+config:
+  type: aws-parameterstore:/config/
+
+aws.swagger.server: ${cloud.account-api.url}
+
 spring:
   application:
     name: account-api
+    import: ${config.type}
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -38,6 +45,9 @@ feign:
   okhttp:
     enabled: true
 
+awsParameterStorePropertySource:
+  enabled: true
+
 
 springdoc:
   api-docs:
@@ -52,6 +62,15 @@ springdoc:
     operations-sorter: alpha
     display-request-duration: true
     doc-expansion: none
+    servers:
+      - url: https://localhost:8080
+        description: account-api
+      - url: https://localhost:8081
+        description: order-api
+      - url: https://localhost:8085
+        description: chat-api
+      - url: https://localhost:8086
+        description: test-api
     urls[0]:
       name: account-api
       url: http://localhost:8080/api-docs
@@ -78,6 +97,7 @@ eureka:
       defaultZone: ${local.eureka.url}
     eureka-server-d-n-s-name: account-api
   instance:
+    instance-id: account-api
     prefer-ip-address: true
 email:
   server: http://localhost:8080

@@ -25,7 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
-@SpringBootTest(classes = {TestConfiguration_Service.class})
+@SpringBootTest(classes = {TestConfiguration_Service.class}) //email은 전송은 유닛 테스트에서 하지 않기 위해 적용.
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Disabled

@@ -14,9 +14,6 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class UpdateProductForm {
     @Schema(description = "상품 ID", example = "1")
     @NotNull(message = "상품 ID를 입력해주세요.")

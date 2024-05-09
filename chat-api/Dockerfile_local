@@ -1,0 +1,4 @@
+FROM openjdk:17-slim
+
+COPY build/libs/chat-api.jar chat-api.jar
+ENTRYPOINT ["java","-DSpring.profiles.active=compose","-jar","chat-api.jar"]

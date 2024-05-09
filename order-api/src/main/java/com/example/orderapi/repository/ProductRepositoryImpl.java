@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class ProductREpositoryImpl implements ProductRepositoryCustom{
+public class ProductRepositoryImpl implements ProductRepositoryCustom{
 
     private JPAQueryFactory queryFactory;
 
@@ -22,6 +22,5 @@ public class ProductREpositoryImpl implements ProductRepositoryCustom{
         return queryFactory.selectFrom(product)
                 .where(product.name.like(search))
                 .fetch();
-
     }
 }

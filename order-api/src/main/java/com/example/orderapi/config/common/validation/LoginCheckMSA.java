@@ -14,7 +14,7 @@ public class LoginCheckMSA {
     private static String sellerType = "SELLER";
 
     //TODO:로그아웃 기능 구현 필요.
-    public void notLogin(Authentication authentication){
+    public static void notLogin(Authentication authentication){
         if(authentication == null){
             return;
         }else{

@@ -11,13 +11,7 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.validation.annotation.Validated;
 
 @Getter
-@SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor
 public class AddProductItemForm {
-
-//    @Schema(description = "상품 ID", example = "1")
-//    private Long productId;
 
     @NotBlank(message = "상품 아이템명을 입력해주세요.")
     @Schema(description = "상품 아이템명", example = "MacBook Pro")

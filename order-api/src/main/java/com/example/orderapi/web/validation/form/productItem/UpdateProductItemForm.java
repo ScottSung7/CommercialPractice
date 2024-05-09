@@ -8,9 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class UpdateProductItemForm {
 
     @NotNull(message = "상품 ID를 입력해주세요.")

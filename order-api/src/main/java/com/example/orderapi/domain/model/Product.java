@@ -1,24 +1,30 @@
 package com.example.orderapi.domain.model;
 
+import com.example.orderapi.web.validation.exception.OrderErrorCode;
+import com.example.orderapi.web.validation.exception.OrderException;
 import com.example.orderapi.web.validation.form.cart.AddProductCartForm;
 import com.example.orderapi.web.validation.form.product.AddProductForm;
+import com.example.orderapi.web.validation.form.product.UpdateProductForm;
+import com.example.orderapi.web.validation.form.productItem.AddExtraProductItemForm;
 import com.example.orderapi.web.validation.form.productItem.AddProductItemForm;
+import com.example.orderapi.web.validation.form.productItem.UpdateProductItemForm;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
-@Setter
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Audited //변할때마다 변화 여기 저장
+@Setter(AccessLevel.PRIVATE)
+@Builder(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Audited
 @AuditOverride(forClass = BaseEntity.class)
 public class Product extends BaseEntity{
 
@@ -30,23 +36,22 @@ public class Product extends BaseEntity{
     private String name;
     private String description; //이미지등 추가 필요
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="product_id")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<ProductItem> productItems = new ArrayList<>();
 
     public static Product of(Long sellerId, AddProductForm addProductForm){
-        AddProductItemForm forms = addProductForm.getAddProductItemForms().get(0);
-        System.out.println(forms.getName());
+         Product product = Product.builder()
+                 .sellerId(sellerId)
+                 .name(addProductForm.getName())
+                 .description(addProductForm.getDescription())
+                 .build();
 
-        return Product.builder()
-                .sellerId(sellerId)
-                .name(addProductForm.getName())
-                .description(addProductForm.getDescription())
-                .productItems(addProductForm.getAddProductItemForms().stream()
-                        .map(addProductItemForm -> ProductItem.of(sellerId, addProductItemForm)).collect(Collectors.toList()))
-                .build();
+         addProductForm.getAddProductItemForms().stream()
+                 .forEach(addProductItemForm -> product.addProductItem(product, sellerId, addProductItemForm));
+
+         return product;
     }
-
     public static Product from(AddProductCartForm form){
         return Product.builder()
                 .id(form.getId())
@@ -57,4 +62,36 @@ public class Product extends BaseEntity{
                 .build();
 
     }
+    //Business Method
+    public Product updateProduct(UpdateProductForm form, Product product) {
+        product.setName(form.getName());
+        product.setDescription(form.getDescription());
+
+        for(UpdateProductItemForm itemForm : form.getUpdateProductItemForms()){
+            ProductItem item = product.getProductItems().stream()
+                    .filter(pi -> pi.getId().equals(itemForm.getItemId()))
+                    .findFirst().orElseThrow(() -> new OrderException(OrderErrorCode.NOT_FOUND_ITEM));
+            item.updateProductItem(itemForm);
+        }
+        return product;
+    }
+    public ProductItem addProductItem(Product product, Long sellerId, AddProductItemForm form) {
+        if(product.getProductItems() != null && product.getProductItems().stream()
+                .anyMatch(item -> item.getName().equals(form.getName()))){
+            throw new OrderException(OrderErrorCode.SAME_ITEM_NAME);
+        }
+        ProductItem productItem = ProductItem.of(sellerId, form);
+        productItem.addProduct(product);
+
+        product.getProductItems().add(productItem);
+
+        return productItem;
+    }
+    public static Product emptyProductWithId(Long id){
+        return Product.builder()
+                .id(id)
+                .productItems(Collections.emptyList())
+                .build();
+    }
+
 }

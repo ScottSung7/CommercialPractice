@@ -12,10 +12,10 @@ public interface ProductRepository extends JpaRepository<Product, Long>, Product
     @EntityGraph(attributePaths = {"productItems"}, type= EntityGraph.EntityGraphType.LOAD)
     Optional<Product> findBySellerIdAndId(Long sellerId, Long id);
 
-
     @EntityGraph(attributePaths = {"productItems"}, type = EntityGraph.EntityGraphType.LOAD)
     Optional<Product> findWithProductItemById(Long id);
 
     List<Product> findBySellerId(Long sellerId);
 
+    Optional<Product> findByNameAndSellerId(String name, Long sellerId);
 }

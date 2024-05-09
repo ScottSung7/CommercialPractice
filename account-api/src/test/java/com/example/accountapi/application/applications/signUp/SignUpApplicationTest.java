@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -49,7 +50,7 @@ class SignUpApplicationTest {
         given(customerSignUpForm.getPhone()).willReturn(signUpPhone);
         given(customerSignUpForm.getBirth()).willReturn(signUpBirth);
 
-        given(emailVerificationProvider.sendVerificationEmail(any(Customer.class))).willReturn(true); //mail은 mocking처리 되어 있음.
+        given(emailVerificationProvider.sendVerificationEmail(anyString(), anyString(), anyString())).willReturn(true); //mail은 mocking처리 되어 있음.
         //when
         Customer customer = signUpApplication.customerSignUp(customerSignUpForm);
         
@@ -101,7 +102,7 @@ class SignUpApplicationTest {
         given(sellerSignUpForm.getPhone()).willReturn(signUpPhone);
         given(sellerSignUpForm.getBirth()).willReturn(signUpBirth);
 
-        given(emailVerificationProvider.sendVerificationEmail(any(Customer.class))).willReturn(true); //mail은 mocking처리 되어 있음.
+        given(emailVerificationProvider.sendVerificationEmail(anyString(), anyString(), anyString())).willReturn(true); //mail은 mocking처리 되어 있음.
         //when
         Seller seller = signUpApplication.sellerSignUp(sellerSignUpForm);
 

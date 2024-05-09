@@ -51,19 +51,19 @@ public class AccountInfoController {
     }
 
     @PostMapping("/customer/info")
-    public ResponseEntity<CustomerDto> getCustomerInfo(@RequestParam("email") String email) {
+    public ResponseEntity<CustomerDto> searchCustomerInfo(@RequestParam("email") String email) {
         Customer customer = accountInfoApplication.findCustomer(email);
         return ResponseEntity.ok(CustomerDto.from(customer));
     }
 
     @PostMapping("/seller/info")
-    public ResponseEntity<SellerDto> getSellerInfo(@RequestParam("email") String email) {
+    public ResponseEntity<SellerDto> searchSellerInfo(@RequestParam("email") String email) {
         Seller seller = accountInfoApplication.findSeller(email);
         return ResponseEntity.ok(SellerDto.from(seller));
     }
     //Seller는 표시 다르게.
     @PostMapping("/user/info")
-    public ResponseEntity<List<UserDto>> getUserInfo(@RequestParam("email") String email) {
+    public ResponseEntity<List<UserDto>> serachUserInfo(@RequestParam("email") String email) {
         List<UserDto> userList = new ArrayList<UserDto>();
         try{
             Customer customer = accountInfoApplication.findCustomer(email);
