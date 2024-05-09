@@ -69,7 +69,7 @@ http://www.scottcommerce.net/swagger-ui/index.html
 
 ![MSA drawio](https://github.com/ScottSung7/CommercialPractice/assets/98432596/dd5b7cd5-2b9f-4aa1-a8cc-884384afd93d)
 
-## API 명세
+## API 명세 (위의 링크에서 Swagger UI로 확인 및 간단한 테스트도 가능합니다.)
 
 ### Account-api
 0. 테스트용 계정 및 JWT 토큰 생성 (a-tester-controller)
