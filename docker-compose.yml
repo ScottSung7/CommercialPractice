@@ -16,6 +16,16 @@ services:
       MYSQL_PASSWORD: 1234
     ports:
       - "3306:3306"
+  db2:
+    image: mysql:latest
+    container_name: mysql-ecommerce2
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: echat
+      MYSQL_USER: sa
+      MYSQL_PASSWORD: 1234
+    ports:
+        - "3307:3306"
   redis:
     image: redis:latest
     container_name: redis-ecommerce
@@ -41,3 +51,30 @@ services:
     depends_on:
       - eureka-service
       - db
+      - redis
+  chat-api:
+    build:
+      context: ./chat-api
+      dockerfile: Dockerfile_local
+    ports:
+        - "8085:8085"
+    restart: on-failure
+    depends_on:
+      - eureka-service
+      - db2
+
+
+#  swagger-ui:
+#    image: swaggerapi/swagger-ui
+#    container_name: swagger-ui
+#    ports:
+#      - "8082:8080"
+#    environment:
+#      - URLS_0_NAME=account-api
+#      - URLS_0_URL=http://account-api:8080/account-api/swagger-ui/index.html#/
+#      - URLS_1_NAME=order-api
+#      - URLS_1_URL=http://order-api:8081/swagger-ui/index.html#/
+#    restart: on-failure
+#    depends_on:
+#      - account-api
+#      - order-api
