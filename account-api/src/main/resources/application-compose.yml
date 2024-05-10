@@ -12,7 +12,7 @@ eureka:
     service-url:
       defaultZone: http://eureka-service:8761/eureka
 email:
-  server: http://43.202.0.217:8080
+  server: http://account-api:8080
 
 springdoc:
   swagger-ui:
