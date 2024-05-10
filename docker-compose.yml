@@ -39,7 +39,7 @@ services:
         - "8080:8080"
     restart: on-failure
     depends_on:
-      - eureka
+      - eureka-service
       - db
   order-api:
     build:
@@ -49,7 +49,7 @@ services:
       - "8081:8081"
     restart: on-failure
     depends_on:
-      - eureka
+      - eureka-service
       - db
       - redis
   chat-api:
@@ -60,7 +60,7 @@ services:
         - "8085:8085"
     restart: on-failure
     depends_on:
-      - eureka
+      - eureka-service
       - db2
 
 
