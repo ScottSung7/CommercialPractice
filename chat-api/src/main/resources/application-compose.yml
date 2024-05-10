@@ -3,7 +3,7 @@ spring:
     activate:
       on-profile: compose
   datasource:
-    url: jdbc:mysql://db:3307/echat?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://db:3306/ecommerce?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: sa
     password: 1234
