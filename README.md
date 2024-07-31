@@ -1,5 +1,7 @@
 빠른 배포부터 서비스가 커지고 트래픽이 커지는 것을 가정한 프로젝트 입니다. 
 
+//Todo: work flow & blog url
+
 Monolithic한 프로젝트에서 점차 MSA 구조를 갖추어 가면서 각 파트에서 어떤 기능과 아키텍처가 필요할지 고민해보려고 합니다.
 
 http://www.scottcommerce.net/swagger-ui/index.html
