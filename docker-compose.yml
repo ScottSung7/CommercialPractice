@@ -10,9 +10,8 @@ services:
     image: mysql:latest
     container_name: mysql-ecommerce
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: ecommerce
-      MYSQL_USER: sa
+      MYSQL_USER: root
       MYSQL_PASSWORD: 1234
     ports:
       - "3306:3306"
