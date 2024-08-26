@@ -19,7 +19,7 @@ C. 서버를 구성하는 법
 - [서버에 트래픽이 많아지면 더 좋은 CPU와 램을 쓰면 되는거 아닐까? (Scale Up vs. Scale Out)](https://computingsteps.tistory.com/39)
 
 <br><br>
-## 서버 구조
+## 단계별 서버 구조
 
 ### 1. Monolithic (Developer Monolithic Branch)
 - 빠른 배포를 목표로 한 Monolithic한 구조로 AWS EC2하나에 배포하였습니다.
