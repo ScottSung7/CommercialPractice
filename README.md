@@ -13,7 +13,7 @@ A. 서버간 통신
 - [다양한 서버간 통신방법 중 Netflix Feign을 선택한 이유.](https://computingsteps.tistory.com/38)
 
 B. 보안<br>
-- [Bastion Host: DNS 구입 후 외부 접근이 쉬워지니 public subnet에 EC2에서 private subnet으로 옮기면 어떨까요?](https://computingsteps.tistory.com/36)
+- [Bastion Host: DNS 구입 후 외부 접근이 쉬워지니 EC2를 public subnet에서 private subnet으로 옮기면 어떨까요?](https://computingsteps.tistory.com/36)
 
 C. 서버를 구성하는 법
 - [서버에 트래픽이 많아지면 더 좋은 CPU와 램을 쓰면 되는거 아닐까? (Scale Up vs. Scale Out)](https://computingsteps.tistory.com/39)
