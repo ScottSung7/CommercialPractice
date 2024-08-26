@@ -1,15 +1,30 @@
-빠른 배포부터 서비스가 커지고 트래픽이 커지는 것을 가정한 프로젝트 입니다. 
+## E-Commerce 프로젝트 개요
 
-//Todo: work flow & blog url
+1. 빠른 배포부터 서비스가 커지고 트래픽이 커지는 것을 가정한 프로젝트 입니다. 
 
-Monolithic한 프로젝트에서 점차 MSA 구조를 갖추어 가면서 각 파트에서 어떤 기능과 아키텍처가 필요할지 고민해보려고 합니다.
+2. Monolithic한 프로젝트에서 점차 MSA 구조를 갖추어 가면서 각 파트에서 어떤 기능과 아키텍처가 필요할지 고민해보려고 합니다.
 
+3. 구현 기능: 회원가입, 물건 등록, 주문, 결제, 채팅
+<br> <br>
+### 프로젝트 진행간 이슈들(업데이트 중.) 
+<br>
 
-## 1. Monolithic (Developer Monolithic Branch)
-빠른 배포를 목표로 한 Monolithic한 구조로 AWS EC2하나에 배포하였습니다.
-기능은 간단한 쇼핑몰로서 회원가입, 크레딧 충전, 결제, 상품등록같이 간단한 기능만 가질 예정 입니다. <br><br>
+A. 서버간 통신
+- [다양한 서버간 통신방법 중 Netflix Feign을 선택한 이유.](https://computingsteps.tistory.com/38)
 
-기술 선택 이유:
+B. 보안<br>
+- [DNS 구입 후 외부 접근이 쉬워지니 public subnet에 EC2를 두기는 불안하다.](https://computingsteps.tistory.com/36)
+
+C. 서버를 구성하는 법
+- [서버에 트래픽이 많아지면 더 좋은 CPU와 램을 쓰면 되는거 아닐까? (Scale Up vs. Scale Out)](https://computingsteps.tistory.com/39)
+
+<br><br>
+## 서버 구조
+
+### 1. Monolithic (Developer Monolithic Branch)
+- 빠른 배포를 목표로 한 Monolithic한 구조로 AWS EC2하나에 배포하였습니다.
+- 기능은 간단한 쇼핑몰로서 회원가입, 크레딧 충전, 결제, 상품등록같이 간단한 기능만 가질 예정 입니다. <br><br>
+
 #### A. 배 포:  AWS EC2 + Gradle + Application Load Balancer
 - 아직 AWS 사용에 익숙하지 않아 **빠른 배포**라는 상황에 맞게 배우는데 시간을 많이 들이기 보다 SSH 접속 후 로컬과 동일하게 git clone하여 Gradle로 배포를 빠르게 진행 하였습니다. 
 - ALB를 두어 필요시 서버를 빠르게 **Scale out** 할 수 있도록 하였습니다.
@@ -24,10 +39,9 @@ Monolithic한 프로젝트에서 점차 MSA 구조를 갖추어 가면서 각 �
 
 ![aws drawio (1)](https://github.com/ScottSung7/CommercialPractice/assets/98432596/045f694e-362e-437f-adab-6fe19751a740)
 
-## 2. Multi-Module (Developer Multi-Module Branch)
-서비스의 종류가 늘어나면서 코드 관리의 편의성 위해 프로젝트를 Multi-Module로 구성하면서 포트번호로 API를 나누어 배포하여 약간의 MSA구조를 가미하였습니다. <br><br>
-
-기술 선택 이유: 
+### 2. Multi-Module (Developer Multi-Module Branch)
+- 서비스의 종류가 늘어나면서 코드 관리의 편의성 위해 프로젝트를 Multi-Module로 구성하면서 포트번호로 API를 나누어 배포하여 약간의 MSA구조를 가미하였습니다. <br><br>
+ 
 #### A. 배 포:  AWS EC2 + Docker + Docker Compose + Gradle(Multi-Module) + Application Load Balancer
 - API 추가에 관리 복잡성이 증가하지 않게 Gradle을 통해 **멀티 모듈**로 나누어 각 API를 관리합니다. 
 - 처음에는 중앙 모듈에 의존성을 두고 필요한 라이브러리만 추가 했지만 각 모듈별로 의존성이 하나의 모듈에 응집되어 관리 복잡성이 증가한다 판단하여** 의존성을 모듈별로 따로 관리**하는 것으로 변경 하였습니다.
@@ -44,10 +58,10 @@ Monolithic한 프로젝트에서 점차 MSA 구조를 갖추어 가면서 각 �
 
 <br>
 
-## 3. Micro Service Architecture (Developer Micro-Service Branch)
-서비스가 커져 감에 따라 하나의 거대한 Multi-Module 또는 Monolithic 구조에서 서비스 하나하나 별로 관리하며 내부 통신을 효율적으로 하는 방법으로 변화되어 가게 됩니다. 다만, MSA 적용시 내부 통신이 복잡해지고 새로운 구조에 알맞는 기술들을 배우는 등의 비용도 고려하여 도입을 결정하여야 한다. <br><br>
+### 3. Micro Service Architecture (Developer Micro-Service Branch)
+- 서비스가 커져 감에 따라 하나의 거대한 Multi-Module 또는 Monolithic 구조에서 서비스 하나하나 별로 관리하며 내부 통신을 효율적으로 하는 방법으로 변화되어 가게 됩니다.
+- 다만, MSA 적용시 내부 통신이 복잡해지고 새로운 구조에 알맞는 기술들을 배우는 등의 비용도 고려하여 도입을 결정하여야 한다. <br><br>
 
-기술 선택 이유: 
 
 #### A. 배 포:  AWS ECS + ALB + AWS API Gateway + CI/CD (Code Pipeline) 
 
