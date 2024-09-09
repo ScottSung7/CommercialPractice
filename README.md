@@ -1,12 +1,32 @@
-## E-Commerce 프로젝트 개요
+# E-Commerce 프로젝트
+### 목차
+1. [요약](#요약)
+2. [목표](#목표)
+4. [시스템 아키텍처](#시스템 아키텍처)
+5. [단계별 서버 아키텍처](#단계별 서버 아키텍처)
+6. API 명세
+7. 프로젝트 진행간 이슈들
 
-1. 빠른 배포부터 서비스가 커지고 트래픽이 커지는 것을 가정한 프로젝트 입니다. 
 
-2. Monolithic한 프로젝트에서 점차 MSA 구조를 갖추어 가면서 각 파트에서 어떤 기능과 아키텍처가 필요할지 고민해보려고 합니다.
+## 요약
+1. Monolithic한 빠른 배포부터 서비스가 커지면서 MSA로 전환을 가정한 프로젝트 입니다. 
 
-3. 구현 기능: 회원가입, 물건 등록, 주문, 결제, 채팅 (API 명세 하단에 있습니다.)
+2. 판매자가 물건을 등록하고 주문가가 카트에 담아 결제를 합니다. 채팅을 통해 판매자와 대화를 나눌 수 있습니다.
+
+## 목표
+- 판매자가 제품을 등록할 수 있습니다.
+- 판매자는 제품의 추가, 세부사항 수정 및 삭제가 가능합니다.
+- 구매자는 물건을 카트에 담을 수 있습니다.
+- 구매자가 구매시 포인트가 판매자에게 지급됩니다.
+- 구매자와 판매자는 방을 만들어 1:1 채팅을 할 수 있습니다.
+
+## 시스템 아키텍처
+
+
+
+
 <br> <br>
-### 프로젝트 진행간 이슈들(업데이트 중.) 
+## 프로젝트 진행간 이슈들(업데이트 중.) 
 <br>
 
 A. 서버간 통신
@@ -19,22 +39,21 @@ C. 서버를 구성하는 법
 - [서버에 트래픽이 많아지면 더 좋은 CPU와 램을 쓰면 되는거 아닐까? (Scale Up vs. Scale Out)](https://computingsteps.tistory.com/39)
 
 <br><br>
-## 단계별 서버 구조
+## 단계별 서버 아키텍처
 
 ### 1. Monolithic (Developer Monolithic Branch)
-- 빠른 배포를 목표로 한 Monolithic한 구조로 AWS EC2하나에 배포하였습니다.
-- 기능은 간단한 쇼핑몰로서 회원가입, 크레딧 충전, 결제, 상품등록같이 간단한 기능만 가질 예정 입니다. <br><br>
+- Monolithic한 구조로 AWS EC2 하나에 배포하였습니다.
 
 #### A. 배 포:  AWS EC2 + Gradle + Application Load Balancer
-- 아직 AWS 사용에 익숙하지 않아 **빠른 배포**라는 상황에 맞게 배우는데 시간을 많이 들이기 보다 SSH 접속 후 로컬과 동일하게 git clone하여 Gradle로 배포를 빠르게 진행 하였습니다. 
-- ALB를 두어 필요시 서버를 빠르게 **Scale out** 할 수 있도록 하였습니다.
+- <ins>빠른 배포</ins>라는 상황에 맞게 CI/CD 구축보다 가장 간단하게 SSH 접속 후 로컬과 동일하게 git clone하여 Gradle로 배포를 빠르게 진행 하였습니다. 
+- ALB를 두어 필요시 서버를 쉽게 <ins>Scale out</ins> 할 수 있도록 하였습니다.
 
 #### B. 보 안: Bastion Host + Spring Security  + ACM + AWS Shield + Application Load Balancer
 
-- Bastion Host에서 private subnet에 접근 하도록하여 **외부 SSH 접속으로 부터 application을 보호 **하였습니다.
-- ALB를 통해 HTTP/HTTPS 요청을 받아 **외부 HTTP/HTTPS 요청으로 부터 application을 보호** 하였습니다.
+- Bastion Host에서 private subnet에 접근 하도록하여 <ins>외부 SSH 접속으로 부터 application을 보호 </ins>하였습니다.
+- ALB를 통해 HTTP/HTTPS 요청을 받아 <ins>외부 HTTP/HTTPS 요청으로 부터 application을 보호</ins> 하였습니다.
 - Spring Security를 통해 다양한 웹 공격에 편리하게 방어하며 빠르게 로그인 기능을 구축하였습니다.
-- AWS의 ACM을 통해 간편하게 사설 SSL/TLS X.509를 받아 프로젝트를  **HTTPS**로 구축할 수 있었습니다.
+- AWS의 ACM을 통해 간편하게 사설 SSL/TLS X.509를 받아 프로젝트를  <ins>HTTPS</ins>로 구축할 수 있었습니다.
 - AWS 네트워크에는 AWS Shield가 적용되어 있어 DDOS 공격 등에서 부터 보호를 받을 수 있었습니다. <br><br>
 
 ![aws drawio (1)](https://github.com/ScottSung7/CommercialPractice/assets/98432596/045f694e-362e-437f-adab-6fe19751a740)
@@ -44,14 +63,13 @@ C. 서버를 구성하는 법
  
 #### A. 배 포:  AWS EC2 + Docker + Docker Compose + Gradle(Multi-Module) + Application Load Balancer
 - API 추가에 관리 복잡성이 증가하지 않게 Gradle을 통해 **멀티 모듈**로 나누어 각 API를 관리합니다. 
-- 처음에는 중앙 모듈에 의존성을 두고 필요한 라이브러리만 추가 했지만 각 모듈별로 의존성이 하나의 모듈에 응집되어 관리 복잡성이 증가한다 판단하여** 의존성을 모듈별로 따로 관리**하는 것으로 변경 하였습니다.
-- 배포의 편의성을 위해 Docker를 통하여 각 모듈은 도커 컨테이너로 빌드 되어 관리됩니다.
+- 배포의 편의성을 위해 Docker를 통하여 <ins>각 모듈은 도커 컨테이너로 빌드 되어 관리</ins>됩니다.
 - 이후 Docker Compose를 사용, 하나씩 docker pull할 필요없이 git clone 후 쉽게 배포 가능하게 하였습니다. 
-- Chat-API의 경우 ALB의 **Sticky Session**을 이용하여 연결을 유지하였습니다.
+- Chat-API의 경우 ALB의 <ins>Sticky Session</ins>을 이용하여 연결을 유지하였습니다.
 
 #### B. 보 안: AWS ParameterStore + AWS WAF
-- 처음에는 AWS S3를 통해 env파일을 가져와 빌드때 이용 후 삭제 하였으나 이후 **AWS ParameterStore**을 통해 한 번의 등록으로 각 모듈의 설정 정보들을 편하고 안전하게 관리하였습니다.
-- 비정상적 접속이 감지 되어 AWS WAF를 통해 해외 IP등에 Block-List를 만들어 차단 할수 있었습니다. <br><br>
+- 처음에는 AWS S3를 통해 env파일을 가져와 빌드때 이용 후 삭제 하였으나 이후 <ins>AWS ParameterStore</ins>을 통해 한 번의 등록으로 각 모듈의 설정 정보들을 편하고 안전하게 관리하였습니다.
+- 비정상적 접속이 감지 되어 <ins>AWS WAF를 통해 해외 IP등에 Block-List</ins>를 만들어 차단 할수 있었습니다. <br><br>
 
 ![multi-module2 drawio drawio](https://github.com/ScottSung7/CommercialPractice/assets/98432596/52e13c35-0144-4b8c-b982-6c51e7d8a025)
 
