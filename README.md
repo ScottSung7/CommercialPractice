@@ -44,7 +44,7 @@ C. 서버를 구성하는 법
 ## 단계별 서버 아키텍처
 
 ### 1. Monolithic
-- Monolithic한 구조로 AWS EC2 하나에 배포하였습니다.
+- Monolithic한 구조로 <ins>AWS EC2에 gradle로 수동 배포</ins>하였습니다.
 
 #### A. 배 포:  AWS EC2 + Gradle + Application Load Balancer
 - <ins>빠른 배포</ins>라는 상황에 맞게 CI/CD 구축보다 가장 간단하게 SSH 접속 후 로컬과 동일하게 git clone하여 Gradle로 배포를 빠르게 진행 하였습니다. 
@@ -61,8 +61,9 @@ C. 서버를 구성하는 법
 ![aws drawio (1)](https://github.com/ScottSung7/CommercialPractice/assets/98432596/045f694e-362e-437f-adab-6fe19751a740)
 
 ### 2. Multi-Module
-- 서비스의 종류가 늘어나면서 코드 관리의 편의성 위해 프로젝트를 Multi-Module로 구성하면서 포트번호로 API를 나누어 배포하여 약간의 MSA구조를 가미하였습니다. <br><br>
- 
+- 서비스의 종류가 늘어나면서 코드 관리의 편의성 위해 프로젝트를 Multi-Module로 구성하면서 포트번호로 API를 나누어 배포하였습니다. <br><br>
+- <ins>docker-compose</ins>를 통해 EC2에서 컨테이너로 나누어 배포 하였습니다.
+
 #### A. 배 포:  AWS EC2 + Docker + Docker Compose + Gradle(Multi-Module) + Application Load Balancer
 - API 추가에 관리 복잡성이 증가하지 않게 Gradle을 통해 <ins>멀티 모듈</ins>로 나누어 각 API를 관리합니다. 
 - 배포의 편의성을 위해 Docker를 통하여 <ins>각 모듈은 도커 컨테이너로 빌드 되어 관리</ins>됩니다.
@@ -83,6 +84,7 @@ C. 서버를 구성하는 법
 
 ### 3. Micro Service Architecture
 - 서비스가 커져 감에 따라 MSA 서비스로 각자 관리하며 서버간 통신을 효율적으로 하는 방법으로 변화 되었습니다.
+- <ins>ECS와 CI/CD 통해 자동 배포</ins>하였습니다.
 
 #### A. 배 포:  AWS ECS + ALB + AWS API Gateway + CI/CD (Code Pipeline) 
 
@@ -93,9 +95,9 @@ C. 서버를 구성하는 법
 #### B. 내부/외부 통신 : Spring Cloud (Eureka & Feign) + AWS API Gateway + ALB + Kafka + CloudFront
 - 각 API마다 ALB를 두어 <ins>API Gateway</ins>를 통해 요청이 들어온 주소에 대해 해당 ALB로 찾아가 주도록 하였습니다.
 - IP주소 관리를 위해 Spring Eureka 서버를 두어 각 API의 <ins>AutoScaling 된 서버들의 IP 주소를 관리</ins> 합니다.
-- MSA 구조에서는 내부 통신이 많을 것을 생각하여 통신 속도를 향상 시키기 위해 HTTP 1.1 보다 빠른 gRPC를 도입 하였습니다.
+- MSA 구조에서는 내부 통신이 많을 것을 생각하여 통신 속도를 향상 시키기 위해 <ins>HTTP 1.1 보다 빠른 gRPC</ins>를 도입 하였습니다.
 - CloudFront를 이용하여 AWS Edge 서버에 캐시를 두어 클라이언트의 접속 속도를 빠르게 하였습니다. 
-- 채팅의 경우 Sticky Session 사용시 특정 서버로 트래픽이 몰릴 수 있다고 생각하여 **Kafka를 통한 메시지 브로커 방식**으로 변경 중입니다. (진행 중) <br><br>
+- 채팅의 경우 Sticky Session 사용시 특정 서버로 트래픽이 몰릴 수 있다고 생각하여 Kafka를 통한 메시지 브로커 방식으로 변경 중입니다. (진행 중) <br><br>
 
 ![MSA drawio](https://github.com/ScottSung7/CommercialPractice/assets/98432596/dd5b7cd5-2b9f-4aa1-a8cc-884384afd93d)
 
