@@ -24,6 +24,7 @@
 - 구매자와 판매자는 방을 만들어 1:1 채팅을 할 수 있습니다.
 
 ## 프로젝트 진행간 이슈들
+(업데이트 중)<br><br>
 A. 서버간 통신
 
 - [다양한 서버간 통신방법 중 Netflix Feign을 선택한 이유.](https://computingsteps.tistory.com/38)
