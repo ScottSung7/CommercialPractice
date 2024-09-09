@@ -3,14 +3,12 @@
 1. [요약](#요약)
 2. [목표](#목표)
 4. [시스템 아키텍처](#시스템-아키텍처)
-
-6. [단계별 서버 아키텍처](#단계별-서버-아키텍처)
-- [모놀리식 구조](#1.Monolithic)
-- [멀티모둘 구조]
-- [MSA 구조](
-7. API 명세
-8. 프로젝트 진행간 이슈들
-
+5. [단계별 서버 아키텍처](#단계별-서버-아키텍처)
+- [모놀리식 구조](#1-Monolithic)
+- [멀티모둘 구조](#2-Multi-Module)
+- [MSA 구조](#3-Micro-Service-Architecture)
+6. [API 명세](#API-명세)
+7. [프로젝트 진행간 이슈들](#프로젝트-진행간-이슈들)
 
 ## 요약
 1. Monolithic한 빠른 배포부터 서비스가 커지면서 MSA로 전환을 가정한 프로젝트 입니다. 
@@ -29,18 +27,6 @@
 
 
 
-<br> <br>
-## 프로젝트 진행간 이슈들(업데이트 중.) 
-<br>
-
-A. 서버간 통신
-- [다양한 서버간 통신방법 중 Netflix Feign을 선택한 이유.](https://computingsteps.tistory.com/38)
-
-B. 보안<br>
-- [Bastion Host: DNS 구입 후 외부 접근이 쉬워지니 EC2를 public subnet에서 private subnet으로 옮기면 어떨까요?](https://computingsteps.tistory.com/36)
-
-C. 서버를 구성하는 법
-- [서버에 트래픽이 많아지면 더 좋은 CPU와 램을 쓰면 되는거 아닐까? (Scale Up vs. Scale Out)](https://computingsteps.tistory.com/39)
 
 <br><br>
 ## 단계별 서버 아키텍처
@@ -162,6 +148,20 @@ C. 서버를 구성하는 법
 - (POST) /chat-search/customer : 구매자 검색
 - (POST) /chat-search/seller : 판매자 검색
 - (POST) /chat-search/user : 전체 유저 검색
+
+<br> <br>
+## 프로젝트 진행간 이슈들(업데이트 중.) 
+<br>
+
+A. 서버간 통신
+- [다양한 서버간 통신방법 중 Netflix Feign을 선택한 이유.](https://computingsteps.tistory.com/38)
+
+B. 보안<br>
+- [Bastion Host: DNS 구입 후 외부 접근이 쉬워지니 EC2를 public subnet에서 private subnet으로 옮기면 어떨까요?](https://computingsteps.tistory.com/36)
+
+C. 서버를 구성하는 법
+- [서버에 트래픽이 많아지면 더 좋은 CPU와 램을 쓰면 되는거 아닐까? (Scale Up vs. Scale Out)](https://computingsteps.tistory.com/39)
+
   
   
 
