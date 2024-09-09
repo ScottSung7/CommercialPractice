@@ -2,10 +2,13 @@
 ### 목차
 1. [요약](#요약)
 2. [목표](#목표)
-4. [시스템 아키텍처](#시스템아키텍처)
-5. [단계별 서버 아키텍처](#단계별서버아키텍처)
-6. API 명세
-7. 프로젝트 진행간 이슈들
+4. [시스템 아키텍처](#시스템-아키텍처)
+- [모놀리식 구조](#1.-Monolithic)
+- [멀티모둘 구조]
+- [MSA 구조](
+6. [단계별 서버 아키텍처](#단계별-서버-아키텍처)
+7. API 명세
+8. 프로젝트 진행간 이슈들
 
 
 ## 요약
@@ -41,7 +44,7 @@ C. 서버를 구성하는 법
 <br><br>
 ## 단계별 서버 아키텍처
 
-### 1. Monolithic (Developer Monolithic Branch)
+### 1. Monolithic
 - Monolithic한 구조로 AWS EC2 하나에 배포하였습니다.
 
 #### A. 배 포:  AWS EC2 + Gradle + Application Load Balancer
@@ -58,39 +61,40 @@ C. 서버를 구성하는 법
 
 ![aws drawio (1)](https://github.com/ScottSung7/CommercialPractice/assets/98432596/045f694e-362e-437f-adab-6fe19751a740)
 
-### 2. Multi-Module (Developer Multi-Module Branch)
+### 2. Multi-Module
 - 서비스의 종류가 늘어나면서 코드 관리의 편의성 위해 프로젝트를 Multi-Module로 구성하면서 포트번호로 API를 나누어 배포하여 약간의 MSA구조를 가미하였습니다. <br><br>
  
 #### A. 배 포:  AWS EC2 + Docker + Docker Compose + Gradle(Multi-Module) + Application Load Balancer
-- API 추가에 관리 복잡성이 증가하지 않게 Gradle을 통해 **멀티 모듈**로 나누어 각 API를 관리합니다. 
+- API 추가에 관리 복잡성이 증가하지 않게 Gradle을 통해 <ins>멀티 모듈</ins>로 나누어 각 API를 관리합니다. 
 - 배포의 편의성을 위해 Docker를 통하여 <ins>각 모듈은 도커 컨테이너로 빌드 되어 관리</ins>됩니다.
 - 이후 Docker Compose를 사용, 하나씩 docker pull할 필요없이 git clone 후 쉽게 배포 가능하게 하였습니다. 
 - Chat-API의 경우 ALB의 <ins>Sticky Session</ins>을 이용하여 연결을 유지하였습니다.
+- <ins>Spring Eureka 서버를 두어 도커 컨테이너들의 IP 주소를 관리</ins>합니다.
+
 
 #### B. 보 안: AWS ParameterStore + AWS WAF
 - 처음에는 AWS S3를 통해 env파일을 가져와 빌드때 이용 후 삭제 하였으나 이후 <ins>AWS ParameterStore</ins>을 통해 한 번의 등록으로 각 모듈의 설정 정보들을 편하고 안전하게 관리하였습니다.
 - 비정상적 접속이 감지 되어 <ins>AWS WAF를 통해 해외 IP등에 Block-List</ins>를 만들어 차단 할수 있었습니다. <br><br>
+
 
 ![multi-module2 drawio drawio](https://github.com/ScottSung7/CommercialPractice/assets/98432596/52e13c35-0144-4b8c-b982-6c51e7d8a025)
 
 
 <br>
 
-### 3. Micro Service Architecture (Developer Micro-Service Branch)
-- 서비스가 커져 감에 따라 하나의 거대한 Multi-Module 또는 Monolithic 구조에서 서비스 하나하나 별로 관리하며 내부 통신을 효율적으로 하는 방법으로 변화되어 가게 됩니다.
-- 다만, MSA 적용시 내부 통신이 복잡해지고 새로운 구조에 알맞는 기술들을 배우는 등의 비용도 고려하여 도입을 결정하여야 한다. <br><br>
-
+### 3. Micro Service Architecture 
+- 서비스가 커져 감에 따라 MSA 서비스로 각자 관리하며 서버간 통신을 효율적으로 하는 방법으로 변화 되었습니다.
 
 #### A. 배 포:  AWS ECS + ALB + AWS API Gateway + CI/CD (Code Pipeline) 
 
 - 배포 과정을 자동화 하고자 AWS ECS와 Code Pipeline을 사용하였습니다.
-- Code Pipeline을 통해 코드의 변경사항이 있을 시에 서버를 죽이지 않고 **무중단 배포**를 편리하게 할 수 있습니다.
-- API마다 ECS 클러스터 서비스 만들고 모두 **AutoScaling**을 사용하여 늘어나는 트래픽에 서버가 죽지 않고 유연하게 대응하고 있습니다.
+- Code Pipeline을 통해 코드의 변경사항이 있을 시에 서버를 죽이지 않고 <ins>무중단 배포</ins>를 편리하게 할 수 있습니다.
+- API마다 ECS 클러스터 서비스 만들고 모두 <ins>AutoScaling</ins>을 사용하여 늘어나는 트래픽에 서버가 죽지 않고 유연하게 대응하고 있습니다.
 
 #### B. 내부/외부 통신 : Spring Cloud (Eureka & Feign) + AWS API Gateway + ALB + Kafka + CloudFront
-- 각 API마다 ALB를 두어 API Gateway를 통해 요청이 들어온 주소에 대해 해당 ALB로 찾아가 주도록 하였습니다.
-- IP주소 관리를 위해 Spring Eureka 서버를 두어 각 API의 AutoScaling 된 서버들의 IP 주소를 관리하고 **Feign Client를 통해 각 API와 내부 통신을 쉽게** 가능 하도록 하였습니다.
-- MSA 구조에서는 내부 통신이 많을 것을 생각하여 통신 속도를 향상 시키기 위해 HTTP 1.1 보다 빠른 gRPC를 도입 중입니다. (진행 중)
+- 각 API마다 ALB를 두어 <ins>API Gateway</ins>를 통해 요청이 들어온 주소에 대해 해당 ALB로 찾아가 주도록 하였습니다.
+- IP주소 관리를 위해 Spring Eureka 서버를 두어 각 API의 <ins>AutoScaling 된 서버들의 IP 주소를 관리</ins> 합니다.
+- MSA 구조에서는 내부 통신이 많을 것을 생각하여 통신 속도를 향상 시키기 위해 HTTP 1.1 보다 빠른 gRPC를 도입 하였습니다.
 - CloudFront를 이용하여 AWS Edge 서버에 캐시를 두어 클라이언트의 접속 속도를 빠르게 하였습니다. 
 - 채팅의 경우 Sticky Session 사용시 특정 서버로 트래픽이 몰릴 수 있다고 생각하여 **Kafka를 통한 메시지 브로커 방식**으로 변경 중입니다. (진행 중) <br><br>
 
