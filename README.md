@@ -5,7 +5,7 @@
 3. [프로젝트 진행간 이슈들](#프로젝트-진행간-이슈들)
 4. [시스템 아키텍처](#시스템-아키텍처)
 5. [단계별 서버 아키텍처](#단계별-서버-아키텍처)
-- ([모놀리식 구조](#1-Monolithic) /[멀티모둘 구조](#2-Multi-Module) /[MSA 구조](#3-Micro-Service-Architecture))
+- ([모놀리식 구조](#1-Monolithic) /[멀티모듈 구조](#2-Multi-Module) /[MSA 구조](#3-Micro-Service-Architecture))
 6. [API 명세](#API-명세)
 
 
