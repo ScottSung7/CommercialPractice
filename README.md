@@ -3,10 +3,11 @@
 1. [요약](#요약)
 2. [목표](#목표)
 4. [시스템 아키텍처](#시스템-아키텍처)
-- [모놀리식 구조](#1.Monolithic)
+
+6. [단계별 서버 아키텍처](#단계별-서버-아키텍처)
+- [모놀리식 구조](#1.-Monolithic)
 - [멀티모둘 구조]
 - [MSA 구조](
-6. [단계별 서버 아키텍처](#단계별-서버-아키텍처)
 7. API 명세
 8. 프로젝트 진행간 이슈들
 
@@ -82,7 +83,7 @@ C. 서버를 구성하는 법
 
 <br>
 
-### 3. Micro Service Architecture 
+### 3. Micro Service Architecture
 - 서비스가 커져 감에 따라 MSA 서비스로 각자 관리하며 서버간 통신을 효율적으로 하는 방법으로 변화 되었습니다.
 
 #### A. 배 포:  AWS ECS + ALB + AWS API Gateway + CI/CD (Code Pipeline) 
