@@ -1,4 +1,4 @@
-# E-Commerce Monolithic to MSA 변화 프로젝트
+# E-Commerce 프로젝트 (Monolithic에서 MSA로 만들어 가는 법.)
 ### 목차
 1. [요약](#요약)
 2. [목표](#목표)
