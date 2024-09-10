@@ -68,8 +68,8 @@ C. 서버를 구성하는 법
 ![aws drawio (1)](https://github.com/ScottSung7/CommercialPractice/assets/98432596/045f694e-362e-437f-adab-6fe19751a740)
 
 ### 2. Multi-Module
-- 서비스의 종류가 늘어나면서 코드 관리의 편의성 위해 프로젝트를 Multi-Module로 구성하면서 포트번호로 API를 나누어 배포하였습니다. <br><br>
-- <ins>docker-compose</ins>를 통해 EC2에서 컨테이너로 나누어 배포 하였습니다.
+- 서비스의 종류가 늘어나면서 코드 관리의 편의성 위해 프로젝트를 Multi-Module로 구성하면서 포트번호로 API를 나누어 배포하였습니다.
+- <ins> docker-compose</ins>를 통해 EC2에서 컨테이너로 나누어 배포 하였습니다.
 
 #### A. 배 포:  AWS EC2 + Docker + Docker Compose + Gradle(Multi-Module) + Application Load Balancer
 - API 추가에 관리 복잡성이 증가하지 않게 Gradle을 통해 <ins>멀티 모듈</ins>로 나누어 각 API를 관리합니다. 
