@@ -37,10 +37,6 @@ C. 서버를 구성하는 법
 - 주문자의 주문정보의 경우, 서버는 Redis를 통해 캐싱 및 조회하고 가공하여 응답을 생성합니다.
 - 서버는 클라이언트에게 HTTP 프로토콜로 응답을 전달합니다. 
 
-<p align="center">
-<img src="https://github.com/user-attachments/assets/51c37d31-ef96-4546-98d4-0a23ec26bb06">
-</p>
-
 
 
 
