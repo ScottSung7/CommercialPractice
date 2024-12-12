@@ -1,6 +1,7 @@
 # CommercialPractice
 E-Commerce 프로젝트 (Monolithic에서 MSA로 만들어 가는 법.)
-- Monolithic한 빠른 배포부터 서비스가 커지면서 MSA로 전환을 가정한 프로젝트 입니다.
+- Monolithic한 빠른 배포부터 서비스가 커지면서 MSA로 전환을 공부해 보기 위한 프로젝트 입니다. <br>
+  -> *분산 트랜잭션에 무지하던 때라, 인프라와 배포 위주로 진행 하였고 MS간 통신은 비동기적으로 할 생각을 못하고 동기적으로 속도를 높여 하기 위해 GrPC를 통해 진행하였습니다. 
 - 판매자가 물건을 등록하고 주문자가 카트에 담아 결제를 합니다. 채팅을 통해 판매자와 대화를 나눌 수 있습니다.
 
 ## 목차
@@ -77,9 +78,7 @@ C. 서버를 구성하는 법
 - 처음에는 AWS S3를 통해 env파일을 가져와 빌드때 이용 후 삭제 하였으나 이후 <ins>AWS ParameterStore</ins>을 통해 한 번의 등록으로 각 모듈의 설정 정보들을 편하고 안전하게 관리하였습니다.
 - 비정상적 접속이 감지 되어 <ins>AWS WAF를 통해 해외 IP등에 Block-List</ins>를 만들어 차단 할수 있었습니다. <br><br>
 
-
-![multi-module2 drawio drawio](https://github.com/ScottSung7/CommercialPractice/assets/98432596/52e13c35-0144-4b8c-b982-6c51e7d8a025)
-
+![multi-module drawio](https://github.com/user-attachments/assets/d12c7718-1a2f-4e2a-8c84-599ffbdbe8c6)
 
 <br>
 
@@ -93,14 +92,15 @@ C. 서버를 구성하는 법
 - Code Pipeline을 통해 코드의 변경사항이 있을 시에 서버를 죽이지 않고 <ins>무중단 배포</ins>를 편리하게 할 수 있습니다.
 - API마다 ECS 클러스터 서비스 만들고 모두 <ins>AutoScaling</ins>을 사용하여 늘어나는 트래픽에 서버가 죽지 않고 유연하게 대응하고 있습니다.
 
-#### B. 내부/외부 통신 : Spring Cloud (Eureka & Feign) + AWS API Gateway + ALB + Kafka + CloudFront
+#### B. 내부/외부 통신 : Spring Cloud (Eureka & Feign) + AWS API Gateway + ALB + CloudFront
 - 각 API마다 ALB를 두어 <ins>API Gateway</ins>를 통해 요청이 들어온 주소에 대해 해당 ALB로 찾아가 주도록 하였습니다.
 - IP주소 관리를 위해 Spring Eureka 서버를 두어 각 API의 <ins>AutoScaling 된 서버들의 IP 주소를 관리</ins> 합니다.
 - MSA 구조에서는 내부 통신이 많을 것을 생각하여 통신 속도를 향상 시키기 위해 <ins>HTTP 1.1 보다 빠른 gRPC</ins>를 도입 하였습니다.
 - CloudFront를 이용하여 AWS Edge 서버에 캐시를 두어 클라이언트의 접속 속도를 빠르게 하였습니다. 
-- 채팅의 경우 Sticky Session 사용시 특정 서버로 트래픽이 몰릴 수 있다고 생각하여 Kafka를 통한 메시지 브로커 방식으로 변경 중입니다. (진행 중) <br><br>
+- 채팅의 경우 Sticky Session을 사용해서 운영중입니다
 
-![MSA drawio](https://github.com/ScottSung7/CommercialPractice/assets/98432596/dd5b7cd5-2b9f-4aa1-a8cc-884384afd93d)
+![MSA drawio](https://github.com/user-attachments/assets/844fae84-a635-4518-94cb-fae39c06286c)
+
 
 ## API 명세
 ### Account-api
